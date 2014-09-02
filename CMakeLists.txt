@@ -11,7 +11,7 @@ LINK_DIRECTORIES(
 include_directories(
     /usr/include/ 
     /usr/include/librevenge-0.0/ 
-    /usr/include/libvisio-0.1
+    /usr/include/libvisio-0.1/
 )
 
 
