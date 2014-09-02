@@ -76,7 +76,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 
 
     case ARGP_KEY_ARG:
-      if (state->arg_num >= 2)
+      if (state->arg_num >= 6)
         /* Too many arguments. */
         argp_usage (state);
 
@@ -122,19 +122,6 @@ int main(int argc, char *argv[])
   arguments.svg = 1;
   arguments.yed = 0;
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
-
-  //char *file = 0;
-
-  //for (int i = 1; i < argc; i++)
-  //{
-  //  if (!file && strncmp(argv[i], "--", 2))
-  //    file = argv[i];
-  //  else
-  //    return printUsage();
-  //}
-
-  //if (!arguments->input)
-  //  return printUsage();
 
   librevenge::RVNGFileStream input(arguments.input);
 
