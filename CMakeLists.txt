@@ -9,16 +9,17 @@ LINK_DIRECTORIES(
 )
 
 include_directories(
+    ./inc/
     /usr/include/ 
     /usr/include/librevenge-0.0/ 
     /usr/include/libvisio-0.1/
 )
 
-
+add_library(SVGDrawingGenerator src/lib/SVGDrawingGenerator.cpp)
 
 add_executable(vss2svg src/conv/vss2svg.cpp)
 
-target_link_libraries(vss2svg revenge-0.0 visio-0.1 revenge-stream-0.0)
+target_link_libraries(vss2svg revenge-0.0 visio-0.1 revenge-stream-0.0 SVGDrawingGenerator)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 

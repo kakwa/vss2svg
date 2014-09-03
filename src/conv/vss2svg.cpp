@@ -21,6 +21,7 @@
 #include <argp.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include "SVGDrawingGenerator.h"
 
 using namespace std;
 
@@ -116,7 +117,7 @@ int main(int argc, char *argv[])
   }
 
   librevenge::RVNGStringVector output;
-  librevenge::RVNGSVGDrawingGenerator generator(output, "svg");
+  vss2svg::SVGDrawingGenerator generator(output, "svg");
   if (!libvisio::VisioDocument::parseStencils(&input, &generator))
   {
     std::cerr << "ERROR: SVG Generation failed!" << std::endl;
