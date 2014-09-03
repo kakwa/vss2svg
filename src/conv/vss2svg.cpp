@@ -33,7 +33,7 @@ static char doc[] = "vss2svg -- Visio stencil to SVG converter";
      static struct argp_option options[] = {
        {"verbose",  'v', 0,      0,  "Produce verbose output" },
        {"svg",      's', 0,      0,  "Produce svg files (default)" },
-       {"yed",      'y', 0,      0,  "Produce yED graphml file (unsupported" },
+       {"yed",      'y', 0,      0,  "Produce yED graphml file (currently unsupported)" },
        {"input",    'i', "FILE", 0,  "Input Visio .vss file"   },
        {"output",   'o', "FILE/DIR", 0, "Output file (yED) or directory (svg)"},
        { 0 }
@@ -98,22 +98,6 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 
 /* Our argp parser. */
 static struct argp argp = { options, parse_opt, args_doc, doc };
-
-namespace
-{
-
-int printUsage()
-{
-  printf("Usage: vss2svg [OPTION] <Visio Stencils File>\n");
-  printf("\n");
-  printf("Options:\n");
-  printf("--help                Shows this help message\n");
-  return -1;
-}
-
-
-
-} // anonymous namespace
 
 int main(int argc, char *argv[])
 {
