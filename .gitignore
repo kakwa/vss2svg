@@ -29,3 +29,6 @@ install_manifest.txt
 
 # compiled exe
 vss2svg
+
+# out directory
+out
