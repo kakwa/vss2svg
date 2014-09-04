@@ -764,9 +764,16 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
 			m_pImpl->m_outputSink << "\" ";
 		}
 	}
-	m_pImpl->m_outputSink << "xlink:href=\"data:" << propList["librevenge:mime-type"]->getStr().cstr() << ";base64,";
-	m_pImpl->m_outputSink << propList["office:binary-data"]->getStr().cstr();
-	m_pImpl->m_outputSink << "\" />\n";
+        // emf binary blob handling 
+        if (propList["librevenge:mime-type"]->getStr() == "image/emf"){
+            // for now, do nothing with it
+	    m_pImpl->m_outputSink << " />\n";
+        }
+        else{
+	    m_pImpl->m_outputSink << "xlink:href=\"data:" << propList["librevenge:mime-type"]->getStr().cstr() << ";base64,";
+	    m_pImpl->m_outputSink << propList["office:binary-data"]->getStr().cstr();
+	    m_pImpl->m_outputSink << "\" />\n";
+        }
 }
 
 void SVGDrawingGenerator::drawConnector(const librevenge::RVNGPropertyList &/*propList*/)
