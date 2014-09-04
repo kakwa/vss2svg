@@ -1,4 +1,13 @@
 /* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
+
+/* vss2svg 
+ * work based on vss2xhtml from libvisio
+ */
+
+
+
+// <<<<<<<<<<<<<<<<<<< START ORIGINAL HEADER >>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 /*
  * This file is part of the libvisio project.
  *
@@ -6,6 +15,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
+
+// <<<<<<<<<<<<<<<<<<< END ORIGINAL HEADER >>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 #include <iostream>
 #include <sstream>

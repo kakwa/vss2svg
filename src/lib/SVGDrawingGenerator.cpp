@@ -1,4 +1,11 @@
 /* -*- Mode: C++; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
+
+/* vss2svg 
+ * fork of RVNGSVGDrawingGenerator from librevenge
+ */
+
+// <<<<<<<<<<<<<<<<<< START ORIGINAL HEADER >>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 /* librevenge
  * Version: MPL 2.0 / LGPLv2.1+
  *
@@ -17,6 +24,9 @@
  * (LGPLv2.1+), in which case the provisions of the LGPLv2.1+ are
  * applicable instead of those above.
  */
+
+
+// <<<<<<<<<<<<<<<<<< END ORIGINAL HEADER >>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 #include <map>
 #include <sstream>
