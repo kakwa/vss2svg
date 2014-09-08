@@ -741,49 +741,50 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
 		return;
 	if (!propList["office:binary-data"])
 		return;
-	m_pImpl->m_outputSink << "<" << m_pImpl->getNamespaceAndDelim() << "image ";
-	if (propList["svg:x"] && propList["svg:y"] && propList["svg:width"] && propList["svg:height"])
-	{
-		double x(propList["svg:x"]->getDouble());
-		double y(propList["svg:y"]->getDouble());
-		double width(propList["svg:width"]->getDouble());
-		double height(propList["svg:height"]->getDouble());
-		bool flipX(propList["draw:mirror-horizontal"] && propList["draw:mirror-horizontal"]->getInt());
-		bool flipY(propList["draw:mirror-vertical"] && propList["draw:mirror-vertical"]->getInt());
+    // emf binary blob handling 
+    if (propList["librevenge:mime-type"]->getStr() == "image/emf")
+    {
+        //for now, do nothing
+        return;
+    }
+    else{
+	    m_pImpl->m_outputSink << "<" << m_pImpl->getNamespaceAndDelim() << "image ";
+	    if (propList["svg:x"] && propList["svg:y"] && propList["svg:width"] && propList["svg:height"])
+	    {
+	    	double x(propList["svg:x"]->getDouble());
+	    	double y(propList["svg:y"]->getDouble());
+	    	double width(propList["svg:width"]->getDouble());
+	    	double height(propList["svg:height"]->getDouble());
+	    	bool flipX(propList["draw:mirror-horizontal"] && propList["draw:mirror-horizontal"]->getInt());
+	    	bool flipY(propList["draw:mirror-vertical"] && propList["draw:mirror-vertical"]->getInt());
 
-		m_pImpl->m_outputSink << "x=\"" << doubleToString(72*x) << "\" y=\"" << doubleToString(72*y) << "\" ";
-		m_pImpl->m_outputSink << "width=\"" << doubleToString(72*width) << "\" height=\"" << doubleToString(72*height) << "\" ";
-		if (flipX || flipY || propList["librevenge:rotate"])
-		{
-			double xmiddle = x + width / 2.0;
-			double ymiddle = y + height / 2.0;
-			m_pImpl->m_outputSink << "transform=\"";
-			m_pImpl->m_outputSink << " translate(" << doubleToString(72*xmiddle) << ", " << doubleToString(72*ymiddle) << ") ";
-			m_pImpl->m_outputSink << " scale(" << (flipX ? "-1" : "1") << ", " << (flipY ? "-1" : "1") << ") ";
-			// rotation is around the center of the object's bounding box
-			if (propList["librevenge:rotate"])
-			{
-				double angle(propList["librevenge:rotate"]->getDouble());
-				while (angle > 180.0)
-					angle -= 360.0;
-				while (angle < -180.0)
-					angle += 360.0;
-				m_pImpl->m_outputSink << " rotate(" << doubleToString(angle) << ") ";
-			}
-			m_pImpl->m_outputSink << " translate(" << doubleToString(-72*xmiddle) << ", " << doubleToString(-72*ymiddle) << ") ";
-			m_pImpl->m_outputSink << "\" ";
-		}
-	}
-        // emf binary blob handling 
-        if (propList["librevenge:mime-type"]->getStr() == "image/emf"){
-            // for now, do nothing with it
-	    m_pImpl->m_outputSink << " />\n";
-        }
-        else{
+	    	m_pImpl->m_outputSink << "x=\"" << doubleToString(72*x) << "\" y=\"" << doubleToString(72*y) << "\" ";
+	    	m_pImpl->m_outputSink << "width=\"" << doubleToString(72*width) << "\" height=\"" << doubleToString(72*height) << "\" ";
+	    	if (flipX || flipY || propList["librevenge:rotate"])
+	    	{
+	    		double xmiddle = x + width / 2.0;
+	    		double ymiddle = y + height / 2.0;
+	    		m_pImpl->m_outputSink << "transform=\"";
+	    		m_pImpl->m_outputSink << " translate(" << doubleToString(72*xmiddle) << ", " << doubleToString(72*ymiddle) << ") ";
+	    		m_pImpl->m_outputSink << " scale(" << (flipX ? "-1" : "1") << ", " << (flipY ? "-1" : "1") << ") ";
+	    		// rotation is around the center of the object's bounding box
+	    		if (propList["librevenge:rotate"])
+	    		{
+	    			double angle(propList["librevenge:rotate"]->getDouble());
+	    			while (angle > 180.0)
+	    				angle -= 360.0;
+	    			while (angle < -180.0)
+	    				angle += 360.0;
+	    			m_pImpl->m_outputSink << " rotate(" << doubleToString(angle) << ") ";
+	    		}
+	    		m_pImpl->m_outputSink << " translate(" << doubleToString(-72*xmiddle) << ", " << doubleToString(-72*ymiddle) << ") ";
+	    		m_pImpl->m_outputSink << "\" ";
+	    	}
+	    }
 	    m_pImpl->m_outputSink << "xlink:href=\"data:" << propList["librevenge:mime-type"]->getStr().cstr() << ";base64,";
 	    m_pImpl->m_outputSink << propList["office:binary-data"]->getStr().cstr();
 	    m_pImpl->m_outputSink << "\" />\n";
-        }
+    }
 }
 
 void SVGDrawingGenerator::drawConnector(const librevenge::RVNGPropertyList &/*propList*/)
