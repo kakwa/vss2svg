@@ -16,6 +16,7 @@ include_directories(
 )
 
 add_library(SVGDrawingGenerator src/lib/SVGDrawingGenerator.cpp)
+add_library(EMFSVG src/lib/EMFSVG.cpp)
 
 add_executable(vss2svg src/conv/vss2svg.cpp)
 
