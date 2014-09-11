@@ -17,10 +17,12 @@ include_directories(
 
 add_library(SVGDrawingGenerator src/lib/SVGDrawingGenerator.cpp)
 add_library(EMFSVG src/lib/EMFSVG.cpp)
+add_library(cdecode src/lib/cdecode.c)
+add_library(cencode src/lib/cencode.c)
 
 add_executable(vss2svg src/conv/vss2svg.cpp)
 
-target_link_libraries(vss2svg revenge-0.0 visio-0.1 revenge-stream-0.0 SVGDrawingGenerator)
+target_link_libraries(vss2svg revenge-0.0 visio-0.1 revenge-stream-0.0 SVGDrawingGenerator EMFSVG cdecode cencode)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 

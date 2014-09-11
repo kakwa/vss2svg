@@ -13,13 +13,15 @@ email:     mathog@caltech.edu
 Copyright: 2013 David Mathog and California Institute of Technology (Caltech)
 */
 
-#ifndef _UEMF_PRINT_
-#define _UEMF_PRINT_
-
-#ifdef __cplusplus
 extern "C" {
-#endif
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <stddef.h> /* for offsetof() macro */
+#include <string.h>
+#include "uemf.h"
+
+#define BUFFERSIZE 1024
 //! \cond
 /* prototypes for objects used in EMR records */
 void hexbytes_print(uint8_t *buf,unsigned int num);
@@ -164,11 +166,9 @@ void U_EMRTRANSPARENTBLT_print(const char *contents);
 void U_EMRGRADIENTFILL_print(const char *contents);
 void U_EMRCREATECOLORSPACEW_print(const char *contents);
 int U_emf_onerec_print(const char *contents, const char *blimit, int recnum, size_t off);
+int emf2svg(char *contents, size_t length);
 //! \endcond
 
 
-#ifdef __cplusplus
 }
-#endif
 
-#endif /* _UEMF_PRINT_ */

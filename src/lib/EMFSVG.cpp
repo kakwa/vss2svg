@@ -2406,5 +2406,45 @@ int U_emf_onerec_print(const char *contents, const char *blimit, int recnum, siz
     return(size);
 }
 
+int emf2svg(char *contents, size_t length)
+{   
+    size_t   off=0;
+    size_t   result;
+    int      OK =1;
+    int      recnum=0;
+    PU_ENHMETARECORD pEmr;
+    char     *blimit;
+    
+    blimit = contents + length;
+    
+    while(OK){
+       if(off>=length){ //normally should exit from while after EMREOF sets OK to false, this is most likely a corrupt EMF
+          printf("WARNING: record claims to extend beyond the end of the EMF file\n");
+          return(0);
+       }
+       
+       pEmr = (PU_ENHMETARECORD)(contents + off);
+       
+       if(!recnum && (pEmr->iType != U_EMR_HEADER)){
+          printf("WARNING: EMF file does not begin with an EMR_HEADER record\n");
+       }
+       
+       result = U_emf_onerec_print(contents, blimit, recnum, off);
+       if(result == (size_t) -1){
+          printf("ABORTING on invalid record - corrupt file?\n");
+          OK=0;
+       }
+       else if(!result){
+          OK=0;
+       }
+       else { 
+          off += result;
+          recnum++;
+       }
+    }  //end of while
+    
+    return 1;
+}
+
 
 }

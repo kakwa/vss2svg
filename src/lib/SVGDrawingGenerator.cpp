@@ -38,6 +38,12 @@
 
 #include "librevenge_internal.h"
 #include "SVGDrawingGenerator.h"
+#include "EMFSVG.h"
+#include "b64/encode.h"
+#include "b64/cencode.h"
+#include "b64/decode.h"
+#include "b64/cdecode.h"
+
 
 namespace vss2svg
 {
@@ -745,6 +751,11 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
     if (propList["librevenge:mime-type"]->getStr() == "image/emf")
     {
         //for now, do nothing
+        base64::decoder D;
+        char * out = NULL;
+        printf("kikoo\n");
+        //D.decode(propList["office:binary-data"]->getStr().cstr(), propList["office:binary-data"]->getStr().len(), out);
+        D.decode("dG90bwo=", 8, out);
         return;
     }
     else{
