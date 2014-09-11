@@ -33,16 +33,18 @@
 #include <string>
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
+#include <string>
+
 
 #include <librevenge-generators/librevenge-generators.h>
+#include <librevenge/RVNGBinaryData.h>
+
 
 #include "librevenge_internal.h"
 #include "SVGDrawingGenerator.h"
 #include "EMFSVG.h"
-#include "b64/encode.h"
-#include "b64/cencode.h"
-#include "b64/decode.h"
-#include "b64/cdecode.h"
+#include "uemf_utf.h"
 
 
 namespace vss2svg
@@ -750,12 +752,9 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
     // emf binary blob handling 
     if (propList["librevenge:mime-type"]->getStr() == "image/emf")
     {
-        //for now, do nothing
-        base64::decoder D;
-        char * out = NULL;
-        printf("kikoo\n");
-        //D.decode(propList["office:binary-data"]->getStr().cstr(), propList["office:binary-data"]->getStr().len(), out);
-        D.decode("dG90bwo=", 8, out);
+        librevenge::RVNGBinaryData raw_data(propList["office:binary-data"]->getStr());
+        emf2svg((char *)raw_data.getDataBuffer(), raw_data.getBase64Data().size());
+
         return;
     }
     else{
