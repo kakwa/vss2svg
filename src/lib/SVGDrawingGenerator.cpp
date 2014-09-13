@@ -629,8 +629,12 @@ void SVGDrawingGenerator::endLayer()
 	m_pImpl->m_outputSink << "</" << m_pImpl->getNamespaceAndDelim() << "g>\n";
 }
 
-void SVGDrawingGenerator::startEmbeddedGraphics(const librevenge::RVNGPropertyList & /*propList*/) {}
-void SVGDrawingGenerator::endEmbeddedGraphics() {}
+void SVGDrawingGenerator::startEmbeddedGraphics(const librevenge::RVNGPropertyList & /*propList*/) {
+    m_pImpl->m_outputSink << "<!-- [startEmbeddedGraphics] not implemented -->\n";
+}
+void SVGDrawingGenerator::endEmbeddedGraphics() {
+    m_pImpl->m_outputSink << "<!-- [endEmbeddedGraphics] not implemented -->\n";
+}
 
 void SVGDrawingGenerator::openGroup(const librevenge::RVNGPropertyList & /*propList*/) {}
 void SVGDrawingGenerator::closeGroup() {}
@@ -799,6 +803,7 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
 
 void SVGDrawingGenerator::drawConnector(const librevenge::RVNGPropertyList &/*propList*/)
 {
+    m_pImpl->m_outputSink << "<!-- [drawConnector] not implemented -->\n";
 	// TODO: implement me
 }
 
@@ -1000,40 +1005,50 @@ void SVGDrawingGenerator::insertLineBreak()
         textNewLine = 1 ;
 }
 
-void SVGDrawingGenerator::insertField(const librevenge::RVNGPropertyList & /*propList*/) {}
+void SVGDrawingGenerator::insertField(const librevenge::RVNGPropertyList & /*propList*/) 
+{
+    m_pImpl->m_outputSink << "<!-- [insertField] not implemented -->\n";
+}
 
 void SVGDrawingGenerator::startTableObject(const librevenge::RVNGPropertyList &/*propList*/)
 {
+    m_pImpl->m_outputSink << "<!-- [startTableObject] not implemented -->\n";
 	// TODO: implement me
 }
 
 void SVGDrawingGenerator::openTableRow(const librevenge::RVNGPropertyList &/*propList*/)
 {
+    m_pImpl->m_outputSink << "<!-- [openTableRow] not implemented -->\n";
 	// TODO: implement me
 }
 
 void SVGDrawingGenerator::closeTableRow()
 {
+    m_pImpl->m_outputSink << "<!-- [closeTableRow] not implemented -->\n";
 	// TODO: implement me
 }
 
 void SVGDrawingGenerator::openTableCell(const librevenge::RVNGPropertyList &/*propList*/)
 {
+    m_pImpl->m_outputSink << "<!-- [openTableCell] not implemented -->\n";
 	// TODO: implement me
 }
 
 void SVGDrawingGenerator::closeTableCell()
 {
+    m_pImpl->m_outputSink << "<!-- [closeTableCell] not implemented -->\n";
 	// TODO: implement me
 }
 
 void SVGDrawingGenerator::insertCoveredTableCell(const librevenge::RVNGPropertyList &/*propList*/)
 {
+    m_pImpl->m_outputSink << "<!-- [ConveredTableCell] not implemented -->\n";
 	// TODO: implement me
 }
 
 void SVGDrawingGenerator::endTableObject()
 {
+    m_pImpl->m_outputSink << "<!-- [endTableObject] not implemented -->\n";
 	// TODO: implement me
 }
 
