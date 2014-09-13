@@ -996,7 +996,8 @@ void SVGDrawingGenerator::insertLineBreak()
 {
  
     m_pImpl->m_outputSink << "\n<!-- [insertLineBreak] marker -->\n";
-    textNewLine = 1 ;
+    if (textIsParagraph)
+        textNewLine = 1 ;
 }
 
 void SVGDrawingGenerator::insertField(const librevenge::RVNGPropertyList & /*propList*/) {}
