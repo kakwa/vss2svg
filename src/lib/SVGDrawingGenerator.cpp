@@ -753,8 +753,8 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
     if (propList["librevenge:mime-type"]->getStr() == "image/emf")
     {
         librevenge::RVNGBinaryData raw_data(propList["office:binary-data"]->getStr());
-        emf2svg((char *)raw_data.getDataBuffer(), raw_data.getBase64Data().size());
-
+        //emf2svg((char *)raw_data.getDataBuffer(), raw_data.getBase64Data().size());
+        //printf("===================================================================================\n");
         return;
     }
     else{
@@ -832,7 +832,7 @@ void SVGDrawingGenerator::startTextObject(const librevenge::RVNGPropertyList &pr
 	if (propList["draw:textarea-vertical-align"])
 	{
 		if (propList["draw:textarea-vertical-align"]->getStr() == "middle")
-			y = ymiddle;
+			y = ymiddle;		if (propList["draw:textarea-vertical-align"]->getStr() == "bottom")
 		if (propList["draw:textarea-vertical-align"]->getStr() == "bottom")
 		{
 			y += height;
@@ -846,6 +846,7 @@ void SVGDrawingGenerator::startTextObject(const librevenge::RVNGPropertyList &pr
 	if (propList["fo:padding-left"])
 		x += propList["fo:padding-left"]->getDouble();
 
+    textLastX = 72 * x;
 	m_pImpl->m_outputSink << "x=\"" << doubleToString(72*x) << "\" y=\"" << doubleToString(72*y) << "\"";
 
 	// rotation is around the center of the object's bounding box
@@ -867,18 +868,43 @@ void SVGDrawingGenerator::endTextObject()
 	m_pImpl->m_outputSink << "</" << m_pImpl->getNamespaceAndDelim() << "text>\n";
 }
 
-void SVGDrawingGenerator::openOrderedListLevel(const librevenge::RVNGPropertyList & /*propList*/) {}
-void SVGDrawingGenerator::closeOrderedListLevel() {}
+void SVGDrawingGenerator::openOrderedListLevel(const librevenge::RVNGPropertyList & /*propList*/) {
+        m_pImpl->m_outputSink << "<!-- [openOrderedListLevel] not implemented -->\n";
+}
+void SVGDrawingGenerator::closeOrderedListLevel() {
+        m_pImpl->m_outputSink << "<!-- [closeOrderedListLevel] not implemented -->\n";
+}
 
-void SVGDrawingGenerator::openUnorderedListLevel(const librevenge::RVNGPropertyList & /*propList*/) {}
-void SVGDrawingGenerator::closeUnorderedListLevel() {}
+void SVGDrawingGenerator::openUnorderedListLevel(const librevenge::RVNGPropertyList & /*propList*/) {
+        m_pImpl->m_outputSink << "<!-- [openUnorderedListLevel] not implemented -->\n";
+}
+void SVGDrawingGenerator::closeUnorderedListLevel() {
+    m_pImpl->m_outputSink << "<!-- [closeUnorderedListLevel] not implemented -->\n";
+}
 
-void SVGDrawingGenerator::openListElement(const librevenge::RVNGPropertyList & /*propList*/) {}
-void SVGDrawingGenerator::closeListElement() {}
+void SVGDrawingGenerator::openListElement(const librevenge::RVNGPropertyList & /*propList*/) {
+    m_pImpl->m_outputSink << "<!-- [openListElement] not implemented -->\n";
+}
+void SVGDrawingGenerator::closeListElement() {
+    m_pImpl->m_outputSink << "<!-- [closeListElement] not implemented -->\n";
+}
 
-void SVGDrawingGenerator::defineParagraphStyle(const librevenge::RVNGPropertyList & /*propList*/) {}
-void SVGDrawingGenerator::openParagraph(const librevenge::RVNGPropertyList & /*propList*/) {}
-void SVGDrawingGenerator::closeParagraph() {}
+void SVGDrawingGenerator::defineParagraphStyle(const librevenge::RVNGPropertyList & /*propList*/)
+{
+    m_pImpl->m_outputSink << "<!-- [defineParagraphStyle] not implemented -->\n";
+}
+void SVGDrawingGenerator::openParagraph(const librevenge::RVNGPropertyList & /*propList*/) 
+{
+    textIsParagraph = 1;
+    firtLineWritten = 0;
+    textNewLine = 1;
+    m_pImpl->m_outputSink << "<!-- [openParagraph] marker -->\n";
+}
+void SVGDrawingGenerator::closeParagraph() {
+    textIsParagraph = 0;
+    textNewLine = 1;
+    m_pImpl->m_outputSink << "<!-- [closeParagraph] marker -->\n";
+}
 
 void SVGDrawingGenerator::defineCharacterStyle(const librevenge::RVNGPropertyList &propList)
 {
@@ -906,8 +932,10 @@ void SVGDrawingGenerator::openSpan(const librevenge::RVNGPropertyList &propList)
 		m_pImpl->m_outputSink << "font-weight=\"" << pList["fo:font-weight"]->getStr().cstr() << "\" ";
 	if (pList["fo:font-variant"])
 		m_pImpl->m_outputSink << "font-variant=\"" << pList["fo:font-variant"]->getStr().cstr() << "\" ";
-	if (pList["fo:font-size"])
+	if (pList["fo:font-size"]){
+        textLastFontSize = pList["fo:font-size"]->getDouble();
 		m_pImpl->m_outputSink << "font-size=\"" << doubleToString(pList["fo:font-size"]->getDouble()) << "\" ";
+    }
 	if (pList["fo:color"])
 		m_pImpl->m_outputSink << "fill=\"" << pList["fo:color"]->getStr().cstr() << "\" ";
 	if (pList["fo:text-transform"])
@@ -929,7 +957,29 @@ void SVGDrawingGenerator::closeLink() {}
 
 void SVGDrawingGenerator::insertText(const librevenge::RVNGString &str)
 {
-	m_pImpl->m_outputSink << librevenge::RVNGString::escapeXML(str).cstr();
+    if (textIsParagraph){
+        std::string line;
+        const char * text = librevenge::RVNGString::escapeXML(str).cstr();
+        std::stringstream in(text);    
+        for (std::string line; getline(in,line); )
+        {
+            m_pImpl->m_outputSink <<  "<" << m_pImpl->getNamespaceAndDelim() << "tspan ";
+            if (textNewLine)
+                m_pImpl->m_outputSink << "x=\"" << doubleToString(textLastX) << "\" ";
+            if (firtLineWritten && textNewLine)
+                m_pImpl->m_outputSink << "dy=\"" << doubleToString(textLastFontSize) << "\" ";
+            else
+                firtLineWritten = 1;
+            m_pImpl->m_outputSink << "xml:space=\"preserve\" ";
+	        m_pImpl->m_outputSink << ">";
+	        m_pImpl->m_outputSink << line;
+	        m_pImpl->m_outputSink << "</" << m_pImpl->getNamespaceAndDelim() << "tspan>\n";
+        }
+        textNewLine = 0;
+    }
+    else{
+	    m_pImpl->m_outputSink << librevenge::RVNGString::escapeXML(str).cstr();
+    }
 }
 
 void SVGDrawingGenerator::insertTab()
@@ -944,7 +994,9 @@ void SVGDrawingGenerator::insertSpace()
 
 void SVGDrawingGenerator::insertLineBreak()
 {
-	m_pImpl->m_outputSink << "\n";
+ 
+    m_pImpl->m_outputSink << "\n<!-- [insertLineBreak] marker -->\n";
+    textNewLine = 1 ;
 }
 
 void SVGDrawingGenerator::insertField(const librevenge::RVNGPropertyList & /*propList*/) {}

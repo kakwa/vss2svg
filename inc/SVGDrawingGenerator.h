@@ -111,6 +111,11 @@ private:
 	SVGDrawingGenerator(const SVGDrawingGenerator &);
 	SVGDrawingGenerator &operator=(const SVGDrawingGenerator &);
 	SVGDrawingGeneratorPrivate *m_pImpl;
+    double textLastX;
+    double textLastFontSize;
+    bool   textIsParagraph;
+    bool   firtLineWritten;
+    bool   textNewLine;
 };
 
 }
