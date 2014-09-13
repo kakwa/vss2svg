@@ -757,8 +757,9 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
     if (propList["librevenge:mime-type"]->getStr() == "image/emf")
     {
         librevenge::RVNGBinaryData raw_data(propList["office:binary-data"]->getStr());
-        //emf2svg((char *)raw_data.getDataBuffer(), raw_data.getBase64Data().size());
-        //printf("===================================================================================\n");
+        char * out;
+        emf2svg((char *)raw_data.getDataBuffer(), raw_data.getBase64Data().size(), out);
+        printf("===================================================================================\n");
         return;
     }
     else{
