@@ -116,6 +116,7 @@ private:
     bool   textIsParagraph;
     bool   firtLineWritten;
     bool   textNewLine;
+    int    textSpaceCounter;
 };
 
 }

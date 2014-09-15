@@ -903,12 +903,14 @@ void SVGDrawingGenerator::openParagraph(const librevenge::RVNGPropertyList & /*p
 {
     textIsParagraph = 1;
     firtLineWritten = 0;
+    textSpaceCounter = 0;
     textNewLine = 1;
     m_pImpl->m_outputSink << "<!-- [openParagraph] marker -->\n";
 }
 void SVGDrawingGenerator::closeParagraph() {
     textIsParagraph = 0;
     textNewLine = 1;
+    textSpaceCounter = 0;
     m_pImpl->m_outputSink << "<!-- [closeParagraph] marker -->\n";
 }
 
@@ -967,21 +969,32 @@ void SVGDrawingGenerator::insertText(const librevenge::RVNGString &str)
         std::string line;
         const char * text = librevenge::RVNGString::escapeXML(str).cstr();
         std::stringstream in(text);    
+        std::string SPACE = " ";
+        int oldSpaceCounter = textSpaceCounter;
         for (std::string line; getline(in,line); )
         {
-            m_pImpl->m_outputSink <<  "<" << m_pImpl->getNamespaceAndDelim() << "tspan ";
-            if (textNewLine)
-                m_pImpl->m_outputSink << "x=\"" << doubleToString(textLastX) << "\" ";
-            if (firtLineWritten && textNewLine)
-                m_pImpl->m_outputSink << "dy=\"" << doubleToString(textLastFontSize) << "\" ";
-            else
-                firtLineWritten = 1;
-            m_pImpl->m_outputSink << "xml:space=\"preserve\" ";
+            if ((line.length() != 0) && (line.compare(0, line.length(),SPACE) != 0)){
+                m_pImpl->m_outputSink <<  "<" << m_pImpl->getNamespaceAndDelim() << "tspan ";
+                if (textNewLine)
+                    m_pImpl->m_outputSink << "x=\"" << doubleToString(textLastX) << "\" ";
+                if (firtLineWritten && textNewLine)
+                    m_pImpl->m_outputSink << "dy=\"" << doubleToString(textLastFontSize) << "\" ";
+                else
+                    firtLineWritten = 1;
+                m_pImpl->m_outputSink << "xml:space=\"preserve\" ";
 	        m_pImpl->m_outputSink << ">";
+                for(int i=0;i<textSpaceCounter;i++)
+                    m_pImpl->m_outputSink << ' ';
+                textSpaceCounter=0;
 	        m_pImpl->m_outputSink << line;
 	        m_pImpl->m_outputSink << "</" << m_pImpl->getNamespaceAndDelim() << "tspan>\n";
+            }
+            else{
+                textSpaceCounter++;
+            }
         }
-        textNewLine = 0;
+        if ( textSpaceCounter <= oldSpaceCounter)
+            textNewLine = 0;
     }
     else{
 	    m_pImpl->m_outputSink << librevenge::RVNGString::escapeXML(str).cstr();
@@ -990,12 +1003,16 @@ void SVGDrawingGenerator::insertText(const librevenge::RVNGString &str)
 
 void SVGDrawingGenerator::insertTab()
 {
-	m_pImpl->m_outputSink << "\t";
+    m_pImpl->m_outputSink << "\n<!-- [insertTab] marker -->\n";
+    m_pImpl->m_outputSink << "\t";
 }
 
 void SVGDrawingGenerator::insertSpace()
 {
-	m_pImpl->m_outputSink << " ";
+    m_pImpl->m_outputSink << "\n<!-- [insertSpace] marker -->\n";
+    m_pImpl->m_outputSink << " ";
+    if (textIsParagraph)
+        textSpaceCounter++;
 }
 
 void SVGDrawingGenerator::insertLineBreak()
@@ -1004,6 +1021,7 @@ void SVGDrawingGenerator::insertLineBreak()
     m_pImpl->m_outputSink << "\n<!-- [insertLineBreak] marker -->\n";
     if (textIsParagraph)
         textNewLine = 1 ;
+        textSpaceCounter = 0 ;
 }
 
 void SVGDrawingGenerator::insertField(const librevenge::RVNGPropertyList & /*propList*/) 
