@@ -21,6 +21,7 @@ extern "C" {
 #include <string.h>
 #include "uemf.h"
 #include "EMFSVG.h"
+#include "PMFSVG.h"
 
 //! \cond
 #define UNUSED(x) (void)(x)
@@ -1612,14 +1613,16 @@ void U_EMRCOMMENT_print(const char *contents, char *out, const char *blimit, siz
          PU_EMRCOMMENT_EMFPLUS pEmrpl = (PU_EMRCOMMENT_EMFPLUS) pEmr;
          src = (char *)&(pEmrpl->Data);
          loff = 16;  /* Header size of the header part of an EMF+ comment record */
-         //while(loff < cbData + 12){  // EMF+ records may not fill the entire comment, cbData value includes cIdent, but not U_EMR or cbData
-         //   recsize =  U_pmf_onerec_print(src, blimit, recnum, loff + off);
-         //   if(recsize<=0)break;
-         //   loff += recsize;
-         //   src  += recsize;
-         //   recnum++;
-         //}
-         return;
+         printf("=========================== START EMF+ RECORD ANALYSING ==================:\n");
+         while(loff < cbData + 12){  // EMF+ records may not fill the entire comment, cbData value includes cIdent, but not U_EMR or cbData
+            recsize =  U_pmf_onerec_print(src, blimit, recnum, loff + off, out);
+            if(recsize<=0)break;
+            loff += recsize;
+            src  += recsize;
+            recnum++;
+         }
+         printf("=========================== END EMF+ RECORD ANALYSING ==================:\n");
+         //return;
       }
       else {
          printf("   cIdent:         not (Public or Spool or EMF+)\n");
@@ -1629,7 +1632,7 @@ void U_EMRCOMMENT_print(const char *contents, char *out, const char *blimit, siz
       string = (char *)malloc(cbData + 1);
       (void)strncpy(string, src, cbData);
       string[cbData] = '\0'; // it might not be terminated - it might not even be text!
-      printf("   Data:           <%s>\n",string);
+      //printf("   Data:           <%s>\n",string);
       free(string);
    }
 } 

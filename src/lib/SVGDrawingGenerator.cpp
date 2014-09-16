@@ -758,7 +758,7 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
     {
         librevenge::RVNGBinaryData raw_data(propList["office:binary-data"]->getStr());
         char * out;
-        emf2svg((char *)raw_data.getDataBuffer(), raw_data.getBase64Data().size(), out);
+        //emf2svg((char *)raw_data.getDataBuffer(), raw_data.getBase64Data().size(), out);
         printf("===================================================================================\n");
         return;
     }
