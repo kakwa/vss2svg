@@ -21,6 +21,12 @@ extern "C" {
 #include <string.h>
 #include "uemf.h"
 
+typedef struct {
+    char *nameSpace;
+    char *lastFormId;
+    bool verbose;
+} drawingStates;
+
 #define BUFFERSIZE 1024
 //! \cond
 /* prototypes for objects used in EMR records */
@@ -30,7 +36,7 @@ void rgbquad_print(U_RGBQUAD color);
 void rectl_print(U_RECTL rect);
 void sizel_print(U_SIZEL sz);
 void pointl_print(U_POINTL pt);
-void point16_print(U_POINT16 pt);
+void point16_print(U_POINT16 pt, FILE * out);
 void lcs_gamma_print(U_LCS_GAMMA lg);
 void lcs_gammargb_print(U_LCS_GAMMARGB lgr);
 void trivertex_print(U_TRIVERTEX tv);

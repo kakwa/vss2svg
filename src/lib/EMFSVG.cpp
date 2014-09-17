@@ -106,10 +106,27 @@ void pointl_print(
     this routine with a pointer to such data!
 */
 void point16_print(
-       U_POINT16 pt
+       U_POINT16 pt,
+       FILE * out
     ){
     printf("{%d,%d} ",pt.x ,pt.y);
 } 
+
+/**
+    \brief Print a pointer to a U_POINT16 object
+    \param pt pointer to a U_POINT16 object
+    Warning - WMF data may contain unaligned U_POINT16, do not call
+    this routine with a pointer to such data!
+*/
+void point16_draw(
+       U_POINT16 pt,
+       FILE * out
+    ){
+    printf("{%d,%d} ",pt.x ,pt.y);
+    fprintf(out, "%d %d ", pt.x ,pt.y);
+} 
+
+
 
 /**
     \brief Print a U_LCS_GAMMA object
@@ -684,11 +701,26 @@ void core6_print(const char *name, const char *contents, FILE *out){
    printf("   Points:         ");
    PU_POINT16 papts = (PU_POINT16)(&(pEmr->apts));
    for(i=0; i<pEmr->cpts; i++){
-      printf(" [%d]:",i);  point16_print(papts[i]);
+      printf(" [%d]:",i);  point16_print(papts[i], out);
    }
    printf("\n");
 } 
 
+// Functions with the same form starting with U_EMRPOLYBEZIER16_print
+void polyline_draw(const char *name, const char *contents, FILE *out){
+   UNUSED(name);
+   unsigned int i;
+   PU_EMRPOLYBEZIER16 pEmr = (PU_EMRPOLYBEZIER16) (contents);
+   printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    printf("\n");
+   printf("   cpts:           %d\n",pEmr->cpts        );
+   printf("   Points:         ");
+   PU_POINT16 papts = (PU_POINT16)(&(pEmr->apts));
+   for(i=0; i<pEmr->cpts; i++){
+      fprintf(out, "L ");
+      printf(" [%d]:",i);  point16_draw(papts[i], out);
+   }
+   printf("\n");
+} 
 
 // Records with the same form starting with U_EMRSETWINDOWEXTEX_print
 // CAREFUL, in the _set equivalents all functions with two uint32_t values are mapped here, and member names differ, consequently
@@ -697,6 +729,7 @@ void core6_print(const char *name, const char *contents, FILE *out){
 void core7_print(const char *name, const char *field1, const char *field2, const char *contents, FILE *out){
    UNUSED(name);
    PU_EMRGENERICPAIR pEmr = (PU_EMRGENERICPAIR) (contents);
+   fprintf(out, "%d %d ", pEmr->pair.x, pEmr->pair.y);
    if(*field2){
       printf("   %-15s %d\n",field1,pEmr->pair.x);
       printf("   %-15s %d\n",field2,pEmr->pair.y);
@@ -744,7 +777,7 @@ void core10_print(const char *name, const char *contents, FILE *out){
    printf("   Points:         ");
    PU_POINT16 papts = (PU_POINT16)((char *)pEmr->aPolyCounts + sizeof(uint32_t)* pEmr->nPolys);
    for(i=0; i<pEmr->cpts; i++){
-      printf(" [%d]:",i);  point16_print(papts[i]);
+      printf(" [%d]:",i);  point16_print(papts[i], out);
    }
    printf("\n");
 
@@ -878,6 +911,7 @@ void U_EMRHEADER_print(const char *contents, FILE *out){
          printf("   szlMicrometers: {%d,%d} \n", pEmr->szlMicrometers.cx,pEmr->szlMicrometers.cy);
      }
    }
+   fprintf(out, "<g width=\"%d\" height=\"%d\">\n", pEmr->szlDevice.cx, pEmr->szlDevice.cy);
 }
 
 // U_EMRPOLYBEZIER                       2
@@ -1003,6 +1037,7 @@ void U_EMREOF_print(const char *contents, FILE *out){
      logpalette_print( (PU_LOGPALETTE)(contents + pEmr->offPalEntries));
      printf("\n");
    }
+   fprintf(out, "</g>\n");
 } 
 
 
@@ -1128,6 +1163,7 @@ void U_EMROFFSETCLIPRGN_print(const char *contents, FILE *out){
     \param contents   pointer to a buffer holding all EMR records
 */
 void U_EMRMOVETOEX_print(const char *contents, FILE *out){
+   fprintf(out, "M ");
    core7_print("U_EMRMOVETOEX", "ptl:","",contents, out);
 } 
 
@@ -1431,7 +1467,6 @@ void U_EMRARCTO_print(const char *contents, FILE *out){
     \param contents   pointer to a buffer holding all EMR records
 */
 void U_EMRPOLYDRAW_print(const char *contents, FILE *out){
-   fprintf(out, "<!-- [EMRPOLYDRAW] marker -->\n");
    unsigned int i;
    PU_EMRPOLYDRAW pEmr = (PU_EMRPOLYDRAW)(contents);
    printf("   rclBounds:      ");          rectl_print( pEmr->rclBounds);   printf("\n");
@@ -1474,6 +1509,7 @@ void U_EMRSETMITERLIMIT_print(const char *contents, FILE *out){
     \param contents   pointer to a buffer holding all EMR records
 */
 void U_EMRBEGINPATH_print(const char *contents, FILE *out){
+   fprintf(out, "<path d=\"");
    UNUSED(contents);
 }
 
@@ -1483,6 +1519,7 @@ void U_EMRBEGINPATH_print(const char *contents, FILE *out){
     \param contents   pointer to a buffer holding all EMR records
 */
 void U_EMRENDPATH_print(const char *contents, FILE *out){
+   fprintf(out, "\"  stroke=\"blue\" stroke-width=\"3\" />\n");
    UNUSED(contents);
 }
 
@@ -1492,6 +1529,7 @@ void U_EMRENDPATH_print(const char *contents, FILE *out){
     \param contents   pointer to a buffer holding all EMR records
 */
 void U_EMRCLOSEFIGURE_print(const char *contents, FILE *out){
+   fprintf(out, "Z");
    UNUSED(contents);
 }
 
@@ -1580,7 +1618,6 @@ void U_EMRCOMMENT_print(const char *contents, FILE *out, const char *blimit, siz
 
    PU_EMRCOMMENT pEmr = (PU_EMRCOMMENT)(contents);
 
-   fprintf(out, "<!-- [EMRCOMMENT] marker -->\n");
 
    /* There are several different types of comments */
 
@@ -1967,7 +2004,6 @@ void U_EMRPOLYLINE16_print(const char *contents, FILE *out){
     \param contents   pointer to a buffer holding all EMR records
 */
 void U_EMRPOLYBEZIERTO16_print(const char *contents, FILE *out){
-   fprintf(out, "<!-- [EMRPOLYBEZIERTO16] marker -->\n");
    core6_print("U_EMRPOLYBEZIERTO16", contents, out);
 }
 
@@ -1977,7 +2013,8 @@ void U_EMRPOLYBEZIERTO16_print(const char *contents, FILE *out){
     \param contents   pointer to a buffer holding all EMR records
 */
 void U_EMRPOLYLINETO16_print(const char *contents, FILE *out){
-   core6_print("U_EMRPOLYLINETO16", contents, out);
+
+   polyline_draw("U_EMRPOLYLINETO16", contents, out);
 }
 
 // U_EMRPOLYPOLYLINE16       90
@@ -2012,7 +2049,7 @@ void U_EMRPOLYDRAW16_print(const char *contents, FILE *out){
    printf("   Points:         ");
    for(i=0;i<pEmr->cpts; i++){
       printf(" [%d]:",i);
-      point16_print(pEmr->apts[i]);
+      point16_print(pEmr->apts[i], out);
    }
    printf("\n");
    printf("   Types:          ");
