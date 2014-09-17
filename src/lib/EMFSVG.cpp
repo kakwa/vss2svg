@@ -35,7 +35,7 @@ void U_swap4(void *ul, unsigned int count);
     \param buf pointer to the first byte
     \param num number of bytes
 */
-void hexbytes_print(uint8_t *buf,unsigned int num){
+void hexbytes_print(drawingStates *states, uint8_t *buf,unsigned int num){
    for(; num; num--,buf++){
       verbose_printf("%2.2X",*buf);
    }
@@ -53,6 +53,7 @@ void hexbytes_print(uint8_t *buf,unsigned int num){
     \param color  U_COLORREF object    
 */
 void colorref_print(
+      drawingStates *states,
       U_COLORREF color
    ){
    verbose_printf("{%u,%u,%u} ",color.Red,color.Green,color.Blue);
@@ -64,6 +65,7 @@ void colorref_print(
     \param color  U_RGBQUAD object    
 */
 void rgbquad_print(
+      drawingStates *states,
       U_RGBQUAD color
    ){
    verbose_printf("{%u,%u,%u,%u} ",color.Blue,color.Green,color.Red,color.Reserved);
@@ -74,6 +76,7 @@ void rgbquad_print(
     \param rect U_RECTL object
 */
 void rectl_print(
+      drawingStates *states,
       U_RECTL rect
     ){
     verbose_printf("{%d,%d,%d,%d} ",rect.left,rect.top,rect.right,rect.bottom);
@@ -84,6 +87,7 @@ void rectl_print(
     \param sz U_SizeL object
 */
 void sizel_print(
+       drawingStates *states,
        U_SIZEL sz
     ){
     verbose_printf("{%d,%d} ",sz.cx ,sz.cy);
@@ -94,6 +98,7 @@ void sizel_print(
     \param pt U_POINTL object
 */
 void pointl_print(
+       drawingStates *states,
        U_POINTL pt
     ){
     verbose_printf("{%d,%d} ",pt.x ,pt.y);
@@ -106,6 +111,7 @@ void pointl_print(
     this routine with a pointer to such data!
 */
 void point16_print(
+       drawingStates *states,
        U_POINT16 pt,
        FILE * out
     ){
@@ -119,6 +125,7 @@ void point16_print(
     this routine with a pointer to such data!
 */
 void point16_draw(
+       drawingStates *states,
        U_POINT16 pt,
        FILE * out
     ){
@@ -133,6 +140,7 @@ void point16_draw(
     \param lg U_LCS_GAMMA object
 */
 void lcs_gamma_print(
+      drawingStates *states,
       U_LCS_GAMMA lg
    ){
    uint8_t tmp;
@@ -147,11 +155,12 @@ void lcs_gamma_print(
     \param lgr U_LCS_GAMMARGB object
 */
 void lcs_gammargb_print(
+      drawingStates *states,
       U_LCS_GAMMARGB lgr
    ){
-   verbose_printf("lcsGammaRed:");   lcs_gamma_print(lgr.lcsGammaRed  );
-   verbose_printf("lcsGammaGreen:"); lcs_gamma_print(lgr.lcsGammaGreen);
-   verbose_printf("lcsGammaBlue:");  lcs_gamma_print(lgr.lcsGammaBlue );
+   verbose_printf("lcsGammaRed:");   lcs_gamma_print(states, lgr.lcsGammaRed  );
+   verbose_printf("lcsGammaGreen:"); lcs_gamma_print(states, lgr.lcsGammaGreen);
+   verbose_printf("lcsGammaBlue:");  lcs_gamma_print(states, lgr.lcsGammaBlue );
 }
 
 /**
@@ -159,6 +168,7 @@ void lcs_gammargb_print(
     \param tv U_TRIVERTEX object.
 */
 void trivertex_print(
+      drawingStates *states,
       U_TRIVERTEX tv
    ){
    verbose_printf("{{%d,%d},{%u,%u,%u,%u}} ",tv.x,tv.y,tv.Red,tv.Green,tv.Blue,tv.Alpha);
@@ -169,6 +179,7 @@ void trivertex_print(
     \param g3 U_GRADIENT3 object.
 */
 void gradient3_print(
+      drawingStates *states,
       U_GRADIENT3 g3
    ){
    verbose_printf("{%u,%u,%u} ",g3.Vertex1,g3.Vertex2,g3.Vertex3);
@@ -179,6 +190,7 @@ void gradient3_print(
     \param g4 U_GRADIENT4 object.
 */
 void gradient4_print(
+      drawingStates *states,
       U_GRADIENT4 g4
    ){
    verbose_printf("{%u,%u} ",g4.UpperLeft,g4.LowerRight);
@@ -189,10 +201,11 @@ void gradient4_print(
     \param lb U_LOGBRUSH object.
 */
 void logbrush_print(
+      drawingStates *states,
       U_LOGBRUSH lb  
    ){
     verbose_printf("lbStyle:0x%8.8X ",  lb.lbStyle);
-    verbose_printf("lbColor:");         colorref_print(lb.lbColor);
+    verbose_printf("lbColor:");         colorref_print(states, lb.lbColor);
     verbose_printf("lbHatch:0x%8.8X ",  lb.lbHatch);
 }
 
@@ -201,6 +214,7 @@ void logbrush_print(
     \param xform U_XFORM object
 */
 void xform_print(
+      drawingStates *states,
       U_XFORM xform
    ){
    verbose_printf("{%f,%f.%f,%f,%f,%f} ",xform.eM11,xform.eM12,xform.eM21,xform.eM22,xform.eDx,xform.eDy);
@@ -211,6 +225,7 @@ void xform_print(
   \param ciexyz U_CIEXYZ object
 */
 void ciexyz_print(
+      drawingStates *states,
       U_CIEXYZ ciexyz
    ){
    verbose_printf("{%d,%d.%d} ",ciexyz.ciexyzX,ciexyz.ciexyzY,ciexyz.ciexyzZ);
@@ -222,11 +237,12 @@ void ciexyz_print(
   \param cie3 U_CIEXYZTRIPLE object
 */
 void ciexyztriple_print(
+      drawingStates *states,
       U_CIEXYZTRIPLE cie3
    ){
-   verbose_printf("{Red:");     ciexyz_print(cie3.ciexyzRed  );
-   verbose_printf(", Green:");  ciexyz_print(cie3.ciexyzGreen);
-   verbose_printf(", Blue:");   ciexyz_print(cie3.ciexyzBlue );
+   verbose_printf("{Red:");     ciexyz_print(states, cie3.ciexyzRed  );
+   verbose_printf(", Green:");  ciexyz_print(states, cie3.ciexyzGreen);
+   verbose_printf(", Blue:");   ciexyz_print(states, cie3.ciexyzBlue );
    verbose_printf("} ");
 }
 /**
@@ -234,6 +250,7 @@ void ciexyztriple_print(
     \param lcsa     U_LOGCOLORSPACEA object
 */
 void logcolorspacea_print(
+      drawingStates *states,
       U_LOGCOLORSPACEA lcsa
    ){
    verbose_printf("lcsSignature:%u ",lcsa.lcsSignature);
@@ -241,8 +258,8 @@ void logcolorspacea_print(
    verbose_printf("lcsSize:%u ",     lcsa.lcsSize     );
    verbose_printf("lcsCSType:%d ",    lcsa.lcsCSType   );
    verbose_printf("lcsIntent:%d ",    lcsa.lcsIntent   );
-   verbose_printf("lcsEndpoints:");   ciexyztriple_print(lcsa.lcsEndpoints);
-   verbose_printf("lcsGammaRGB: ");   lcs_gammargb_print(lcsa.lcsGammaRGB );
+   verbose_printf("lcsEndpoints:");   ciexyztriple_print(states, lcsa.lcsEndpoints);
+   verbose_printf("lcsGammaRGB: ");   lcs_gammargb_print(states, lcsa.lcsGammaRGB );
    verbose_printf("filename:%s ",     lcsa.lcsFilename );
 }
 
@@ -252,6 +269,7 @@ void logcolorspacea_print(
     \param lcsa U_LOGCOLORSPACEW object                                               
 */
 void logcolorspacew_print(
+      drawingStates *states,
       U_LOGCOLORSPACEW lcsa
    ){
    char *string;
@@ -260,8 +278,8 @@ void logcolorspacew_print(
    verbose_printf("lcsSize:%d ",     lcsa.lcsSize     );
    verbose_printf("lcsCSType:%d ",   lcsa.lcsCSType   );
    verbose_printf("lcsIntent:%d ",   lcsa.lcsIntent   );
-   verbose_printf("lcsEndpoints:");   ciexyztriple_print(lcsa.lcsEndpoints);
-   verbose_printf("lcsGammaRGB: ");   lcs_gammargb_print(lcsa.lcsGammaRGB );
+   verbose_printf("lcsEndpoints:");   ciexyztriple_print(states, lcsa.lcsEndpoints);
+   verbose_printf("lcsGammaRGB: ");   lcs_gammargb_print(states,lcsa.lcsGammaRGB );
    string = U_Utf16leToUtf8(lcsa.lcsFilename, U_MAX_PATH, NULL);
    verbose_printf("filename:%s ",   string );
    free(string);
@@ -272,6 +290,7 @@ void logcolorspacew_print(
     \param panose U_PANOSE object
 */
 void panose_print(
+      drawingStates *states,
       U_PANOSE panose
     ){
     verbose_printf("bFamilyType:%u ",     panose.bFamilyType     );
@@ -291,6 +310,7 @@ void panose_print(
     \param lf   U_LOGFONT object
 */
 void logfont_print(
+      drawingStates *states,
        U_LOGFONT lf
    ){
    char *string;
@@ -317,10 +337,11 @@ void logfont_print(
     \return U_LOGFONT_PANOSE object
 */
 void logfont_panose_print(
+      drawingStates *states,
       U_LOGFONT_PANOSE lfp
    ){    
    char *string;
-   verbose_printf("elfLogFont:");       logfont_print(lfp.elfLogFont);
+   verbose_printf("elfLogFont:");       logfont_print(states, lfp.elfLogFont);
      string = U_Utf16leToUtf8(lfp.elfFullName, U_LF_FULLFACESIZE, NULL);
    verbose_printf("elfFullName:%s ",    string );
    free(string);
@@ -331,9 +352,9 @@ void logfont_panose_print(
    verbose_printf("elfStyleSize:%u "    ,lfp.elfStyleSize);
    verbose_printf("elfMatch:%u "        ,lfp.elfMatch    );
    verbose_printf("elfReserved:%u "     ,lfp.elfReserved );
-   verbose_printf("elfVendorId:");      hexbytes_print((uint8_t *)lfp.elfVendorId,U_ELF_VENDOR_SIZE); verbose_printf(" ");
+   verbose_printf("elfVendorId:");      hexbytes_print(states, (uint8_t *)lfp.elfVendorId,U_ELF_VENDOR_SIZE); verbose_printf(" ");
    verbose_printf("elfCulture:%u "      ,lfp.elfCulture  );
-   verbose_printf("elfPanose:");        panose_print(lfp.elfPanose);
+   verbose_printf("elfPanose:");        panose_print(states, lfp.elfPanose);
 }
 
 /**
@@ -347,6 +368,7 @@ void logfont_panose_print(
     \param Bmih pointer to a U_BITMAPINFOHEADER object
 */
 int bitmapinfoheader_print(
+      drawingStates *states,
       const char *Bmih
    ){
    uint32_t  utmp4;
@@ -385,18 +407,19 @@ int bitmapinfoheader_print(
     be aligned in memory.
 */
 void bitmapinfo_print(
+      drawingStates *states,
       const char *Bmi
    ){
    int       i,k;
    int       ClrUsed;
    U_RGBQUAD BmiColor;
    verbose_printf("BmiHeader: ");
-   ClrUsed = bitmapinfoheader_print(Bmi + offsetof(U_BITMAPINFO,bmiHeader));
+   ClrUsed = bitmapinfoheader_print(states, Bmi + offsetof(U_BITMAPINFO,bmiHeader));
    if(ClrUsed){
      k= offsetof(U_BITMAPINFO,bmiColors);
      for(i=0; i<ClrUsed; i++, k+= sizeof(U_RGBQUAD)){
         memcpy(&BmiColor, Bmi+k, sizeof(U_RGBQUAD));
-        verbose_printf("%d:",i); rgbquad_print(BmiColor);
+        verbose_printf("%d:",i); rgbquad_print(states, BmiColor);
      }
    }
 }
@@ -406,6 +429,7 @@ void bitmapinfo_print(
     \param blend a U_BLEND object
 */
 void blend_print(
+      drawingStates *states,
       U_BLEND blend
    ){
    verbose_printf("Operation:%u " ,blend.Operation);
@@ -419,6 +443,7 @@ void blend_print(
     \param elp   PU_EXTLOGPEN object
 */
 void extlogpen_print(
+      drawingStates *states,
       PU_EXTLOGPEN elp
    ){
    unsigned int i;
@@ -426,7 +451,7 @@ void extlogpen_print(
    verbose_printf("elpPenStyle:0x%8.8X "   ,elp->elpPenStyle  );
    verbose_printf("elpWidth:%u "           ,elp->elpWidth     );
    verbose_printf("elpBrushStyle:0x%8.8X " ,elp->elpBrushStyle);
-   verbose_printf("elpColor");              colorref_print(elp->elpColor);
+   verbose_printf("elpColor");              colorref_print(states, elp->elpColor);
    verbose_printf("elpHatch:%d "           ,elp->elpHatch     );
    verbose_printf("elpNumEntries:%u "      ,elp->elpNumEntries);
    if(elp->elpNumEntries){
@@ -444,11 +469,12 @@ void extlogpen_print(
     
 */
 void logpen_print(
+      drawingStates *states,
       U_LOGPEN lp
    ){
    verbose_printf("lopnStyle:0x%8.8X "    ,lp.lopnStyle  );
-   verbose_printf("lopnWidth:");      pointl_print(  lp.lopnWidth  );
-   verbose_printf("lopnColor:");      colorref_print(lp.lopnColor );
+   verbose_printf("lopnWidth:");      pointl_print(states,  lp.lopnWidth  );
+   verbose_printf("lopnColor:");      colorref_print(states, lp.lopnColor );
 } 
 
 /**
@@ -456,6 +482,7 @@ void logpen_print(
     \param lpny Ignore U_LOGPLTNTRY object.
 */
 void logpltntry_print(
+      drawingStates *states,
       U_LOGPLTNTRY lpny
    ){
    verbose_printf("peReserved:%u " ,lpny.peReserved );
@@ -469,6 +496,7 @@ void logpltntry_print(
     \param lp  Pointer to a U_LOGPALETTE object.
 */
 void logpalette_print(
+      drawingStates *states,
       PU_LOGPALETTE lp
    ){
    int            i;
@@ -478,7 +506,7 @@ void logpalette_print(
    if(lp->palNumEntries){
      palPalEntry = (PU_LOGPLTNTRY) &(lp->palPalEntry);
      for(i=0;i<lp->palNumEntries;i++){
-        verbose_printf("%d:",i); logpltntry_print(palPalEntry[i]);
+        verbose_printf("%d:",i); logpltntry_print(states, palPalEntry[i]);
      }
    }
 }
@@ -488,13 +516,14 @@ void logpalette_print(
     \param rdh  U_RGNDATAHEADER object
 */
 void rgndataheader_print(
+      drawingStates *states,
       U_RGNDATAHEADER rdh
    ){
    verbose_printf("dwSize:%u ",   rdh.dwSize   );
    verbose_printf("iType:%u ",    rdh.iType    );
    verbose_printf("nCount:%u ",   rdh.nCount   );
    verbose_printf("nRgnSize:%u ", rdh.nRgnSize );
-   verbose_printf("rclBounds:");  rectl_print(rdh.rclBounds  );
+   verbose_printf("rclBounds:");  rectl_print(states, rdh.rclBounds  );
 }
 
 /**
@@ -502,15 +531,16 @@ void rgndataheader_print(
     \param rd  pointer to a U_RGNDATA object.
 */
 void rgndata_print(
+      drawingStates *states,
       PU_RGNDATA rd
    ){
    unsigned int i;
    PU_RECTL rects;
-   verbose_printf("rdh:");     rgndataheader_print(rd->rdh );
+   verbose_printf("rdh:");     rgndataheader_print(states, rd->rdh );
    if(rd->rdh.nCount){
      rects = (PU_RECTL) &(rd->Buffer);
      for(i=0;i<rd->rdh.nCount;i++){
-        verbose_printf("%d:",i); rectl_print(rects[i]);
+        verbose_printf("%d:",i); rectl_print(states, rects[i]);
      }
    }
 }
@@ -520,6 +550,7 @@ void rgndata_print(
     \param ca U_COLORADJUSTMENT object.        
 */
 void coloradjustment_print(
+      drawingStates *states,
       U_COLORADJUSTMENT ca
    ){
    verbose_printf("caSize:%u "            ,ca.caSize           );
@@ -541,6 +572,7 @@ void coloradjustment_print(
     \param pfd  U_PIXELFORMATDESCRIPTOR object
 */
 void pixelformatdescriptor_print(
+      drawingStates *states,
       U_PIXELFORMATDESCRIPTOR pfd
    ){
    verbose_printf("nSize:%u "           ,pfd.nSize           );
@@ -578,6 +610,7 @@ void pixelformatdescriptor_print(
     \param type     0 for 8 bit character, anything else for 16 
 */
 void emrtext_print(
+      drawingStates *states,
       const char *emt,
       const char *record,
       int         type
@@ -586,7 +619,7 @@ void emrtext_print(
    char *string;
    PU_EMRTEXT pemt = (PU_EMRTEXT) emt;
    // constant part
-   verbose_printf("ptlReference:");   pointl_print(pemt->ptlReference);
+   verbose_printf("ptlReference:");   pointl_print(states, pemt->ptlReference);
    verbose_printf("nChars:%u "       ,pemt->nChars      );
    verbose_printf("offString:%u "    ,pemt->offString   );
    if(pemt->offString){
@@ -602,7 +635,7 @@ void emrtext_print(
    verbose_printf("fOptions:0x%8.8X "     ,pemt->fOptions    );
    off = sizeof(U_EMRTEXT);
    if(!(pemt->fOptions & U_ETO_NO_RECT)){
-      verbose_printf("rcl");   rectl_print( *((U_RECTL *)(emt+off)) );
+      verbose_printf("rcl");   rectl_print(states, *((U_RECTL *)(emt+off)) );
       off += sizeof(U_RECTL);
    }
    verbose_printf("offDx:%u "        , *((U_OFFDX *)(emt+off))   ); off = *(U_OFFDX *)(emt+off);
@@ -625,34 +658,34 @@ by end user code and to further that end prototypes are NOT provided and they ar
    These are (mostly) ordered by U_EMR_* index number.
       
    The exceptions:
-   void core3_print(const char *name, const char *label, const char *contents, FILE *out)
-   void core7_print(const char *name, const char *field1, const char *field2, const char *contents, FILE *out)
-   void core8_print(const char *name, const char *contents, FILE *out, int type)
+   void core3_print(const char *name, const char *label, const char *contents, FILE *out, drawingStates *states)
+   void core7_print(const char *name, const char *field1, const char *field2, const char *contents, FILE *out, drawingStates *states)
+   void core8_print(const char *name, const char *contents, FILE *out, drawingStates *states, int type)
    
    
 *********************************************************************************************** */
 
 
 // Functions with the same form starting with U_EMRPOLYBEZIER_print
-void core1_print(const char *name, const char *contents, FILE *out){
+void core1_print(const char *name, const char *contents, FILE *out, drawingStates *states){
    unsigned int i;
    UNUSED(name);
    PU_EMRPOLYLINETO pEmr = (PU_EMRPOLYLINETO) (contents);
-   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");    rectl_print(states, pEmr->rclBounds);    verbose_printf("\n");
    verbose_printf("   cptl:           %d\n",pEmr->cptl        );
    verbose_printf("   Points:         ");
    for(i=0;i<pEmr->cptl; i++){
-      verbose_printf("[%d]:",i); pointl_print(pEmr->aptl[i]);
+      verbose_printf("[%d]:",i); pointl_print(states, pEmr->aptl[i]);
    }
    verbose_printf("\n");
 }
 
 // Functions with the same form starting with U_EMRPOLYPOLYLINE_print
-void core2_print(const char *name, const char *contents, FILE *out){
+void core2_print(const char *name, const char *contents, FILE *out, drawingStates *states){
    unsigned int i;
    UNUSED(name);
    PU_EMRPOLYPOLYGON pEmr = (PU_EMRPOLYPOLYGON) (contents);
-   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");    rectl_print(states, pEmr->rclBounds);    verbose_printf("\n");
    verbose_printf("   nPolys:         %d\n",pEmr->nPolys        );
    verbose_printf("   cptl:           %d\n",pEmr->cptl          );
    verbose_printf("   Counts:         ");
@@ -663,18 +696,18 @@ void core2_print(const char *name, const char *contents, FILE *out){
    PU_POINTL paptl = (PU_POINTL)((char *)pEmr->aPolyCounts + sizeof(uint32_t)* pEmr->nPolys);
    verbose_printf("   Points:         ");
    for(i=0;i<pEmr->cptl; i++){
-      verbose_printf(" [%d]:",i); pointl_print(paptl[i]);
+      verbose_printf(" [%d]:",i); pointl_print(states, paptl[i]);
    }
    verbose_printf("\n");
 }
 
 
 // Functions with the same form starting with U_EMRSETMAPMODE_print
-void core3_print(const char *name, const char *label, const char *contents, FILE *out){
+void core3_print(const char *name, const char *label, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    PU_EMRSETMAPMODE pEmr   = (PU_EMRSETMAPMODE)(contents);
    if(!strcmp(label,"crColor:")){
-      verbose_printf("   %-15s ",label); colorref_print(*(U_COLORREF *)&(pEmr->iMode)); verbose_printf("\n");
+      verbose_printf("   %-15s ",label); colorref_print(states, *(U_COLORREF *)&(pEmr->iMode)); verbose_printf("\n");
    }
    else if(!strcmp(label,"iMode:")){
       verbose_printf("   %-15s 0x%8.8X\n",label,pEmr->iMode     );
@@ -685,39 +718,39 @@ void core3_print(const char *name, const char *label, const char *contents, FILE
 } 
 
 // Functions taking a single U_RECT or U_RECTL, starting with U_EMRELLIPSE_print, also U_EMRFILLPATH_print, 
-void core4_print(const char *name, const char *contents, FILE *out){
+void core4_print(const char *name, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    PU_EMRELLIPSE pEmr      = (PU_EMRELLIPSE)(   contents);
-   verbose_printf("   rclBox:         ");  rectl_print(pEmr->rclBox);  verbose_printf("\n");
+   verbose_printf("   rclBox:         ");  rectl_print(states, pEmr->rclBox);  verbose_printf("\n");
 } 
 
 // Functions with the same form starting with U_EMRPOLYBEZIER16_print
-void core6_print(const char *name, const char *contents, FILE *out){
+void core6_print(const char *name, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    unsigned int i;
    PU_EMRPOLYBEZIER16 pEmr = (PU_EMRPOLYBEZIER16) (contents);
-   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");    rectl_print(states, pEmr->rclBounds);    verbose_printf("\n");
    verbose_printf("   cpts:           %d\n",pEmr->cpts        );
    verbose_printf("   Points:         ");
    PU_POINT16 papts = (PU_POINT16)(&(pEmr->apts));
    for(i=0; i<pEmr->cpts; i++){
-      verbose_printf(" [%d]:",i);  point16_print(papts[i], out);
+      verbose_printf(" [%d]:",i);  point16_print(states, papts[i], out);
    }
    verbose_printf("\n");
 } 
 
 // Functions with the same form starting with U_EMRPOLYBEZIER16_print
-void polyline_draw(const char *name, const char *contents, FILE *out){
+void polyline_draw(const char *name, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    unsigned int i;
    PU_EMRPOLYBEZIER16 pEmr = (PU_EMRPOLYBEZIER16) (contents);
-   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");    rectl_print(states, pEmr->rclBounds);    verbose_printf("\n");
    verbose_printf("   cpts:           %d\n",pEmr->cpts        );
    verbose_printf("   Points:         ");
    PU_POINT16 papts = (PU_POINT16)(&(pEmr->apts));
    for(i=0; i<pEmr->cpts; i++){
       fprintf(out, "L ");
-      verbose_printf(" [%d]:",i);  point16_draw(papts[i], out);
+      verbose_printf(" [%d]:",i);  point16_draw(states, papts[i], out);
    }
    verbose_printf("\n");
 } 
@@ -726,7 +759,7 @@ void polyline_draw(const char *name, const char *contents, FILE *out){
 // CAREFUL, in the _set equivalents all functions with two uint32_t values are mapped here, and member names differ, consequently
 //   print routines must supply the names of the two arguments.  These cannot be null.  If the second one is 
 //   empty the values are printed as a pair {x,y}, otherwise each is printed with its own label on a separate line.
-void core7_print(const char *name, const char *field1, const char *field2, const char *contents, FILE *out){
+void core7_print(const char *name, const char *field1, const char *field2, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    PU_EMRGENERICPAIR pEmr = (PU_EMRGENERICPAIR) (contents);
    fprintf(out, "%d %d ", pEmr->pair.x, pEmr->pair.y);
@@ -740,33 +773,33 @@ void core7_print(const char *name, const char *field1, const char *field2, const
 }
 
 // For U_EMREXTTEXTOUTA and U_EMREXTTEXTOUTW, type=0 for the first one
-void core8_print(const char *name, const char *contents, FILE *out, int type){
+void core8_print(const char *name, const char *contents, FILE *out, drawingStates *states, int type){
    UNUSED(name);
    PU_EMREXTTEXTOUTA pEmr = (PU_EMREXTTEXTOUTA) (contents);
    verbose_printf("   iGraphicsMode:  %u\n",pEmr->iGraphicsMode );
-   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);                              verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");    rectl_print(states, pEmr->rclBounds);                              verbose_printf("\n");
    verbose_printf("   exScale:        %f\n",pEmr->exScale        );
    verbose_printf("   eyScale:        %f\n",pEmr->eyScale        );
    verbose_printf("   emrtext:        ");
-      emrtext_print(contents + sizeof(U_EMREXTTEXTOUTA) - sizeof(U_EMRTEXT),contents,type);
+      emrtext_print(states, contents + sizeof(U_EMREXTTEXTOUTA) - sizeof(U_EMRTEXT),contents,type);
       verbose_printf("\n");
 } 
 
 // Functions that take a rect and a pair of points, starting with U_EMRARC_print
-void core9_print(const char *name, const char *contents, FILE *out){
+void core9_print(const char *name, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    PU_EMRARC pEmr = (PU_EMRARC) (contents);
-   verbose_printf("   rclBox:         ");    rectl_print(pEmr->rclBox);    verbose_printf("\n");
-   verbose_printf("   ptlStart:       ");  pointl_print(pEmr->ptlStart);   verbose_printf("\n");
-   verbose_printf("   ptlEnd:         ");    pointl_print(pEmr->ptlEnd);   verbose_printf("\n");
+   verbose_printf("   rclBox:         ");    rectl_print(states, pEmr->rclBox);    verbose_printf("\n");
+   verbose_printf("   ptlStart:       ");  pointl_print(states, pEmr->ptlStart);   verbose_printf("\n");
+   verbose_printf("   ptlEnd:         ");  pointl_print(states, pEmr->ptlEnd);   verbose_printf("\n");
 }
 
 // Functions with the same form starting with U_EMRPOLYPOLYLINE16_print
-void core10_print(const char *name, const char *contents, FILE *out){
+void core10_print(const char *name, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    unsigned int i;
    PU_EMRPOLYPOLYLINE16 pEmr = (PU_EMRPOLYPOLYLINE16) (contents);
-   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");    rectl_print(states, pEmr->rclBounds);    verbose_printf("\n");
    verbose_printf("   nPolys:         %d\n",pEmr->nPolys        );
    verbose_printf("   cpts:           %d\n",pEmr->cpts          );
    verbose_printf("   Counts:         ");
@@ -777,18 +810,18 @@ void core10_print(const char *name, const char *contents, FILE *out){
    verbose_printf("   Points:         ");
    PU_POINT16 papts = (PU_POINT16)((char *)pEmr->aPolyCounts + sizeof(uint32_t)* pEmr->nPolys);
    for(i=0; i<pEmr->cpts; i++){
-      verbose_printf(" [%d]:",i);  point16_print(papts[i], out);
+      verbose_printf(" [%d]:",i);  point16_print(states, papts[i], out);
    }
    verbose_printf("\n");
 
 } 
 
 // Functions with the same form starting with  U_EMRINVERTRGN_print and U_EMRPAINTRGN_print,
-void core11_print(const char *name, const char *contents, FILE *out){
+void core11_print(const char *name, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    unsigned int i,roff;
    PU_EMRINVERTRGN pEmr = (PU_EMRINVERTRGN) (contents);
-   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");    rectl_print(states, pEmr->rclBounds);    verbose_printf("\n");
    verbose_printf("   cbRgnData:      %d\n",pEmr->cbRgnData);
    // This one is a pain since each RGNDATA may be a different size, so it isn't possible to index through them.
    roff=0;
@@ -796,7 +829,7 @@ void core11_print(const char *name, const char *contents, FILE *out){
    char *prd = (char *) &(pEmr->RgnData);
    while(roff + sizeof(U_RGNDATAHEADER) < pEmr->cbRgnData){ // stop at end of the record 4*4 = header + 4*4=rect
       verbose_printf("   RegionData:%d",i);
-      rgndata_print((PU_RGNDATA) (prd + roff));
+      rgndata_print(states, (PU_RGNDATA) (prd + roff));
       roff += (((PU_RGNDATA)prd)->rdh.dwSize + ((PU_RGNDATA)prd)->rdh.nRgnSize - 16);
       verbose_printf("\n");
    }
@@ -804,7 +837,7 @@ void core11_print(const char *name, const char *contents, FILE *out){
 
 
 // common code for U_EMRCREATEMONOBRUSH_print and U_EMRCREATEDIBPATTERNBRUSHPT_print,
-void core12_print(const char *name, const char *contents, FILE *out){
+void core12_print(const char *name, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    PU_EMRCREATEMONOBRUSH pEmr = (PU_EMRCREATEMONOBRUSH) (contents);
    verbose_printf("   ihBrush:      %u\n",pEmr->ihBrush );
@@ -813,7 +846,7 @@ void core12_print(const char *name, const char *contents, FILE *out){
    verbose_printf("   cbBmi  :      %u\n",pEmr->cbBmi   );
    if(pEmr->cbBmi){
       verbose_printf("      bitmap:");
-      bitmapinfo_print(contents + pEmr->offBmi);
+      bitmapinfo_print(states, contents + pEmr->offBmi);
       verbose_printf("\n");
    }
    verbose_printf("   offBits:      %u\n",pEmr->offBits );
@@ -821,22 +854,22 @@ void core12_print(const char *name, const char *contents, FILE *out){
 }
 
 // common code for U_EMRALPHABLEND_print and U_EMRTRANSPARENTBLT_print,
-void core13_print(const char *name, const char *contents, FILE *out){
+void core13_print(const char *name, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    PU_EMRALPHABLEND pEmr = (PU_EMRALPHABLEND) (contents);
-   verbose_printf("   rclBounds:      ");    rectl_print( pEmr->rclBounds);       verbose_printf("\n");
-   verbose_printf("   Dest:           ");    pointl_print(pEmr->Dest);            verbose_printf("\n");
-   verbose_printf("   cDest:          ");    pointl_print(pEmr->cDest);           verbose_printf("\n");
-   verbose_printf("   Blend:          ");    blend_print(pEmr->Blend);            verbose_printf("\n");
-   verbose_printf("   Src:            ");    pointl_print(pEmr->Src);             verbose_printf("\n");
-   verbose_printf("   xformSrc:       ");    xform_print( pEmr->xformSrc);        verbose_printf("\n");
-   verbose_printf("   crBkColorSrc:   ");    colorref_print( pEmr->crBkColorSrc); verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");    rectl_print(states, pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");    pointl_print(states, pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   cDest:          ");    pointl_print(states, pEmr->cDest);           verbose_printf("\n");
+   verbose_printf("   Blend:          ");    blend_print(states, pEmr->Blend);            verbose_printf("\n");
+   verbose_printf("   Src:            ");    pointl_print(states, pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   xformSrc:       ");    xform_print(states, pEmr->xformSrc);        verbose_printf("\n");
+   verbose_printf("   crBkColorSrc:   ");    colorref_print(states, pEmr->crBkColorSrc); verbose_printf("\n");
    verbose_printf("   iUsageSrc:      %u\n",pEmr->iUsageSrc   );
    verbose_printf("   offBmiSrc:      %u\n",pEmr->offBmiSrc   );
    verbose_printf("   cbBmiSrc:       %u\n",pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
       verbose_printf("      bitmap:");
-      bitmapinfo_print(contents + pEmr->offBmiSrc);
+      bitmapinfo_print(states, contents + pEmr->offBmiSrc);
       verbose_printf("\n");
    }
    verbose_printf("   offBitsSrc:     %u\n",pEmr->offBitsSrc  );
@@ -855,7 +888,7 @@ They are listed in order by the corresponding U_EMR_* index number.
     \param name       name of this type of record
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRNOTIMPLEMENTED_print(const char *name, const char *contents, FILE *out){
+void U_EMRNOTIMPLEMENTED_print(const char *name, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    UNUSED(contents);
    verbose_printf("   Not Implemented!\n");
@@ -866,14 +899,14 @@ void U_EMRNOTIMPLEMENTED_print(const char *name, const char *contents, FILE *out
     \brief Print a pointer to a U_EMR_HEADER record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRHEADER_print(const char *contents, FILE *out){
+void U_EMRHEADER_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_PARTIAL
    char *string;
    int  p1len;
 
    PU_EMRHEADER pEmr = (PU_EMRHEADER)(contents);
-   verbose_printf("   rclBounds:      ");          rectl_print( pEmr->rclBounds);   verbose_printf("\n");
-   verbose_printf("   rclFrame:       ");          rectl_print( pEmr->rclFrame);    verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");          rectl_print(states, pEmr->rclBounds);   verbose_printf("\n");
+   verbose_printf("   rclFrame:       ");          rectl_print(states, pEmr->rclFrame);    verbose_printf("\n");
    verbose_printf("   dSignature:     0x%8.8X\n",  pEmr->dSignature    );
    verbose_printf("   nVersion:       0x%8.8X\n",  pEmr->nVersion      );
    verbose_printf("   nBytes:         %d\n",       pEmr->nBytes        );
@@ -901,7 +934,7 @@ void U_EMRHEADER_print(const char *contents, FILE *out){
       verbose_printf("   offPixelFormat: %d\n",       pEmr->offPixelFormat);
       if(pEmr->cbPixelFormat){
          verbose_printf("      PFD:");
-         pixelformatdescriptor_print( *(PU_PIXELFORMATDESCRIPTOR) (contents + pEmr->offPixelFormat));
+         pixelformatdescriptor_print(states, *(PU_PIXELFORMATDESCRIPTOR) (contents + pEmr->offPixelFormat));
          verbose_printf("\n");
       }
       verbose_printf("   bOpenGL:        %d\n",pEmr->bOpenGL       );
@@ -920,9 +953,9 @@ void U_EMRHEADER_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYBEZIER record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYBEZIER_print(const char *contents, FILE *out){
+void U_EMRPOLYBEZIER_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core1_print("U_EMRPOLYBEZIER", contents, out);
+   core1_print("U_EMRPOLYBEZIER", contents, out, states);
 } 
 
 // U_EMRPOLYGON                          3
@@ -930,9 +963,9 @@ void U_EMRPOLYBEZIER_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYGON record.
     \param contents   pointer to a buffer holding all EMR records
  */
-void U_EMRPOLYGON_print(const char *contents, FILE *out){
+void U_EMRPOLYGON_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core1_print("U_EMRPOLYGON", contents, out);
+   core1_print("U_EMRPOLYGON", contents, out, states);
 } 
 
 
@@ -941,9 +974,9 @@ void U_EMRPOLYGON_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYLINE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYLINE_print(const char *contents, FILE *out){
+void U_EMRPOLYLINE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core1_print("U_EMRPOLYLINE", contents, out);
+   core1_print("U_EMRPOLYLINE", contents, out, states);
 } 
 
 // U_EMRPOLYBEZIERTO          5
@@ -951,9 +984,9 @@ void U_EMRPOLYLINE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYBEZIERTO record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYBEZIERTO_print(const char *contents, FILE *out){
+void U_EMRPOLYBEZIERTO_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core1_print("U_EMRPOLYBEZIERTO", contents, out);
+   core1_print("U_EMRPOLYBEZIERTO", contents, out, states);
 } 
 
 // U_EMRPOLYLINETO            6
@@ -961,9 +994,9 @@ void U_EMRPOLYBEZIERTO_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYLINETO record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYLINETO_print(const char *contents, FILE *out){
+void U_EMRPOLYLINETO_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core1_print("U_EMRPOLYLINETO", contents, out);
+   core1_print("U_EMRPOLYLINETO", contents, out, states);
 } 
 
 // U_EMRPOLYPOLYLINE          7
@@ -971,9 +1004,9 @@ void U_EMRPOLYLINETO_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYPOLYLINE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYPOLYLINE_print(const char *contents, FILE *out){
+void U_EMRPOLYPOLYLINE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core2_print("U_EMRPOLYPOLYLINE", contents, out);
+   core2_print("U_EMRPOLYPOLYLINE", contents, out, states);
 } 
 
 // U_EMRPOLYPOLYGON           8
@@ -981,9 +1014,9 @@ void U_EMRPOLYPOLYLINE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYPOLYGON record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYPOLYGON_print(const char *contents, FILE *out){
+void U_EMRPOLYPOLYGON_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core2_print("U_EMRPOLYPOLYGON", contents, out);
+   core2_print("U_EMRPOLYPOLYGON", contents, out, states);
 } 
 
 // U_EMRSETWINDOWEXTEX        9
@@ -991,9 +1024,9 @@ void U_EMRPOLYPOLYGON_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETWINDOWEXTEX record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETWINDOWEXTEX_print(const char *contents, FILE *out){
+void U_EMRSETWINDOWEXTEX_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core7_print("U_EMRSETWINDOWEXTEX", "szlExtent:","",contents, out);
+   core7_print("U_EMRSETWINDOWEXTEX", "szlExtent:","",contents, out, states);
 } 
 
 // U_EMRSETWINDOWORGEX       10
@@ -1001,9 +1034,9 @@ void U_EMRSETWINDOWEXTEX_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETWINDOWORGEX record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETWINDOWORGEX_print(const char *contents, FILE *out){
+void U_EMRSETWINDOWORGEX_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core7_print("U_EMRSETWINDOWORGEX", "ptlOrigin:","",contents, out);
+   core7_print("U_EMRSETWINDOWORGEX", "ptlOrigin:","",contents, out, states);
 } 
 
 // U_EMRSETVIEWPORTEXTEX     11
@@ -1011,9 +1044,9 @@ void U_EMRSETWINDOWORGEX_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETVIEWPORTEXTEX record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETVIEWPORTEXTEX_print(const char *contents, FILE *out){
+void U_EMRSETVIEWPORTEXTEX_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core7_print("U_EMRSETVIEWPORTEXTEX", "szlExtent:","",contents, out);
+   core7_print("U_EMRSETVIEWPORTEXTEX", "szlExtent:","",contents, out, states);
 } 
 
 // U_EMRSETVIEWPORTORGEX     12
@@ -1021,9 +1054,9 @@ void U_EMRSETVIEWPORTEXTEX_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETVIEWPORTORGEX record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETVIEWPORTORGEX_print(const char *contents, FILE *out){
+void U_EMRSETVIEWPORTORGEX_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core7_print("U_EMRSETVIEWPORTORGEX", "ptlOrigin:","",contents, out);
+   core7_print("U_EMRSETVIEWPORTORGEX", "ptlOrigin:","",contents, out, states);
 } 
 
 // U_EMRSETBRUSHORGEX        13
@@ -1031,9 +1064,9 @@ void U_EMRSETVIEWPORTORGEX_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETBRUSHORGEX record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETBRUSHORGEX_print(const char *contents, FILE *out){
+void U_EMRSETBRUSHORGEX_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core7_print("U_EMRSETBRUSHORGEX", "ptlOrigin:","",contents, out);
+   core7_print("U_EMRSETBRUSHORGEX", "ptlOrigin:","",contents, out, states);
 } 
 
 // U_EMREOF                  14
@@ -1041,14 +1074,14 @@ void U_EMRSETBRUSHORGEX_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_EOF record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMREOF_print(const char *contents, FILE *out){
+void U_EMREOF_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMREOF pEmr = (PU_EMREOF)(contents);
    verbose_printf("   cbPalEntries:   %u\n",      pEmr->cbPalEntries );
    verbose_printf("   offPalEntries:  %u\n",      pEmr->offPalEntries);
    if(pEmr->cbPalEntries){
      verbose_printf("      PE:");
-     logpalette_print( (PU_LOGPALETTE)(contents + pEmr->offPalEntries));
+     logpalette_print(states, (PU_LOGPALETTE)(contents + pEmr->offPalEntries));
      verbose_printf("\n");
    }
    fprintf(out, "</g>\n");
@@ -1060,11 +1093,11 @@ void U_EMREOF_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETPIXELV record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETPIXELV_print(const char *contents, FILE *out){
+void U_EMRSETPIXELV_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRSETPIXELV pEmr = (PU_EMRSETPIXELV)(contents);
-   verbose_printf("   ptlPixel:       ");  pointl_print(  pEmr->ptlPixel);  verbose_printf("\n");
-   verbose_printf("   crColor:        ");  colorref_print(pEmr->crColor);   verbose_printf("\n");
+   verbose_printf("   ptlPixel:       ");  pointl_print(states,  pEmr->ptlPixel);  verbose_printf("\n");
+   verbose_printf("   crColor:        ");  colorref_print(states, pEmr->crColor);   verbose_printf("\n");
 } 
 
 
@@ -1073,7 +1106,7 @@ void U_EMRSETPIXELV_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETMAPPERFLAGS record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETMAPPERFLAGS_print(const char *contents, FILE *out){
+void U_EMRSETMAPPERFLAGS_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRSETMAPPERFLAGS pEmr = (PU_EMRSETMAPPERFLAGS)(contents);
    verbose_printf("   dwFlags:        0x%8.8X\n",pEmr->dwFlags);
@@ -1085,9 +1118,9 @@ void U_EMRSETMAPPERFLAGS_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETMAPMODE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETMAPMODE_print(const char *contents, FILE *out){
+void U_EMRSETMAPMODE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETMAPMODE", "iMode:", contents, out);
+   core3_print("U_EMRSETMAPMODE", "iMode:", contents, out, states);
 }
 
 // U_EMRSETBKMODE            18
@@ -1095,9 +1128,9 @@ void U_EMRSETMAPMODE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETBKMODE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETBKMODE_print(const char *contents, FILE *out){
+void U_EMRSETBKMODE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETBKMODE", "iMode:", contents, out);
+   core3_print("U_EMRSETBKMODE", "iMode:", contents, out, states);
 }
 
 // U_EMRSETPOLYFILLMODE      19
@@ -1105,9 +1138,9 @@ void U_EMRSETBKMODE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETPOLYFILLMODE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETPOLYFILLMODE_print(const char *contents, FILE *out){
+void U_EMRSETPOLYFILLMODE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETPOLYFILLMODE", "iMode:", contents, out);
+   core3_print("U_EMRSETPOLYFILLMODE", "iMode:", contents, out, states);
 }
 
 // U_EMRSETROP2              20
@@ -1115,9 +1148,9 @@ void U_EMRSETPOLYFILLMODE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETROP2 record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETROP2_print(const char *contents, FILE *out){
+void U_EMRSETROP2_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETROP2", "dwRop:", contents, out);
+   core3_print("U_EMRSETROP2", "dwRop:", contents, out, states);
 }
 
 // U_EMRSETSTRETCHBLTMODE    21
@@ -1125,9 +1158,9 @@ void U_EMRSETROP2_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETSTRETCHBLTMODE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETSTRETCHBLTMODE_print(const char *contents, FILE *out){
+void U_EMRSETSTRETCHBLTMODE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETSTRETCHBLTMODE", "iMode:", contents, out);
+   core3_print("U_EMRSETSTRETCHBLTMODE", "iMode:", contents, out, states);
 }
 
 // U_EMRSETTEXTALIGN         22
@@ -1135,9 +1168,9 @@ void U_EMRSETSTRETCHBLTMODE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETTEXTALIGN record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETTEXTALIGN_print(const char *contents, FILE *out){
+void U_EMRSETTEXTALIGN_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETTEXTALIGN", "iMode:", contents, out);
+   core3_print("U_EMRSETTEXTALIGN", "iMode:", contents, out, states);
 }
 
 // U_EMRSETCOLORADJUSTMENT   23
@@ -1145,11 +1178,11 @@ void U_EMRSETTEXTALIGN_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETCOLORADJUSTMENT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETCOLORADJUSTMENT_print(const char *contents, FILE *out){
+void U_EMRSETCOLORADJUSTMENT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRSETCOLORADJUSTMENT pEmr = (PU_EMRSETCOLORADJUSTMENT)(contents);
    verbose_printf("   ColorAdjustment:");
-   coloradjustment_print(pEmr->ColorAdjustment);
+   coloradjustment_print(states, pEmr->ColorAdjustment);
    verbose_printf("\n");
 }
 
@@ -1158,9 +1191,9 @@ void U_EMRSETCOLORADJUSTMENT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETTEXTCOLOR record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETTEXTCOLOR_print(const char *contents, FILE *out){
+void U_EMRSETTEXTCOLOR_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETTEXTCOLOR", "crColor:", contents, out);
+   core3_print("U_EMRSETTEXTCOLOR", "crColor:", contents, out, states);
 }
 
 // U_EMRSETBKCOLOR           25
@@ -1168,9 +1201,9 @@ void U_EMRSETTEXTCOLOR_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETBKCOLOR record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETBKCOLOR_print(const char *contents, FILE *out){
+void U_EMRSETBKCOLOR_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETBKCOLOR", "crColor:", contents, out);
+   core3_print("U_EMRSETBKCOLOR", "crColor:", contents, out, states);
 }
 
 // U_EMROFFSETCLIPRGN        26
@@ -1178,9 +1211,9 @@ void U_EMRSETBKCOLOR_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_OFFSETCLIPRGN record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMROFFSETCLIPRGN_print(const char *contents, FILE *out){
+void U_EMROFFSETCLIPRGN_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core7_print("U_EMROFFSETCLIPRGN", "ptl:","",contents, out);
+   core7_print("U_EMROFFSETCLIPRGN", "ptl:","",contents, out, states);
 } 
 
 // U_EMRMOVETOEX             27
@@ -1188,10 +1221,10 @@ void U_EMROFFSETCLIPRGN_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_MOVETOEX record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRMOVETOEX_print(const char *contents, FILE *out){
+void U_EMRMOVETOEX_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_SUPPORTED
    fprintf(out, "M ");
-   core7_print("U_EMRMOVETOEX", "ptl:","",contents, out);
+   core7_print("U_EMRMOVETOEX", "ptl:","",contents, out, states);
 } 
 
 // U_EMRSETMETARGN           28
@@ -1199,7 +1232,7 @@ void U_EMRMOVETOEX_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETMETARGN record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETMETARGN_print(const char *contents, FILE *out){
+void U_EMRSETMETARGN_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    UNUSED(contents);
 }
@@ -1209,9 +1242,9 @@ void U_EMRSETMETARGN_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_EXCLUDECLIPRECT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMREXCLUDECLIPRECT_print(const char *contents, FILE *out){
+void U_EMREXCLUDECLIPRECT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core4_print("U_EMREXCLUDECLIPRECT", contents, out);
+   core4_print("U_EMREXCLUDECLIPRECT", contents, out, states);
 }
 
 // U_EMRINTERSECTCLIPRECT    30
@@ -1219,9 +1252,9 @@ void U_EMREXCLUDECLIPRECT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_INTERSECTCLIPRECT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRINTERSECTCLIPRECT_print(const char *contents, FILE *out){
+void U_EMRINTERSECTCLIPRECT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core4_print("U_EMRINTERSECTCLIPRECT", contents, out);
+   core4_print("U_EMRINTERSECTCLIPRECT", contents, out, states);
 }
 
 // U_EMRSCALEVIEWPORTEXTEX   31
@@ -1229,9 +1262,9 @@ void U_EMRINTERSECTCLIPRECT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SCALEVIEWPORTEXTEX record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSCALEVIEWPORTEXTEX_print(const char *contents, FILE *out){
+void U_EMRSCALEVIEWPORTEXTEX_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core4_print("U_EMRSCALEVIEWPORTEXTEX", contents, out);
+   core4_print("U_EMRSCALEVIEWPORTEXTEX", contents, out, states);
 }
 
 
@@ -1240,9 +1273,9 @@ void U_EMRSCALEVIEWPORTEXTEX_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SCALEWINDOWEXTEX record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSCALEWINDOWEXTEX_print(const char *contents, FILE *out){
+void U_EMRSCALEWINDOWEXTEX_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core4_print("U_EMRSCALEWINDOWEXTEX", contents,out);
+   core4_print("U_EMRSCALEWINDOWEXTEX", contents, out, states);
 }
 
 // U_EMRSAVEDC               33
@@ -1250,7 +1283,7 @@ void U_EMRSCALEWINDOWEXTEX_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SAVEDC record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSAVEDC_print(const char *contents, FILE *out){
+void U_EMRSAVEDC_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    UNUSED(contents);
 }
@@ -1260,9 +1293,9 @@ void U_EMRSAVEDC_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_RESTOREDC record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRRESTOREDC_print(const char *contents, FILE *out){
+void U_EMRRESTOREDC_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRRESTOREDC", "iRelative:", contents, out);
+   core3_print("U_EMRRESTOREDC", "iRelative:", contents, out, states);
 }
 
 // U_EMRSETWORLDTRANSFORM    35
@@ -1270,11 +1303,11 @@ void U_EMRRESTOREDC_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETWORLDTRANSFORM record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETWORLDTRANSFORM_print(const char *contents, FILE *out){
+void U_EMRSETWORLDTRANSFORM_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRSETWORLDTRANSFORM pEmr = (PU_EMRSETWORLDTRANSFORM)(contents);
    verbose_printf("   xform:");
-   xform_print(pEmr->xform);
+   xform_print(states, pEmr->xform);
    verbose_printf("\n");
 } 
 
@@ -1283,11 +1316,11 @@ void U_EMRSETWORLDTRANSFORM_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_MODIFYWORLDTRANSFORM record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRMODIFYWORLDTRANSFORM_print(const char *contents, FILE *out){
+void U_EMRMODIFYWORLDTRANSFORM_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRMODIFYWORLDTRANSFORM pEmr = (PU_EMRMODIFYWORLDTRANSFORM)(contents);
    verbose_printf("   xform:");
-   xform_print(pEmr->xform);
+   xform_print(states, pEmr->xform);
    verbose_printf("\n");
    verbose_printf("   iMode:          %u\n",      pEmr->iMode );
 } 
@@ -1297,7 +1330,7 @@ void U_EMRMODIFYWORLDTRANSFORM_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SELECTOBJECT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSELECTOBJECT_print(const char *contents, FILE *out){
+void U_EMRSELECTOBJECT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRSELECTOBJECT pEmr = (PU_EMRSELECTOBJECT)(contents);
    if(pEmr->ihObject & U_STOCK_OBJECT){
@@ -1313,11 +1346,11 @@ void U_EMRSELECTOBJECT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_CREATEPEN record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRCREATEPEN_print(const char *contents, FILE *out){
+void U_EMRCREATEPEN_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRCREATEPEN pEmr = (PU_EMRCREATEPEN)(contents);
    verbose_printf("   ihPen:          %u\n",      pEmr->ihPen );
-   verbose_printf("   lopn:           ");    logpen_print(pEmr->lopn);  verbose_printf("\n");
+   verbose_printf("   lopn:           ");    logpen_print(states, pEmr->lopn);  verbose_printf("\n");
 } 
 
 // U_EMRCREATEBRUSHINDIRECT  39
@@ -1325,11 +1358,11 @@ void U_EMRCREATEPEN_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_CREATEBRUSHINDIRECT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRCREATEBRUSHINDIRECT_print(const char *contents, FILE *out){
+void U_EMRCREATEBRUSHINDIRECT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRCREATEBRUSHINDIRECT pEmr = (PU_EMRCREATEBRUSHINDIRECT)(contents);
    verbose_printf("   ihBrush:        %u\n",      pEmr->ihBrush );
-   verbose_printf("   lb:             ");         logbrush_print(pEmr->lb);  verbose_printf("\n");
+   verbose_printf("   lb:             ");         logbrush_print(states, pEmr->lb);  verbose_printf("\n");
 } 
 
 // U_EMRDELETEOBJECT         40
@@ -1337,7 +1370,7 @@ void U_EMRCREATEBRUSHINDIRECT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_DELETEOBJECT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRDELETEOBJECT_print(const char *contents, FILE *out){
+void U_EMRDELETEOBJECT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRDELETEOBJECT pEmr = (PU_EMRDELETEOBJECT)(contents);
    verbose_printf("   ihObject:       %u\n",      pEmr->ihObject );
@@ -1348,10 +1381,10 @@ void U_EMRDELETEOBJECT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_ANGLEARC record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRANGLEARC_print(const char *contents, FILE *out){
+void U_EMRANGLEARC_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRANGLEARC pEmr = (PU_EMRANGLEARC)(contents);
-   verbose_printf("   ptlCenter:      "); pointl_print(pEmr->ptlCenter ); verbose_printf("\n");
+   verbose_printf("   ptlCenter:      "); pointl_print(states, pEmr->ptlCenter ); verbose_printf("\n");
    verbose_printf("   nRadius:        %u\n",      pEmr->nRadius );
    verbose_printf("   eStartAngle:    %f\n",       pEmr->eStartAngle );
    verbose_printf("   eSweepAngle:    %f\n",       pEmr->eSweepAngle );
@@ -1362,9 +1395,9 @@ void U_EMRANGLEARC_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_ELLIPSE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRELLIPSE_print(const char *contents, FILE *out){
+void U_EMRELLIPSE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core4_print("U_EMRELLIPSE", contents, out);
+   core4_print("U_EMRELLIPSE", contents, out, states);
 }
 
 // U_EMRRECTANGLE            43
@@ -1372,9 +1405,9 @@ void U_EMRELLIPSE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_RECTANGLE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRRECTANGLE_print(const char *contents, FILE *out){
+void U_EMRRECTANGLE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core4_print("U_EMRRECTANGLE", contents, out);
+   core4_print("U_EMRRECTANGLE", contents, out, states);
 }
 
 // U_EMRROUNDRECT            44
@@ -1382,11 +1415,11 @@ void U_EMRRECTANGLE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_ROUNDRECT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRROUNDRECT_print(const char *contents, FILE *out){
+void U_EMRROUNDRECT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRROUNDRECT pEmr = (PU_EMRROUNDRECT)(contents);
-   verbose_printf("   rclBox:         "); rectl_print(pEmr->rclBox );     verbose_printf("\n");
-   verbose_printf("   szlCorner:      "); sizel_print(pEmr->szlCorner );  verbose_printf("\n");
+   verbose_printf("   rclBox:         "); rectl_print(states, pEmr->rclBox );     verbose_printf("\n");
+   verbose_printf("   szlCorner:      "); sizel_print(states, pEmr->szlCorner );  verbose_printf("\n");
 }
 
 // U_EMRARC                  45
@@ -1394,9 +1427,9 @@ void U_EMRROUNDRECT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_ARC record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRARC_print(const char *contents, FILE *out){
+void U_EMRARC_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core9_print("U_EMRARC", contents, out);
+   core9_print("U_EMRARC", contents, out, states);
 }
 
 // U_EMRCHORD                46
@@ -1404,9 +1437,9 @@ void U_EMRARC_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_CHORD record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRCHORD_print(const char *contents, FILE *out){
+void U_EMRCHORD_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core9_print("U_EMRCHORD", contents, out);
+   core9_print("U_EMRCHORD", contents, out, states);
 }
 
 // U_EMRPIE                  47
@@ -1414,9 +1447,9 @@ void U_EMRCHORD_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_PIE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPIE_print(const char *contents, FILE *out){
+void U_EMRPIE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core9_print("U_EMRPIE", contents, out);
+   core9_print("U_EMRPIE", contents, out, states);
 }
 
 // U_EMRSELECTPALETTE        48
@@ -1424,9 +1457,9 @@ void U_EMRPIE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SELECTPALETTE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSELECTPALETTE_print(const char *contents, FILE *out){
+void U_EMRSELECTPALETTE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSELECTPALETTE", "ihPal:", contents, out);
+   core3_print("U_EMRSELECTPALETTE", "ihPal:", contents, out, states);
 }
 
 // U_EMRCREATEPALETTE        49
@@ -1434,11 +1467,11 @@ void U_EMRSELECTPALETTE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_CREATEPALETTE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRCREATEPALETTE_print(const char *contents, FILE *out){
+void U_EMRCREATEPALETTE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRCREATEPALETTE pEmr = (PU_EMRCREATEPALETTE)(contents);
    verbose_printf("   ihPal:          %u\n",pEmr->ihPal);
-   verbose_printf("   lgpl:           "); logpalette_print( (PU_LOGPALETTE)&(pEmr->lgpl) );  verbose_printf("\n");
+   verbose_printf("   lgpl:           "); logpalette_print(states, (PU_LOGPALETTE)&(pEmr->lgpl) );  verbose_printf("\n");
 }
 
 // U_EMRSETPALETTEENTRIES    50
@@ -1446,7 +1479,7 @@ void U_EMRCREATEPALETTE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETPALETTEENTRIES record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETPALETTEENTRIES_print(const char *contents, FILE *out){
+void U_EMRSETPALETTEENTRIES_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    unsigned int i;
    PU_EMRSETPALETTEENTRIES pEmr = (PU_EMRSETPALETTEENTRIES)(contents);
@@ -1457,7 +1490,7 @@ void U_EMRSETPALETTEENTRIES_print(const char *contents, FILE *out){
       verbose_printf("      PLTEntries:");
       PU_LOGPLTNTRY aPalEntries = (PU_LOGPLTNTRY) &(pEmr->aPalEntries);
       for(i=0; i<pEmr->cEntries; i++){
-         verbose_printf("%d:",i); logpltntry_print(aPalEntries[i]);
+         verbose_printf("%d:",i); logpltntry_print(states, aPalEntries[i]);
       }
       verbose_printf("\n");
    }
@@ -1468,9 +1501,9 @@ void U_EMRSETPALETTEENTRIES_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_RESIZEPALETTE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRRESIZEPALETTE_print(const char *contents, FILE *out){
+void U_EMRRESIZEPALETTE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core7_print("U_EMRRESIZEPALETTE", "ihPal:","cEntries",contents, out);
+   core7_print("U_EMRRESIZEPALETTE", "ihPal:","cEntries",contents, out, states);
 } 
 
 // U_EMRREALIZEPALETTE       52
@@ -1478,7 +1511,7 @@ void U_EMRRESIZEPALETTE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_REALIZEPALETTE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRREALIZEPALETTE_print(const char *contents, FILE *out){
+void U_EMRREALIZEPALETTE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    UNUSED(contents);
 }
@@ -1488,11 +1521,11 @@ void U_EMRREALIZEPALETTE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_EXTFLOODFILL record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMREXTFLOODFILL_print(const char *contents, FILE *out){
+void U_EMREXTFLOODFILL_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMREXTFLOODFILL pEmr = (PU_EMREXTFLOODFILL)(contents);
-   verbose_printf("   ptlStart:       ");   pointl_print(pEmr->ptlStart);    verbose_printf("\n");
-   verbose_printf("   crColor:        ");   colorref_print(pEmr->crColor);   verbose_printf("\n");
+   verbose_printf("   ptlStart:       ");   pointl_print(states, pEmr->ptlStart);    verbose_printf("\n");
+   verbose_printf("   crColor:        ");   colorref_print(states, pEmr->crColor);   verbose_printf("\n");
    verbose_printf("   iMode:          %u\n",pEmr->iMode);
 }
 
@@ -1501,9 +1534,9 @@ void U_EMREXTFLOODFILL_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_LINETO record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRLINETO_print(const char *contents, FILE *out){
+void U_EMRLINETO_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core7_print("U_EMRLINETO", "ptl:","",contents, out);
+   core7_print("U_EMRLINETO", "ptl:","",contents, out, states);
 } 
 
 // U_EMRARCTO                55
@@ -1511,9 +1544,9 @@ void U_EMRLINETO_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_ARCTO record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRARCTO_print(const char *contents, FILE *out){
+void U_EMRARCTO_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core9_print("U_EMRARCTO", contents, out);
+   core9_print("U_EMRARCTO", contents, out, states);
 }
 
 // U_EMRPOLYDRAW             56
@@ -1521,16 +1554,16 @@ void U_EMRARCTO_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYDRAW record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYDRAW_print(const char *contents, FILE *out){
+void U_EMRPOLYDRAW_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    unsigned int i;
    PU_EMRPOLYDRAW pEmr = (PU_EMRPOLYDRAW)(contents);
-   verbose_printf("   rclBounds:      ");          rectl_print( pEmr->rclBounds);   verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");          rectl_print(states, pEmr->rclBounds);   verbose_printf("\n");
    verbose_printf("   cptl:           %d\n",pEmr->cptl        );
    verbose_printf("   Points:         ");
    for(i=0;i<pEmr->cptl; i++){
       verbose_printf(" [%d]:",i);
-      pointl_print(pEmr->aptl[i]);
+      pointl_print(states, pEmr->aptl[i]);
    }
    verbose_printf("\n");
    verbose_printf("   Types:          ");
@@ -1545,9 +1578,9 @@ void U_EMRPOLYDRAW_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETARCDIRECTION record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETARCDIRECTION_print(const char *contents, FILE *out){
+void U_EMRSETARCDIRECTION_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETARCDIRECTION","arcDirection:", contents, out);
+   core3_print("U_EMRSETARCDIRECTION","arcDirection:", contents, out, states);
 }
 
 // U_EMRSETMITERLIMIT        58
@@ -1555,9 +1588,9 @@ void U_EMRSETARCDIRECTION_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETMITERLIMIT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETMITERLIMIT_print(const char *contents, FILE *out){
+void U_EMRSETMITERLIMIT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETMITERLIMIT", "eMiterLimit:", contents, out);
+   core3_print("U_EMRSETMITERLIMIT", "eMiterLimit:", contents, out, states);
 }
 
 
@@ -1566,7 +1599,7 @@ void U_EMRSETMITERLIMIT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_BEGINPATH record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRBEGINPATH_print(const char *contents, FILE *out){
+void U_EMRBEGINPATH_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    fprintf(out, "<path d=\"");
    UNUSED(contents);
@@ -1577,7 +1610,7 @@ void U_EMRBEGINPATH_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_ENDPATH record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRENDPATH_print(const char *contents, FILE *out){
+void U_EMRENDPATH_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_PARTIAL
    fprintf(out, "\"  stroke=\"blue\" stroke-width=\"3\" />\n");
    UNUSED(contents);
@@ -1588,7 +1621,7 @@ void U_EMRENDPATH_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_CLOSEFIGURE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRCLOSEFIGURE_print(const char *contents, FILE *out){
+void U_EMRCLOSEFIGURE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_SUPPORTED
    fprintf(out, "Z");
    UNUSED(contents);
@@ -1599,9 +1632,9 @@ void U_EMRCLOSEFIGURE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_FILLPATH record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRFILLPATH_print(const char *contents, FILE *out){
+void U_EMRFILLPATH_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core4_print("U_EMRFILLPATH", contents, out);
+   core4_print("U_EMRFILLPATH", contents, out, states);
 }
 
 // U_EMRSTROKEANDFILLPATH    63
@@ -1609,9 +1642,9 @@ void U_EMRFILLPATH_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_STROKEANDFILLPATH record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSTROKEANDFILLPATH_print(const char *contents, FILE *out){
+void U_EMRSTROKEANDFILLPATH_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core4_print("U_EMRSTROKEANDFILLPATH", contents, out);
+   core4_print("U_EMRSTROKEANDFILLPATH", contents, out, states);
 }
 
 // U_EMRSTROKEPATH           64
@@ -1619,9 +1652,9 @@ void U_EMRSTROKEANDFILLPATH_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_STROKEPATH record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSTROKEPATH_print(const char *contents, FILE *out){
+void U_EMRSTROKEPATH_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core4_print("U_EMRSTROKEPATH", contents, out);
+   core4_print("U_EMRSTROKEPATH", contents, out, states);
 }
 
 // U_EMRFLATTENPATH          65
@@ -1629,7 +1662,7 @@ void U_EMRSTROKEPATH_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_FLATTENPATH record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRFLATTENPATH_print(const char *contents, FILE *out){
+void U_EMRFLATTENPATH_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    UNUSED(contents);
 }
@@ -1639,7 +1672,7 @@ void U_EMRFLATTENPATH_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_WIDENPATH record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRWIDENPATH_print(const char *contents, FILE *out){
+void U_EMRWIDENPATH_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    UNUSED(contents);
 }
@@ -1649,9 +1682,9 @@ void U_EMRWIDENPATH_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SELECTCLIPPATH record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSELECTCLIPPATH_print(const char *contents, FILE *out){
+void U_EMRSELECTCLIPPATH_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSELECTCLIPPATH", "iMode:", contents, out);
+   core3_print("U_EMRSELECTCLIPPATH", "iMode:", contents, out, states);
 }
 
 // U_EMRABORTPATH            68
@@ -1659,7 +1692,7 @@ void U_EMRSELECTCLIPPATH_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_ABORTPATH record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRABORTPATH_print(const char *contents, FILE *out){
+void U_EMRABORTPATH_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    UNUSED(contents);
 }
@@ -1676,7 +1709,7 @@ void U_EMRABORTPATH_print(const char *contents, FILE *out){
 
     EMF+ records, if any, are stored in EMF comment records.
 */
-void U_EMRCOMMENT_print(const char *contents, FILE *out, const char *blimit, size_t off){
+void U_EMRCOMMENT_print(const char *contents, FILE *out, drawingStates *states, const char *blimit, size_t off){
    FLAG_IGNORED
    char *string;
    char *src;
@@ -1724,7 +1757,7 @@ void U_EMRCOMMENT_print(const char *contents, FILE *out, const char *blimit, siz
          loff = 16;  /* Header size of the header part of an EMF+ comment record */
          verbose_printf("=========================== START EMF+ RECORD ANALYSING ==================:\n");
          while(loff < cbData + 12){  // EMF+ records may not fill the entire comment, cbData value includes cIdent, but not U_EMR or cbData
-            recsize =  U_pmf_onerec_print(src, blimit, recnum, loff + off, out);
+            recsize =  U_pmf_onerec_print(src, blimit, recnum, loff + off, out, states);
             if(recsize<=0)break;
             loff += recsize;
             src  += recsize;
@@ -1751,11 +1784,11 @@ void U_EMRCOMMENT_print(const char *contents, FILE *out, const char *blimit, siz
     \brief Print a pointer to a U_EMR_FILLRGN record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRFILLRGN_print(const char *contents, FILE *out){
+void U_EMRFILLRGN_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    int i,roff;
    PU_EMRFILLRGN pEmr = (PU_EMRFILLRGN)(contents);
-   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");    rectl_print(states, pEmr->rclBounds);    verbose_printf("\n");
    verbose_printf("   cbRgnData:      %u\n",pEmr->cbRgnData);
    verbose_printf("   ihBrush:        %u\n",pEmr->ihBrush);
    // This one is a pain since each RGNDATA may be a different size, so it isn't possible to index through them.
@@ -1763,7 +1796,7 @@ void U_EMRFILLRGN_print(const char *contents, FILE *out){
    i=1; 
    char *prd = (char *) &(pEmr->RgnData);
    while(roff  + sizeof(U_RGNDATAHEADER) < pEmr->emr.nSize){ // up to the end of the record
-      verbose_printf("   RegionData[%d]: ",i);   rgndata_print((PU_RGNDATA) (prd + roff));  verbose_printf("\n");
+      verbose_printf("   RegionData[%d]: ",i);   rgndata_print(states, (PU_RGNDATA) (prd + roff));  verbose_printf("\n");
       roff += (((PU_RGNDATA)prd)->rdh.dwSize + ((PU_RGNDATA)prd)->rdh.nRgnSize - 16);
    }
 } 
@@ -1773,20 +1806,20 @@ void U_EMRFILLRGN_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_FRAMERGN record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRFRAMERGN_print(const char *contents, FILE *out){
+void U_EMRFRAMERGN_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    int i,roff;
    PU_EMRFRAMERGN pEmr = (PU_EMRFRAMERGN)(contents);
-   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");    rectl_print(states, pEmr->rclBounds);    verbose_printf("\n");
    verbose_printf("   cbRgnData:      %u\n",pEmr->cbRgnData);
    verbose_printf("   ihBrush:        %u\n",pEmr->ihBrush);
-   verbose_printf("   szlStroke:      "); sizel_print(pEmr->szlStroke );      verbose_printf("\n");
+   verbose_printf("   szlStroke:      "); sizel_print(states, pEmr->szlStroke );      verbose_printf("\n");
    // This one is a pain since each RGNDATA may be a different size, so it isn't possible to index through them.
    roff=0;
    i=1; 
    char *prd = (char *) &(pEmr->RgnData);
    while(roff  + sizeof(U_RGNDATAHEADER) < pEmr->emr.nSize){ // up to the end of the record
-      verbose_printf("   RegionData[%d]: ",i);   rgndata_print((PU_RGNDATA) (prd + roff));  verbose_printf("\n");
+      verbose_printf("   RegionData[%d]: ",i);   rgndata_print(states, (PU_RGNDATA) (prd + roff));  verbose_printf("\n");
       roff += (((PU_RGNDATA)prd)->rdh.dwSize + ((PU_RGNDATA)prd)->rdh.nRgnSize - 16);
    }
 } 
@@ -1796,9 +1829,9 @@ void U_EMRFRAMERGN_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_INVERTRGN record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRINVERTRGN_print(const char *contents, FILE *out){
+void U_EMRINVERTRGN_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core11_print("U_EMRINVERTRGN", contents, out);
+   core11_print("U_EMRINVERTRGN", contents, out, states);
 }
 
 // U_EMRPAINTRGN             74
@@ -1806,9 +1839,9 @@ void U_EMRINVERTRGN_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_PAINTRGN record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPAINTRGN_print(const char *contents, FILE *out){
+void U_EMRPAINTRGN_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core11_print("U_EMRPAINTRGN", contents, out);
+   core11_print("U_EMRPAINTRGN", contents, out, states);
 }
 
 // U_EMREXTSELECTCLIPRGN     75
@@ -1816,7 +1849,7 @@ void U_EMRPAINTRGN_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_EXTSELECTCLIPRGN record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMREXTSELECTCLIPRGN_print(const char *contents, FILE *out){
+void U_EMREXTSELECTCLIPRGN_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    int i,roff;
    PU_EMREXTSELECTCLIPRGN pEmr = (PU_EMREXTSELECTCLIPRGN) (contents);
@@ -1826,7 +1859,7 @@ void U_EMREXTSELECTCLIPRGN_print(const char *contents, FILE *out){
    char *prd = (char *) &(pEmr->RgnData);
    i=roff=0;
    while(roff + sizeof(U_RGNDATAHEADER) < pEmr->cbRgnData){ // stop at end of the record 4*4 = header + 4*4=rect
-      verbose_printf("   RegionData[%d]: ",i++); rgndata_print((PU_RGNDATA) (prd + roff)); verbose_printf("\n");
+      verbose_printf("   RegionData[%d]: ",i++); rgndata_print(states, (PU_RGNDATA) (prd + roff)); verbose_printf("\n");
       roff += (((PU_RGNDATA)prd)->rdh.dwSize + ((PU_RGNDATA)prd)->rdh.nRgnSize - 16);
    }
 } 
@@ -1836,22 +1869,22 @@ void U_EMREXTSELECTCLIPRGN_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_BITBLT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRBITBLT_print(const char *contents, FILE *out){
+void U_EMRBITBLT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRBITBLT pEmr = (PU_EMRBITBLT) (contents);
-   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
-   verbose_printf("   Dest:           ");     pointl_print(pEmr->Dest);            verbose_printf("\n");
-   verbose_printf("   cDest:          ");     pointl_print(pEmr->cDest);           verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");     rectl_print(states, pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");     pointl_print(states, pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   cDest:          ");     pointl_print(states, pEmr->cDest);           verbose_printf("\n");
    verbose_printf("   dwRop :         0x%8.8X\n", pEmr->dwRop   );
-   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
-   verbose_printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        verbose_printf("\n");
-   verbose_printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); verbose_printf("\n");
+   verbose_printf("   Src:            ");     pointl_print(states, pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   xformSrc:       ");     xform_print(states, pEmr->xformSrc);        verbose_printf("\n");
+   verbose_printf("   crBkColorSrc:   ");     colorref_print(states, pEmr->crBkColorSrc); verbose_printf("\n");
    verbose_printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
    verbose_printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
    verbose_printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
       verbose_printf("      bitmap:      ");
-      bitmapinfo_print(contents + pEmr->offBmiSrc);
+      bitmapinfo_print(states, contents + pEmr->offBmiSrc);
       verbose_printf("\n");
    }
    verbose_printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
@@ -1863,27 +1896,27 @@ void U_EMRBITBLT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_STRETCHBLT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSTRETCHBLT_print(const char *contents, FILE *out){
+void U_EMRSTRETCHBLT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRSTRETCHBLT pEmr = (PU_EMRSTRETCHBLT) (contents);
-   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
-   verbose_printf("   Dest:           ");     pointl_print(pEmr->Dest);            verbose_printf("\n");
-   verbose_printf("   cDest:          ");     pointl_print(pEmr->cDest);           verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");     rectl_print(states, pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");     pointl_print(states, pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   cDest:          ");     pointl_print(states, pEmr->cDest);           verbose_printf("\n");
    verbose_printf("   dwRop :         0x%8.8X\n", pEmr->dwRop   );
-   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
-   verbose_printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        verbose_printf("\n");
-   verbose_printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); verbose_printf("\n");
+   verbose_printf("   Src:            ");     pointl_print(states, pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   xformSrc:       ");     xform_print(states, pEmr->xformSrc);        verbose_printf("\n");
+   verbose_printf("   crBkColorSrc:   ");     colorref_print(states, pEmr->crBkColorSrc); verbose_printf("\n");
    verbose_printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
    verbose_printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
    verbose_printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
       verbose_printf("      bitmap:      ");
-      bitmapinfo_print(contents + pEmr->offBmiSrc);
+      bitmapinfo_print(states, contents + pEmr->offBmiSrc);
       verbose_printf("\n");
    }
    verbose_printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
    verbose_printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
-   verbose_printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            verbose_printf("\n");
+   verbose_printf("   cSrc:           ");     pointl_print(states, pEmr->cSrc);            verbose_printf("\n");
 }
 
 // U_EMRMASKBLT              78
@@ -1891,33 +1924,33 @@ void U_EMRSTRETCHBLT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_MASKBLT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRMASKBLT_print(const char *contents, FILE *out){
+void U_EMRMASKBLT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRMASKBLT pEmr = (PU_EMRMASKBLT) (contents);
-   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
-   verbose_printf("   Dest:           ");     pointl_print(pEmr->Dest);            verbose_printf("\n");
-   verbose_printf("   cDest:          ");     pointl_print(pEmr->cDest);           verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");     rectl_print(states, pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");     pointl_print(states, pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   cDest:          ");     pointl_print(states, pEmr->cDest);           verbose_printf("\n");
    verbose_printf("   dwRop :         0x%8.8X\n",  pEmr->dwRop   );
-   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
-   verbose_printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        verbose_printf("\n");
-   verbose_printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); verbose_printf("\n");
+   verbose_printf("   Src:            ");     pointl_print(states, pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   xformSrc:       ");     xform_print(states, pEmr->xformSrc);        verbose_printf("\n");
+   verbose_printf("   crBkColorSrc:   ");     colorref_print(states, pEmr->crBkColorSrc); verbose_printf("\n");
    verbose_printf("   iUsageSrc:      %u\n",  pEmr->iUsageSrc   );
    verbose_printf("   offBmiSrc:      %u\n",  pEmr->offBmiSrc   );
    verbose_printf("   cbBmiSrc:       %u\n",  pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
       verbose_printf("      Src bitmap:  ");
-      bitmapinfo_print(contents + pEmr->offBmiSrc);
+      bitmapinfo_print(states, contents + pEmr->offBmiSrc);
       verbose_printf("\n");
    }
    verbose_printf("   offBitsSrc:     %u\n",  pEmr->offBitsSrc   );
    verbose_printf("   cbBitsSrc:      %u\n",  pEmr->cbBitsSrc    );
-   verbose_printf("   Mask:           ");     pointl_print(pEmr->Mask);            verbose_printf("\n");
+   verbose_printf("   Mask:           ");     pointl_print(states, pEmr->Mask);            verbose_printf("\n");
    verbose_printf("   iUsageMask:     %u\n",  pEmr->iUsageMask   );
    verbose_printf("   offBmiMask:     %u\n",  pEmr->offBmiMask   );
    verbose_printf("   cbBmiMask:      %u\n",  pEmr->cbBmiMask    );
    if(pEmr->cbBmiMask){
       verbose_printf("      Mask bitmap: ");
-      bitmapinfo_print(contents + pEmr->offBmiMask);
+      bitmapinfo_print(states, contents + pEmr->offBmiMask);
       verbose_printf("\n");
    }
    verbose_printf("   offBitsMask:    %u\n",  pEmr->offBitsMask   );
@@ -1929,34 +1962,34 @@ void U_EMRMASKBLT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_PLGBLT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPLGBLT_print(const char *contents, FILE *out){
+void U_EMRPLGBLT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRPLGBLT pEmr = (PU_EMRPLGBLT) (contents);
-   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
-   verbose_printf("   aptlDst(UL):    ");     pointl_print(pEmr->aptlDst[0]);      verbose_printf("\n");
-   verbose_printf("   aptlDst(UR):    ");     pointl_print(pEmr->aptlDst[1]);      verbose_printf("\n");
-   verbose_printf("   aptlDst(LL):    ");     pointl_print(pEmr->aptlDst[2]);      verbose_printf("\n");
-   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
-   verbose_printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            verbose_printf("\n");
-   verbose_printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        verbose_printf("\n");
-   verbose_printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");     rectl_print(states, pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   aptlDst(UL):    ");     pointl_print(states, pEmr->aptlDst[0]);      verbose_printf("\n");
+   verbose_printf("   aptlDst(UR):    ");     pointl_print(states, pEmr->aptlDst[1]);      verbose_printf("\n");
+   verbose_printf("   aptlDst(LL):    ");     pointl_print(states, pEmr->aptlDst[2]);      verbose_printf("\n");
+   verbose_printf("   Src:            ");     pointl_print(states, pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   cSrc:           ");     pointl_print(states, pEmr->cSrc);            verbose_printf("\n");
+   verbose_printf("   xformSrc:       ");     xform_print(states, pEmr->xformSrc);        verbose_printf("\n");
+   verbose_printf("   crBkColorSrc:   ");     colorref_print(states, pEmr->crBkColorSrc); verbose_printf("\n");
    verbose_printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
    verbose_printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
    verbose_printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
       verbose_printf("      Src bitmap:  ");
-      bitmapinfo_print(contents + pEmr->offBmiSrc);
+      bitmapinfo_print(states, contents + pEmr->offBmiSrc);
       verbose_printf("\n");
    }
    verbose_printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
    verbose_printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
-   verbose_printf("   Mask:           ");    pointl_print(pEmr->Mask);            verbose_printf("\n");
+   verbose_printf("   Mask:           ");    pointl_print(states, pEmr->Mask);            verbose_printf("\n");
    verbose_printf("   iUsageMsk:      %u\n", pEmr->iUsageMask   );
    verbose_printf("   offBmiMask:     %u\n", pEmr->offBmiMask   );
    verbose_printf("   cbBmiMask:      %u\n", pEmr->cbBmiMask    );
    if(pEmr->cbBmiMask){
       verbose_printf("      Mask bitmap: ");
-      bitmapinfo_print(contents + pEmr->offBmiMask);
+      bitmapinfo_print(states, contents + pEmr->offBmiMask);
       verbose_printf("\n");
    }
    verbose_printf("   offBitsMask:    %u\n", pEmr->offBitsMask   );
@@ -1968,18 +2001,18 @@ void U_EMRPLGBLT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMRSETDIBITSTODEVICE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETDIBITSTODEVICE_print(const char *contents, FILE *out){
+void U_EMRSETDIBITSTODEVICE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRSETDIBITSTODEVICE pEmr = (PU_EMRSETDIBITSTODEVICE) (contents);
-   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
-   verbose_printf("   Dest:           ");     pointl_print(pEmr->Dest);            verbose_printf("\n");
-   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
-   verbose_printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");     rectl_print(states, pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");     pointl_print(states, pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   Src:            ");     pointl_print(states, pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   cSrc:           ");     pointl_print(states, pEmr->cSrc);            verbose_printf("\n");
    verbose_printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
    verbose_printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
       verbose_printf("      Src bitmap:  ");
-      bitmapinfo_print(contents + pEmr->offBmiSrc);
+      bitmapinfo_print(states, contents + pEmr->offBmiSrc);
       verbose_printf("\n");
    }
    verbose_printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
@@ -1994,25 +2027,25 @@ void U_EMRSETDIBITSTODEVICE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_STRETCHDIBITS record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSTRETCHDIBITS_print(const char *contents, FILE *out){
+void U_EMRSTRETCHDIBITS_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRSTRETCHDIBITS pEmr = (PU_EMRSTRETCHDIBITS) (contents);
-   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
-   verbose_printf("   Dest:           ");     pointl_print(pEmr->Dest);            verbose_printf("\n");
-   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
-   verbose_printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");     rectl_print(states, pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");     pointl_print(states, pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   Src:            ");     pointl_print(states, pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   cSrc:           ");     pointl_print(states, pEmr->cSrc);            verbose_printf("\n");
    verbose_printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
    verbose_printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
       verbose_printf("      Src bitmap:  ");
-      bitmapinfo_print(contents + pEmr->offBmiSrc);
+      bitmapinfo_print(states, contents + pEmr->offBmiSrc);
       verbose_printf("\n");
    }
    verbose_printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
    verbose_printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
    verbose_printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
    verbose_printf("   dwRop :         0x%8.8X\n", pEmr->dwRop   );
-   verbose_printf("   cDest:          ");     pointl_print(pEmr->cDest);           verbose_printf("\n");
+   verbose_printf("   cDest:          ");     pointl_print(states, pEmr->cDest);           verbose_printf("\n");
 }
 
 // U_EMREXTCREATEFONTINDIRECTW_print    82
@@ -2020,16 +2053,16 @@ void U_EMRSTRETCHDIBITS_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_EXTCREATEFONTINDIRECTW record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMREXTCREATEFONTINDIRECTW_print(const char *contents, FILE *out){
+void U_EMREXTCREATEFONTINDIRECTW_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMREXTCREATEFONTINDIRECTW pEmr = (PU_EMREXTCREATEFONTINDIRECTW) (contents);
    verbose_printf("   ihFont:         %u\n",pEmr->ihFont );
    verbose_printf("   Font:           ");
    if(pEmr->emr.nSize == sizeof(U_EMREXTCREATEFONTINDIRECTW)){ // holds logfont_panose
-      logfont_panose_print(pEmr->elfw);
+      logfont_panose_print(states, pEmr->elfw);
    }
    else { // holds logfont
-      logfont_print( *(PU_LOGFONT) &(pEmr->elfw));
+      logfont_print(states, *(PU_LOGFONT) &(pEmr->elfw));
    }
    verbose_printf("\n");
 }
@@ -2039,9 +2072,9 @@ void U_EMREXTCREATEFONTINDIRECTW_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_EXTTEXTOUTA record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMREXTTEXTOUTA_print(const char *contents, FILE *out){
+void U_EMREXTTEXTOUTA_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core8_print("U_EMREXTTEXTOUTA", contents, out, 0);
+   core8_print("U_EMREXTTEXTOUTA", contents, out, states, 0);
 }
 
 // U_EMREXTTEXTOUTW          84
@@ -2049,9 +2082,9 @@ void U_EMREXTTEXTOUTA_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_EXTTEXTOUTW record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMREXTTEXTOUTW_print(const char *contents, FILE *out){
+void U_EMREXTTEXTOUTW_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core8_print("U_EMREXTTEXTOUTW", contents, out, 1);
+   core8_print("U_EMREXTTEXTOUTW", contents, out, states, 1);
 }
 
 // U_EMRPOLYBEZIER16         85
@@ -2059,9 +2092,9 @@ void U_EMREXTTEXTOUTW_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYBEZIER16 record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYBEZIER16_print(const char *contents, FILE *out){
+void U_EMRPOLYBEZIER16_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core6_print("U_EMRPOLYBEZIER16", contents, out);
+   core6_print("U_EMRPOLYBEZIER16", contents, out, states);
 }
 
 // U_EMRPOLYGON16            86
@@ -2069,9 +2102,9 @@ void U_EMRPOLYBEZIER16_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYGON16 record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYGON16_print(const char *contents, FILE *out){
+void U_EMRPOLYGON16_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core6_print("U_EMRPOLYGON16", contents, out);
+   core6_print("U_EMRPOLYGON16", contents, out, states);
 }
 
 // U_EMRPOLYLINE16           87
@@ -2079,9 +2112,9 @@ void U_EMRPOLYGON16_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYLINE16 record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYLINE16_print(const char *contents, FILE *out){
+void U_EMRPOLYLINE16_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core6_print("U_EMRPOLYLINE16", contents, out);
+   core6_print("U_EMRPOLYLINE16", contents, out, states);
 }
 
 // U_EMRPOLYBEZIERTO16       88
@@ -2089,9 +2122,9 @@ void U_EMRPOLYLINE16_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYBEZIERTO16 record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYBEZIERTO16_print(const char *contents, FILE *out){
+void U_EMRPOLYBEZIERTO16_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core6_print("U_EMRPOLYBEZIERTO16", contents, out);
+   core6_print("U_EMRPOLYBEZIERTO16", contents, out, states);
 }
 
 // U_EMRPOLYLINETO16         89
@@ -2099,9 +2132,9 @@ void U_EMRPOLYBEZIERTO16_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYLINETO16 record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYLINETO16_print(const char *contents, FILE *out){
+void U_EMRPOLYLINETO16_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_SUPPORTED
-   polyline_draw("U_EMRPOLYLINETO16", contents, out);
+   polyline_draw("U_EMRPOLYLINETO16", contents, out, states);
 }
 
 // U_EMRPOLYPOLYLINE16       90
@@ -2109,9 +2142,9 @@ void U_EMRPOLYLINETO16_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYPOLYLINE16 record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYPOLYLINE16_print(const char *contents, FILE *out){
+void U_EMRPOLYPOLYLINE16_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core10_print("U_EMRPOLYPOLYLINE16", contents, out);
+   core10_print("U_EMRPOLYPOLYLINE16", contents, out, states);
 }
 
 // U_EMRPOLYPOLYGON16        91
@@ -2119,9 +2152,9 @@ void U_EMRPOLYPOLYLINE16_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYPOLYGON16 record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYPOLYGON16_print(const char *contents, FILE *out){
+void U_EMRPOLYPOLYGON16_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core10_print("U_EMRPOLYPOLYGON16", contents, out);
+   core10_print("U_EMRPOLYPOLYGON16", contents, out, states);
 }
 
 
@@ -2130,16 +2163,16 @@ void U_EMRPOLYPOLYGON16_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_POLYDRAW16 record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPOLYDRAW16_print(const char *contents, FILE *out){
+void U_EMRPOLYDRAW16_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    unsigned int i;
    PU_EMRPOLYDRAW16 pEmr = (PU_EMRPOLYDRAW16)(contents);
-   verbose_printf("   rclBounds:      ");          rectl_print( pEmr->rclBounds);   verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");          rectl_print(states, pEmr->rclBounds);   verbose_printf("\n");
    verbose_printf("   cpts:           %d\n",pEmr->cpts        );
    verbose_printf("   Points:         ");
    for(i=0;i<pEmr->cpts; i++){
       verbose_printf(" [%d]:",i);
-      point16_print(pEmr->apts[i], out);
+      point16_print(states, pEmr->apts[i], out);
    }
    verbose_printf("\n");
    verbose_printf("   Types:          ");
@@ -2154,9 +2187,9 @@ void U_EMRPOLYDRAW16_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_CREATEMONOBRUSH record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRCREATEMONOBRUSH_print(const char *contents, FILE *out){
+void U_EMRCREATEMONOBRUSH_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core12_print("U_EMRCREATEMONOBRUSH", contents, out);
+   core12_print("U_EMRCREATEMONOBRUSH", contents, out, states);
 }
 
 // U_EMRCREATEDIBPATTERNBRUSHPT_print   94
@@ -2164,9 +2197,9 @@ void U_EMRCREATEMONOBRUSH_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_CREATEDIBPATTERNBRUSHPT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRCREATEDIBPATTERNBRUSHPT_print(const char *contents, FILE *out){
+void U_EMRCREATEDIBPATTERNBRUSHPT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core12_print("U_EMRCREATEDIBPATTERNBRUSHPT", contents, out);
+   core12_print("U_EMRCREATEDIBPATTERNBRUSHPT", contents, out, states);
    FLAG_IGNORED
 }
 
@@ -2176,7 +2209,7 @@ void U_EMRCREATEDIBPATTERNBRUSHPT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_EXTCREATEPEN record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMREXTCREATEPEN_print(const char *contents, FILE *out){
+void U_EMREXTCREATEPEN_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMREXTCREATEPEN pEmr = (PU_EMREXTCREATEPEN)(contents);
    verbose_printf("   ihPen:          %u\n", pEmr->ihPen );
@@ -2184,12 +2217,12 @@ void U_EMREXTCREATEPEN_print(const char *contents, FILE *out){
    verbose_printf("   cbBmi:          %u\n", pEmr->cbBmi    );
    if(pEmr->cbBmi){
       verbose_printf("      bitmap:      ");
-      bitmapinfo_print(contents + pEmr->offBmi);
+      bitmapinfo_print(states, contents + pEmr->offBmi);
       verbose_printf("\n");
    }
    verbose_printf("   offBits:        %u\n", pEmr->offBits   );
    verbose_printf("   cbBits:         %u\n", pEmr->cbBits    );
-   verbose_printf("   elp:            ");     extlogpen_print((PU_EXTLOGPEN) &(pEmr->elp));  verbose_printf("\n");
+   verbose_printf("   elp:            ");     extlogpen_print(states, (PU_EXTLOGPEN) &(pEmr->elp));  verbose_printf("\n");
 } 
 
 // U_EMRPOLYTEXTOUTA         96 NOT IMPLEMENTED, denigrated after Windows NT
@@ -2202,9 +2235,9 @@ void U_EMREXTCREATEPEN_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETICMMODE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETICMMODE_print(const char *contents, FILE *out){
+void U_EMRSETICMMODE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETICMMODE", "iMode:", contents, out);
+   core3_print("U_EMRSETICMMODE", "iMode:", contents, out, states);
 }
 
 // U_EMRCREATECOLORSPACE     99
@@ -2212,11 +2245,11 @@ void U_EMRSETICMMODE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_CREATECOLORSPACE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRCREATECOLORSPACE_print(const char *contents, FILE *out){
+void U_EMRCREATECOLORSPACE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRCREATECOLORSPACE pEmr = (PU_EMRCREATECOLORSPACE)(contents);
    verbose_printf("   ihCS:           %u\n", pEmr->ihCS    );
-   verbose_printf("   ColorSpace:     "); logcolorspacea_print(pEmr->lcs);  verbose_printf("\n");
+   verbose_printf("   ColorSpace:     "); logcolorspacea_print(states, pEmr->lcs);  verbose_printf("\n");
 }
 
 // U_EMRSETCOLORSPACE       100
@@ -2224,9 +2257,9 @@ void U_EMRCREATECOLORSPACE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETCOLORSPACE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETCOLORSPACE_print(const char *contents, FILE *out){
+void U_EMRSETCOLORSPACE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETCOLORSPACE", "ihCS:", contents, out);
+   core3_print("U_EMRSETCOLORSPACE", "ihCS:", contents, out, states);
 }
 
 // U_EMRDELETECOLORSPACE    101
@@ -2234,9 +2267,9 @@ void U_EMRSETCOLORSPACE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_DELETECOLORSPACE record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRDELETECOLORSPACE_print(const char *contents, FILE *out){
+void U_EMRDELETECOLORSPACE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRDELETECOLORSPACE", "ihCS:", contents, out);
+   core3_print("U_EMRDELETECOLORSPACE", "ihCS:", contents, out, states);
 }
 
 // U_EMRGLSRECORD           102  Not implemented
@@ -2249,10 +2282,10 @@ void U_EMRDELETECOLORSPACE_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_PIXELFORMAT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRPIXELFORMAT_print(const char *contents, FILE *out){
+void U_EMRPIXELFORMAT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    PU_EMRPIXELFORMAT pEmr = (PU_EMRPIXELFORMAT)(contents);
-   verbose_printf("   Pfd:            ");  pixelformatdescriptor_print(pEmr->pfd);  verbose_printf("\n");
+   verbose_printf("   Pfd:            ");  pixelformatdescriptor_print(states, pEmr->pfd);  verbose_printf("\n");
 }
 
 // U_EMRDRAWESCAPE          105  Not implemented
@@ -2267,12 +2300,12 @@ void U_EMRPIXELFORMAT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SMALLTEXTOUT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSMALLTEXTOUT_print(const char *contents, FILE *out){
+void U_EMRSMALLTEXTOUT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    int roff;
    char *string;
    PU_EMRSMALLTEXTOUT pEmr = (PU_EMRSMALLTEXTOUT)(contents);
-   verbose_printf("   Dest:           ");         pointl_print(pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   Dest:           ");         pointl_print(states, pEmr->Dest);            verbose_printf("\n");
    verbose_printf("   cChars:         %u\n",      pEmr->cChars          );
    verbose_printf("   fuOptions:      0x%8.8X\n", pEmr->fuOptions       );
    verbose_printf("   iGraphicsMode:  0x%8.8X\n", pEmr->iGraphicsMode   );
@@ -2280,7 +2313,7 @@ void U_EMRSMALLTEXTOUT_print(const char *contents, FILE *out){
    verbose_printf("   eyScale:        %f\n",      pEmr->eyScale         );
    roff = sizeof(U_EMRSMALLTEXTOUT);  //offset to the start of the variable fields
    if(!(pEmr->fuOptions & U_ETO_NO_RECT)){
-      verbose_printf("   rclBounds:      ");      rectl_print( *(PU_RECTL) (contents + roff));       verbose_printf("\n");
+      verbose_printf("   rclBounds:      ");      rectl_print(states, *(PU_RECTL) (contents + roff));       verbose_printf("\n");
       roff += sizeof(U_RECTL);
    }
    if(pEmr->fuOptions & U_ETO_SMALL_CHARS){
@@ -2309,9 +2342,9 @@ void U_EMRSMALLTEXTOUT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_ALPHABLEND record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRALPHABLEND_print(const char *contents, FILE *out){
+void U_EMRALPHABLEND_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core13_print("U_EMRALPHABLEND", contents, out);
+   core13_print("U_EMRALPHABLEND", contents, out, states);
 }
 
 // U_EMRSETLAYOUT           115
@@ -2319,9 +2352,9 @@ void U_EMRALPHABLEND_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_SETLAYOUT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRSETLAYOUT_print(const char *contents, FILE *out){
+void U_EMRSETLAYOUT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core3_print("U_EMRSETLAYOUT", "iMode:", contents, out);
+   core3_print("U_EMRSETLAYOUT", "iMode:", contents, out, states);
 }
 
 // U_EMRTRANSPARENTBLT      116
@@ -2329,9 +2362,9 @@ void U_EMRSETLAYOUT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_TRANSPARENTBLT record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRTRANSPARENTBLT_print(const char *contents, FILE *out){
+void U_EMRTRANSPARENTBLT_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   core13_print("U_EMRTRANSPARENTBLT", contents, out);
+   core13_print("U_EMRTRANSPARENTBLT", contents, out, states);
 }
 
 // U_EMRUNDEF117            117  Not implemented
@@ -2341,11 +2374,11 @@ void U_EMRTRANSPARENTBLT_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_GRADIENTFILL record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRGRADIENTFILL_print(const char *contents, FILE *out){
+void U_EMRGRADIENTFILL_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    unsigned int i;
    PU_EMRGRADIENTFILL pEmr = (PU_EMRGRADIENTFILL)(contents);
-   verbose_printf("   rclBounds:      ");      rectl_print( pEmr->rclBounds);   verbose_printf("\n");
+   verbose_printf("   rclBounds:      ");      rectl_print(states, pEmr->rclBounds);   verbose_printf("\n");
    verbose_printf("   nTriVert:       %u\n",   pEmr->nTriVert   );
    verbose_printf("   nGradObj:       %u\n",   pEmr->nGradObj   );
    verbose_printf("   ulMode:         %u\n",   pEmr->ulMode     );
@@ -2353,7 +2386,7 @@ void U_EMRGRADIENTFILL_print(const char *contents, FILE *out){
    if(pEmr->nTriVert){
       verbose_printf("   TriVert:        ");
       for(i=0; i<pEmr->nTriVert; i++, contents+=sizeof(U_TRIVERTEX)){
-         trivertex_print(*(PU_TRIVERTEX)(contents));
+         trivertex_print(states, *(PU_TRIVERTEX)(contents));
       }
       verbose_printf("\n");
    }
@@ -2361,13 +2394,13 @@ void U_EMRGRADIENTFILL_print(const char *contents, FILE *out){
       verbose_printf("   GradObj:        ");
       if(     pEmr->ulMode == U_GRADIENT_FILL_TRIANGLE){
          for(i=0; i<pEmr->nGradObj; i++, contents+=sizeof(U_GRADIENT3)){
-            gradient3_print(*(PU_GRADIENT3)(contents));
+            gradient3_print(states, *(PU_GRADIENT3)(contents));
          }
       }
       else if(pEmr->ulMode == U_GRADIENT_FILL_RECT_H || 
               pEmr->ulMode == U_GRADIENT_FILL_RECT_V){
          for(i=0; i<pEmr->nGradObj; i++, contents+=sizeof(U_GRADIENT4)){
-            gradient4_print(*(PU_GRADIENT4)(contents));
+            gradient4_print(states, *(PU_GRADIENT4)(contents));
          }
       }
       else { verbose_printf("invalid ulMode value!"); }
@@ -2387,12 +2420,12 @@ void U_EMRGRADIENTFILL_print(const char *contents, FILE *out){
     \brief Print a pointer to a U_EMR_CREATECOLORSPACEW record.
     \param contents   pointer to a buffer holding all EMR records
 */
-void U_EMRCREATECOLORSPACEW_print(const char *contents, FILE *out){
+void U_EMRCREATECOLORSPACEW_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
    unsigned int i;
    PU_EMRCREATECOLORSPACEW pEmr = (PU_EMRCREATECOLORSPACEW)(contents);
    verbose_printf("   ihCS:           %u\n", pEmr->ihCS     );
-   verbose_printf("   ColorSpace:     "); logcolorspacew_print(pEmr->lcs);  verbose_printf("\n");
+   verbose_printf("   ColorSpace:     "); logcolorspacew_print(states, pEmr->lcs);  verbose_printf("\n");
    verbose_printf("   dwFlags:        0x%8.8X\n", pEmr->dwFlags  );
    verbose_printf("   cbData:         %u\n", pEmr->cbData   );
    verbose_printf("   Data(hexvalues):");
@@ -2412,7 +2445,7 @@ void U_EMRCREATECOLORSPACEW_print(const char *contents, FILE *out){
     \param recnum     number of this record in contents
     \param off        offset to this record in contents
 */
-int U_emf_onerec_print(const char *contents, const char *blimit, int recnum, size_t off, FILE *out){
+int U_emf_onerec_print(const char *contents, const char *blimit, int recnum, size_t off, FILE *out, drawingStates *states){
     PU_ENHMETARECORD  lpEMFR  = (PU_ENHMETARECORD)(contents + off);
     unsigned int size;
     FLAG_RESET
@@ -2429,134 +2462,134 @@ int U_emf_onerec_print(const char *contents, const char *blimit, int recnum, siz
 
     switch (lpEMFR->iType)
     {
-        case U_EMR_HEADER:                  U_EMRHEADER_print(contents, out);                  break;
-        case U_EMR_POLYBEZIER:              U_EMRPOLYBEZIER_print(contents, out);              break;
-        case U_EMR_POLYGON:                 U_EMRPOLYGON_print(contents, out);                 break;
-        case U_EMR_POLYLINE:                U_EMRPOLYLINE_print(contents, out);                break;
-        case U_EMR_POLYBEZIERTO:            U_EMRPOLYBEZIERTO_print(contents, out);            break;
-        case U_EMR_POLYLINETO:              U_EMRPOLYLINETO_print(contents, out);              break;
-        case U_EMR_POLYPOLYLINE:            U_EMRPOLYPOLYLINE_print(contents, out);            break;
-        case U_EMR_POLYPOLYGON:             U_EMRPOLYPOLYGON_print(contents, out);             break;
-        case U_EMR_SETWINDOWEXTEX:          U_EMRSETWINDOWEXTEX_print(contents, out);          break;
-        case U_EMR_SETWINDOWORGEX:          U_EMRSETWINDOWORGEX_print(contents, out);          break;
-        case U_EMR_SETVIEWPORTEXTEX:        U_EMRSETVIEWPORTEXTEX_print(contents, out);        break;
-        case U_EMR_SETVIEWPORTORGEX:        U_EMRSETVIEWPORTORGEX_print(contents, out);        break;
-        case U_EMR_SETBRUSHORGEX:           U_EMRSETBRUSHORGEX_print(contents, out);           break;
-        case U_EMR_EOF:                     U_EMREOF_print(contents, out);          size=0;    break;
-        case U_EMR_SETPIXELV:               U_EMRSETPIXELV_print(contents, out);               break;
-        case U_EMR_SETMAPPERFLAGS:          U_EMRSETMAPPERFLAGS_print(contents, out);          break;
-        case U_EMR_SETMAPMODE:              U_EMRSETMAPMODE_print(contents, out);              break;
-        case U_EMR_SETBKMODE:               U_EMRSETBKMODE_print(contents, out);               break;
-        case U_EMR_SETPOLYFILLMODE:         U_EMRSETPOLYFILLMODE_print(contents, out);         break;
-        case U_EMR_SETROP2:                 U_EMRSETROP2_print(contents, out);                 break;
-        case U_EMR_SETSTRETCHBLTMODE:       U_EMRSETSTRETCHBLTMODE_print(contents, out);       break;
-        case U_EMR_SETTEXTALIGN:            U_EMRSETTEXTALIGN_print(contents, out);            break;
-        case U_EMR_SETCOLORADJUSTMENT:      U_EMRSETCOLORADJUSTMENT_print(contents, out);      break;
-        case U_EMR_SETTEXTCOLOR:            U_EMRSETTEXTCOLOR_print(contents, out);            break;
-        case U_EMR_SETBKCOLOR:              U_EMRSETBKCOLOR_print(contents, out);              break;
-        case U_EMR_OFFSETCLIPRGN:           U_EMROFFSETCLIPRGN_print(contents, out);           break;
-        case U_EMR_MOVETOEX:                U_EMRMOVETOEX_print(contents, out);                break;
-        case U_EMR_SETMETARGN:              U_EMRSETMETARGN_print(contents, out);              break;
-        case U_EMR_EXCLUDECLIPRECT:         U_EMREXCLUDECLIPRECT_print(contents, out);         break;
-        case U_EMR_INTERSECTCLIPRECT:       U_EMRINTERSECTCLIPRECT_print(contents, out);       break;
-        case U_EMR_SCALEVIEWPORTEXTEX:      U_EMRSCALEVIEWPORTEXTEX_print(contents, out);      break;
-        case U_EMR_SCALEWINDOWEXTEX:        U_EMRSCALEWINDOWEXTEX_print(contents, out);        break;
-        case U_EMR_SAVEDC:                  U_EMRSAVEDC_print(contents, out);                  break;
-        case U_EMR_RESTOREDC:               U_EMRRESTOREDC_print(contents, out);               break;
-        case U_EMR_SETWORLDTRANSFORM:       U_EMRSETWORLDTRANSFORM_print(contents, out);       break;
-        case U_EMR_MODIFYWORLDTRANSFORM:    U_EMRMODIFYWORLDTRANSFORM_print(contents, out);    break;
-        case U_EMR_SELECTOBJECT:            U_EMRSELECTOBJECT_print(contents, out);            break;
-        case U_EMR_CREATEPEN:               U_EMRCREATEPEN_print(contents, out);               break;
-        case U_EMR_CREATEBRUSHINDIRECT:     U_EMRCREATEBRUSHINDIRECT_print(contents, out);     break;
-        case U_EMR_DELETEOBJECT:            U_EMRDELETEOBJECT_print(contents, out);            break;
-        case U_EMR_ANGLEARC:                U_EMRANGLEARC_print(contents, out);                break;
-        case U_EMR_ELLIPSE:                 U_EMRELLIPSE_print(contents, out);                 break;
-        case U_EMR_RECTANGLE:               U_EMRRECTANGLE_print(contents, out);               break;
-        case U_EMR_ROUNDRECT:               U_EMRROUNDRECT_print(contents, out);               break;
-        case U_EMR_ARC:                     U_EMRARC_print(contents, out);                     break;
-        case U_EMR_CHORD:                   U_EMRCHORD_print(contents, out);                   break;
-        case U_EMR_PIE:                     U_EMRPIE_print(contents, out);                     break;
-        case U_EMR_SELECTPALETTE:           U_EMRSELECTPALETTE_print(contents, out);           break;
-        case U_EMR_CREATEPALETTE:           U_EMRCREATEPALETTE_print(contents, out);           break;
-        case U_EMR_SETPALETTEENTRIES:       U_EMRSETPALETTEENTRIES_print(contents, out);       break;
-        case U_EMR_RESIZEPALETTE:           U_EMRRESIZEPALETTE_print(contents, out);           break;
-        case U_EMR_REALIZEPALETTE:          U_EMRREALIZEPALETTE_print(contents, out);          break;
-        case U_EMR_EXTFLOODFILL:            U_EMREXTFLOODFILL_print(contents, out);            break;
-        case U_EMR_LINETO:                  U_EMRLINETO_print(contents, out);                  break;
-        case U_EMR_ARCTO:                   U_EMRARCTO_print(contents, out);                   break;
-        case U_EMR_POLYDRAW:                U_EMRPOLYDRAW_print(contents, out);                break;
-        case U_EMR_SETARCDIRECTION:         U_EMRSETARCDIRECTION_print(contents, out);         break;
-        case U_EMR_SETMITERLIMIT:           U_EMRSETMITERLIMIT_print(contents, out);           break;
-        case U_EMR_BEGINPATH:               U_EMRBEGINPATH_print(contents, out);               break;
-        case U_EMR_ENDPATH:                 U_EMRENDPATH_print(contents, out);                 break;
-        case U_EMR_CLOSEFIGURE:             U_EMRCLOSEFIGURE_print(contents, out);             break;
-        case U_EMR_FILLPATH:                U_EMRFILLPATH_print(contents, out);                break;
-        case U_EMR_STROKEANDFILLPATH:       U_EMRSTROKEANDFILLPATH_print(contents, out);       break;
-        case U_EMR_STROKEPATH:              U_EMRSTROKEPATH_print(contents, out);              break;
-        case U_EMR_FLATTENPATH:             U_EMRFLATTENPATH_print(contents, out);             break;
-        case U_EMR_WIDENPATH:               U_EMRWIDENPATH_print(contents, out);               break;
-        case U_EMR_SELECTCLIPPATH:          U_EMRSELECTCLIPPATH_print(contents, out);          break;
-        case U_EMR_ABORTPATH:               U_EMRABORTPATH_print(contents, out);               break;
-//        case U_EMR_UNDEF69:                 U_EMRUNDEF69_print(contents, out);                 break;
-        case U_EMR_COMMENT:                 U_EMRCOMMENT_print(contents, out, blimit, off);    break;
-        case U_EMR_FILLRGN:                 U_EMRFILLRGN_print(contents, out);                 break;
-        case U_EMR_FRAMERGN:                U_EMRFRAMERGN_print(contents, out);                break;
-        case U_EMR_INVERTRGN:               U_EMRINVERTRGN_print(contents, out);               break;
-        case U_EMR_PAINTRGN:                U_EMRPAINTRGN_print(contents, out);                break;
-        case U_EMR_EXTSELECTCLIPRGN:        U_EMREXTSELECTCLIPRGN_print(contents, out);        break;
-        case U_EMR_BITBLT:                  U_EMRBITBLT_print(contents, out);                  break;
-        case U_EMR_STRETCHBLT:              U_EMRSTRETCHBLT_print(contents, out);              break;
-        case U_EMR_MASKBLT:                 U_EMRMASKBLT_print(contents, out);                 break;
-        case U_EMR_PLGBLT:                  U_EMRPLGBLT_print(contents, out);                  break;
-        case U_EMR_SETDIBITSTODEVICE:       U_EMRSETDIBITSTODEVICE_print(contents, out);       break;
-        case U_EMR_STRETCHDIBITS:           U_EMRSTRETCHDIBITS_print(contents, out);           break;
-        case U_EMR_EXTCREATEFONTINDIRECTW:  U_EMREXTCREATEFONTINDIRECTW_print(contents, out);  break;
-        case U_EMR_EXTTEXTOUTA:             U_EMREXTTEXTOUTA_print(contents, out);             break;
-        case U_EMR_EXTTEXTOUTW:             U_EMREXTTEXTOUTW_print(contents, out);             break;
-        case U_EMR_POLYBEZIER16:            U_EMRPOLYBEZIER16_print(contents, out);            break;
-        case U_EMR_POLYGON16:               U_EMRPOLYGON16_print(contents, out);               break;
-        case U_EMR_POLYLINE16:              U_EMRPOLYLINE16_print(contents, out);              break;
-        case U_EMR_POLYBEZIERTO16:          U_EMRPOLYBEZIERTO16_print(contents, out);          break;
-        case U_EMR_POLYLINETO16:            U_EMRPOLYLINETO16_print(contents, out);            break;
-        case U_EMR_POLYPOLYLINE16:          U_EMRPOLYPOLYLINE16_print(contents, out);          break;
-        case U_EMR_POLYPOLYGON16:           U_EMRPOLYPOLYGON16_print(contents, out);           break;
-        case U_EMR_POLYDRAW16:              U_EMRPOLYDRAW16_print(contents, out);              break;
-        case U_EMR_CREATEMONOBRUSH:         U_EMRCREATEMONOBRUSH_print(contents, out);         break;
-        case U_EMR_CREATEDIBPATTERNBRUSHPT: U_EMRCREATEDIBPATTERNBRUSHPT_print(contents, out); break;
-        case U_EMR_EXTCREATEPEN:            U_EMREXTCREATEPEN_print(contents, out);            break;
-        //case U_EMR_POLYTEXTOUTA:            U_EMRPOLYTEXTOUTA_print(contents, out);            break;
-        //case U_EMR_POLYTEXTOUTW:            U_EMRPOLYTEXTOUTW_print(contents, out);            break;
-        case U_EMR_SETICMMODE:              U_EMRSETICMMODE_print(contents, out);              break;
-        case U_EMR_CREATECOLORSPACE:        U_EMRCREATECOLORSPACE_print(contents, out);        break;
-        case U_EMR_SETCOLORSPACE:           U_EMRSETCOLORSPACE_print(contents, out);           break;
-        case U_EMR_DELETECOLORSPACE:        U_EMRDELETECOLORSPACE_print(contents, out);        break;
-        //case U_EMR_GLSRECORD:               U_EMRGLSRECORD_print(contents, out);               break;
-        //case U_EMR_GLSBOUNDEDRECORD:        U_EMRGLSBOUNDEDRECORD_print(contents, out);        break;
-        case U_EMR_PIXELFORMAT:             U_EMRPIXELFORMAT_print(contents, out);             break;
-        //case U_EMR_DRAWESCAPE:              U_EMRDRAWESCAPE_print(contents, out);              break;
-        //case U_EMR_EXTESCAPE:               U_EMREXTESCAPE_print(contents, out);               break;
-        //case U_EMR_UNDEF107:                U_EMRUNDEF107_print(contents, out);                break;
-        case U_EMR_SMALLTEXTOUT:            U_EMRSMALLTEXTOUT_print(contents, out);            break;
-        //case U_EMR_FORCEUFIMAPPING:         U_EMRFORCEUFIMAPPING_print(contents, out);         break;
-        //case U_EMR_NAMEDESCAPE:             U_EMRNAMEDESCAPE_print(contents, out);             break;
-        //case U_EMR_COLORCORRECTPALETTE:     U_EMRCOLORCORRECTPALETTE_print(contents, out);     break;
-        //case U_EMR_SETICMPROFILEA:          U_EMRSETICMPROFILEA_print(contents, out);          break;
-        //case U_EMR_SETICMPROFILEW:          U_EMRSETICMPROFILEW_print(contents, out);          break;
-        case U_EMR_ALPHABLEND:              U_EMRALPHABLEND_print(contents, out);              break;
-        case U_EMR_SETLAYOUT:               U_EMRSETLAYOUT_print(contents, out);               break;
-        case U_EMR_TRANSPARENTBLT:          U_EMRTRANSPARENTBLT_print(contents, out);          break;
-        //case U_EMR_UNDEF117:                U_EMRUNDEF117_print(contents, out);                break;
-        case U_EMR_GRADIENTFILL:            U_EMRGRADIENTFILL_print(contents, out);            break;
-        //case U_EMR_SETLINKEDUFIS:           U_EMRSETLINKEDUFIS_print(contents, out);           break;
-        //case U_EMR_SETTEXTJUSTIFICATION:    U_EMRSETTEXTJUSTIFICATION_print(contents, out);    break;
-        //case U_EMR_COLORMATCHTOTARGETW:     U_EMRCOLORMATCHTOTARGETW_print(contents, out);     break;
-        case U_EMR_CREATECOLORSPACEW:       U_EMRCREATECOLORSPACEW_print(contents, out);       break;
-        default:                            U_EMRNOTIMPLEMENTED_print("?",contents, out);      break;
+        case U_EMR_HEADER:                  U_EMRHEADER_print(contents, out, states);                  break;
+        case U_EMR_POLYBEZIER:              U_EMRPOLYBEZIER_print(contents, out, states);              break;
+        case U_EMR_POLYGON:                 U_EMRPOLYGON_print(contents, out, states);                 break;
+        case U_EMR_POLYLINE:                U_EMRPOLYLINE_print(contents, out, states);                break;
+        case U_EMR_POLYBEZIERTO:            U_EMRPOLYBEZIERTO_print(contents, out, states);            break;
+        case U_EMR_POLYLINETO:              U_EMRPOLYLINETO_print(contents, out, states);              break;
+        case U_EMR_POLYPOLYLINE:            U_EMRPOLYPOLYLINE_print(contents, out, states);            break;
+        case U_EMR_POLYPOLYGON:             U_EMRPOLYPOLYGON_print(contents, out, states);             break;
+        case U_EMR_SETWINDOWEXTEX:          U_EMRSETWINDOWEXTEX_print(contents, out, states);          break;
+        case U_EMR_SETWINDOWORGEX:          U_EMRSETWINDOWORGEX_print(contents, out, states);          break;
+        case U_EMR_SETVIEWPORTEXTEX:        U_EMRSETVIEWPORTEXTEX_print(contents, out, states);        break;
+        case U_EMR_SETVIEWPORTORGEX:        U_EMRSETVIEWPORTORGEX_print(contents, out, states);        break;
+        case U_EMR_SETBRUSHORGEX:           U_EMRSETBRUSHORGEX_print(contents, out, states);           break;
+        case U_EMR_EOF:                     U_EMREOF_print(contents, out, states);          size=0;    break;
+        case U_EMR_SETPIXELV:               U_EMRSETPIXELV_print(contents, out, states);               break;
+        case U_EMR_SETMAPPERFLAGS:          U_EMRSETMAPPERFLAGS_print(contents, out, states);          break;
+        case U_EMR_SETMAPMODE:              U_EMRSETMAPMODE_print(contents, out, states);              break;
+        case U_EMR_SETBKMODE:               U_EMRSETBKMODE_print(contents, out, states);               break;
+        case U_EMR_SETPOLYFILLMODE:         U_EMRSETPOLYFILLMODE_print(contents, out, states);         break;
+        case U_EMR_SETROP2:                 U_EMRSETROP2_print(contents, out, states);                 break;
+        case U_EMR_SETSTRETCHBLTMODE:       U_EMRSETSTRETCHBLTMODE_print(contents, out, states);       break;
+        case U_EMR_SETTEXTALIGN:            U_EMRSETTEXTALIGN_print(contents, out, states);            break;
+        case U_EMR_SETCOLORADJUSTMENT:      U_EMRSETCOLORADJUSTMENT_print(contents, out, states);      break;
+        case U_EMR_SETTEXTCOLOR:            U_EMRSETTEXTCOLOR_print(contents, out, states);            break;
+        case U_EMR_SETBKCOLOR:              U_EMRSETBKCOLOR_print(contents, out, states);              break;
+        case U_EMR_OFFSETCLIPRGN:           U_EMROFFSETCLIPRGN_print(contents, out, states);           break;
+        case U_EMR_MOVETOEX:                U_EMRMOVETOEX_print(contents, out, states);                break;
+        case U_EMR_SETMETARGN:              U_EMRSETMETARGN_print(contents, out, states);              break;
+        case U_EMR_EXCLUDECLIPRECT:         U_EMREXCLUDECLIPRECT_print(contents, out, states);         break;
+        case U_EMR_INTERSECTCLIPRECT:       U_EMRINTERSECTCLIPRECT_print(contents, out, states);       break;
+        case U_EMR_SCALEVIEWPORTEXTEX:      U_EMRSCALEVIEWPORTEXTEX_print(contents, out, states);      break;
+        case U_EMR_SCALEWINDOWEXTEX:        U_EMRSCALEWINDOWEXTEX_print(contents, out, states);        break;
+        case U_EMR_SAVEDC:                  U_EMRSAVEDC_print(contents, out, states);                  break;
+        case U_EMR_RESTOREDC:               U_EMRRESTOREDC_print(contents, out, states);               break;
+        case U_EMR_SETWORLDTRANSFORM:       U_EMRSETWORLDTRANSFORM_print(contents, out, states);       break;
+        case U_EMR_MODIFYWORLDTRANSFORM:    U_EMRMODIFYWORLDTRANSFORM_print(contents, out, states);    break;
+        case U_EMR_SELECTOBJECT:            U_EMRSELECTOBJECT_print(contents, out, states);            break;
+        case U_EMR_CREATEPEN:               U_EMRCREATEPEN_print(contents, out, states);               break;
+        case U_EMR_CREATEBRUSHINDIRECT:     U_EMRCREATEBRUSHINDIRECT_print(contents, out, states);     break;
+        case U_EMR_DELETEOBJECT:            U_EMRDELETEOBJECT_print(contents, out, states);            break;
+        case U_EMR_ANGLEARC:                U_EMRANGLEARC_print(contents, out, states);                break;
+        case U_EMR_ELLIPSE:                 U_EMRELLIPSE_print(contents, out, states);                 break;
+        case U_EMR_RECTANGLE:               U_EMRRECTANGLE_print(contents, out, states);               break;
+        case U_EMR_ROUNDRECT:               U_EMRROUNDRECT_print(contents, out, states);               break;
+        case U_EMR_ARC:                     U_EMRARC_print(contents, out, states);                     break;
+        case U_EMR_CHORD:                   U_EMRCHORD_print(contents, out, states);                   break;
+        case U_EMR_PIE:                     U_EMRPIE_print(contents, out, states);                     break;
+        case U_EMR_SELECTPALETTE:           U_EMRSELECTPALETTE_print(contents, out, states);           break;
+        case U_EMR_CREATEPALETTE:           U_EMRCREATEPALETTE_print(contents, out, states);           break;
+        case U_EMR_SETPALETTEENTRIES:       U_EMRSETPALETTEENTRIES_print(contents, out, states);       break;
+        case U_EMR_RESIZEPALETTE:           U_EMRRESIZEPALETTE_print(contents, out, states);           break;
+        case U_EMR_REALIZEPALETTE:          U_EMRREALIZEPALETTE_print(contents, out, states);          break;
+        case U_EMR_EXTFLOODFILL:            U_EMREXTFLOODFILL_print(contents, out, states);            break;
+        case U_EMR_LINETO:                  U_EMRLINETO_print(contents, out, states);                  break;
+        case U_EMR_ARCTO:                   U_EMRARCTO_print(contents, out, states);                   break;
+        case U_EMR_POLYDRAW:                U_EMRPOLYDRAW_print(contents, out, states);                break;
+        case U_EMR_SETARCDIRECTION:         U_EMRSETARCDIRECTION_print(contents, out, states);         break;
+        case U_EMR_SETMITERLIMIT:           U_EMRSETMITERLIMIT_print(contents, out, states);           break;
+        case U_EMR_BEGINPATH:               U_EMRBEGINPATH_print(contents, out, states);               break;
+        case U_EMR_ENDPATH:                 U_EMRENDPATH_print(contents, out, states);                 break;
+        case U_EMR_CLOSEFIGURE:             U_EMRCLOSEFIGURE_print(contents, out, states);             break;
+        case U_EMR_FILLPATH:                U_EMRFILLPATH_print(contents, out, states);                break;
+        case U_EMR_STROKEANDFILLPATH:       U_EMRSTROKEANDFILLPATH_print(contents, out, states);       break;
+        case U_EMR_STROKEPATH:              U_EMRSTROKEPATH_print(contents, out, states);              break;
+        case U_EMR_FLATTENPATH:             U_EMRFLATTENPATH_print(contents, out, states);             break;
+        case U_EMR_WIDENPATH:               U_EMRWIDENPATH_print(contents, out, states);               break;
+        case U_EMR_SELECTCLIPPATH:          U_EMRSELECTCLIPPATH_print(contents, out, states);          break;
+        case U_EMR_ABORTPATH:               U_EMRABORTPATH_print(contents, out, states);               break;
+//        case U_EMR_UNDEF69:                 U_EMRUNDEF69_print(contents, out, states);                 break;
+        case U_EMR_COMMENT:                 U_EMRCOMMENT_print(contents, out, states, blimit, off);    break;
+        case U_EMR_FILLRGN:                 U_EMRFILLRGN_print(contents, out, states);                 break;
+        case U_EMR_FRAMERGN:                U_EMRFRAMERGN_print(contents, out, states);                break;
+        case U_EMR_INVERTRGN:               U_EMRINVERTRGN_print(contents, out, states);               break;
+        case U_EMR_PAINTRGN:                U_EMRPAINTRGN_print(contents, out, states);                break;
+        case U_EMR_EXTSELECTCLIPRGN:        U_EMREXTSELECTCLIPRGN_print(contents, out, states);        break;
+        case U_EMR_BITBLT:                  U_EMRBITBLT_print(contents, out, states);                  break;
+        case U_EMR_STRETCHBLT:              U_EMRSTRETCHBLT_print(contents, out, states);              break;
+        case U_EMR_MASKBLT:                 U_EMRMASKBLT_print(contents, out, states);                 break;
+        case U_EMR_PLGBLT:                  U_EMRPLGBLT_print(contents, out, states);                  break;
+        case U_EMR_SETDIBITSTODEVICE:       U_EMRSETDIBITSTODEVICE_print(contents, out, states);       break;
+        case U_EMR_STRETCHDIBITS:           U_EMRSTRETCHDIBITS_print(contents, out, states);           break;
+        case U_EMR_EXTCREATEFONTINDIRECTW:  U_EMREXTCREATEFONTINDIRECTW_print(contents, out, states);  break;
+        case U_EMR_EXTTEXTOUTA:             U_EMREXTTEXTOUTA_print(contents, out, states);             break;
+        case U_EMR_EXTTEXTOUTW:             U_EMREXTTEXTOUTW_print(contents, out, states);             break;
+        case U_EMR_POLYBEZIER16:            U_EMRPOLYBEZIER16_print(contents, out, states);            break;
+        case U_EMR_POLYGON16:               U_EMRPOLYGON16_print(contents, out, states);               break;
+        case U_EMR_POLYLINE16:              U_EMRPOLYLINE16_print(contents, out, states);              break;
+        case U_EMR_POLYBEZIERTO16:          U_EMRPOLYBEZIERTO16_print(contents, out, states);          break;
+        case U_EMR_POLYLINETO16:            U_EMRPOLYLINETO16_print(contents, out, states);            break;
+        case U_EMR_POLYPOLYLINE16:          U_EMRPOLYPOLYLINE16_print(contents, out, states);          break;
+        case U_EMR_POLYPOLYGON16:           U_EMRPOLYPOLYGON16_print(contents, out, states);           break;
+        case U_EMR_POLYDRAW16:              U_EMRPOLYDRAW16_print(contents, out, states);              break;
+        case U_EMR_CREATEMONOBRUSH:         U_EMRCREATEMONOBRUSH_print(contents, out, states);         break;
+        case U_EMR_CREATEDIBPATTERNBRUSHPT: U_EMRCREATEDIBPATTERNBRUSHPT_print(contents, out, states); break;
+        case U_EMR_EXTCREATEPEN:            U_EMREXTCREATEPEN_print(contents, out, states);            break;
+        //case U_EMR_POLYTEXTOUTA:            U_EMRPOLYTEXTOUTA_print(contents, out, states);            break;
+        //case U_EMR_POLYTEXTOUTW:            U_EMRPOLYTEXTOUTW_print(contents, out, states);            break;
+        case U_EMR_SETICMMODE:              U_EMRSETICMMODE_print(contents, out, states);              break;
+        case U_EMR_CREATECOLORSPACE:        U_EMRCREATECOLORSPACE_print(contents, out, states);        break;
+        case U_EMR_SETCOLORSPACE:           U_EMRSETCOLORSPACE_print(contents, out, states);           break;
+        case U_EMR_DELETECOLORSPACE:        U_EMRDELETECOLORSPACE_print(contents, out, states);        break;
+        //case U_EMR_GLSRECORD:               U_EMRGLSRECORD_print(contents, out, states);               break;
+        //case U_EMR_GLSBOUNDEDRECORD:        U_EMRGLSBOUNDEDRECORD_print(contents, out, states);        break;
+        case U_EMR_PIXELFORMAT:             U_EMRPIXELFORMAT_print(contents, out, states);             break;
+        //case U_EMR_DRAWESCAPE:              U_EMRDRAWESCAPE_print(contents, out, states);              break;
+        //case U_EMR_EXTESCAPE:               U_EMREXTESCAPE_print(contents, out, states);               break;
+        //case U_EMR_UNDEF107:                U_EMRUNDEF107_print(contents, out, states);                break;
+        case U_EMR_SMALLTEXTOUT:            U_EMRSMALLTEXTOUT_print(contents, out, states);            break;
+        //case U_EMR_FORCEUFIMAPPING:         U_EMRFORCEUFIMAPPING_print(contents, out, states);         break;
+        //case U_EMR_NAMEDESCAPE:             U_EMRNAMEDESCAPE_print(contents, out, states);             break;
+        //case U_EMR_COLORCORRECTPALETTE:     U_EMRCOLORCORRECTPALETTE_print(contents, out, states);     break;
+        //case U_EMR_SETICMPROFILEA:          U_EMRSETICMPROFILEA_print(contents, out, states);          break;
+        //case U_EMR_SETICMPROFILEW:          U_EMRSETICMPROFILEW_print(contents, out, states);          break;
+        case U_EMR_ALPHABLEND:              U_EMRALPHABLEND_print(contents, out, states);              break;
+        case U_EMR_SETLAYOUT:               U_EMRSETLAYOUT_print(contents, out, states);               break;
+        case U_EMR_TRANSPARENTBLT:          U_EMRTRANSPARENTBLT_print(contents, out, states);          break;
+        //case U_EMR_UNDEF117:                U_EMRUNDEF117_print(contents, out, states);                break;
+        case U_EMR_GRADIENTFILL:            U_EMRGRADIENTFILL_print(contents, out, states);            break;
+        //case U_EMR_SETLINKEDUFIS:           U_EMRSETLINKEDUFIS_print(contents, out, states);           break;
+        //case U_EMR_SETTEXTJUSTIFICATION:    U_EMRSETTEXTJUSTIFICATION_print(contents, out, states);    break;
+        //case U_EMR_COLORMATCHTOTARGETW:     U_EMRCOLORMATCHTOTARGETW_print(contents, out, states);     break;
+        case U_EMR_CREATECOLORSPACEW:       U_EMRCREATECOLORSPACEW_print(contents, out, states);       break;
+        default:                            U_EMRNOTIMPLEMENTED_print("?",contents, out, states);      break;
     }  //end of switch
     return(size);
 }
 
-int emf2svg(char *contents, size_t length, char **out)
+int emf2svg(char *contents, size_t length, char **out, drawingStates *states)
 {   
     size_t   off=0;
     size_t   result;
@@ -2587,7 +2620,7 @@ int emf2svg(char *contents, size_t length, char **out)
           verbose_printf("WARNING: EMF file does not begin with an EMR_HEADER record\n");
        }
        
-       result = U_emf_onerec_print(contents, blimit, recnum, off, stream);
+       result = U_emf_onerec_print(contents, blimit, recnum, off, stream, states);
        if(result == (size_t) -1){
           verbose_printf("ABORTING on invalid record - corrupt file?\n");
           OK=0;

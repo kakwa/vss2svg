@@ -109,6 +109,7 @@ int main(int argc, char *argv[])
   struct arguments arguments;
   arguments.svg = 1;
   arguments.yed = 0;
+  arguments.verbose = 0;
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
 
 
@@ -117,7 +118,9 @@ int main(int argc, char *argv[])
               std::istreambuf_iterator<char>());
   std::ofstream out(arguments.output);
   char *svg_out = NULL;
-  emf2svg((char *)contents.c_str(), contents.size(), &svg_out);
+  drawingStates * states = (drawingStates *)malloc(sizeof(drawingStates));
+  states->verbose = arguments.verbose; 
+  emf2svg((char *)contents.c_str(), contents.size(), &svg_out, states);
   out << "<svg version=\"1.1\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" >\n";
   out << std::string(svg_out);
   out << "</svg>\n";
