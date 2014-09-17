@@ -53,11 +53,11 @@ void U_PMF_VARPOINTS_print(const char **contents, int Flags, uint32_t Elements, 
    unsigned int i;
    U_FLOAT Xpos, Ypos;
    
-   if(     Flags & U_PPF_P){  printf("   +  Points(Relative):"); }
-   else if(Flags & U_PPF_C){  printf("   +  Points(Int16):");    }
-   else {                     printf("   +  Points(Float):");    }
+   if(     Flags & U_PPF_P){  verbose_printf("   +  Points(Relative):"); }
+   else if(Flags & U_PPF_C){  verbose_printf("   +  Points(Int16):");    }
+   else {                     verbose_printf("   +  Points(Float):");    }
    for(Xpos = Ypos = i = 0; i<Elements; i++){
-      printf(" %d:",i);
+      verbose_printf(" %d:",i);
       if(     Flags & U_PPF_P){  (void) U_PMF_POINTR_print(contents, &Xpos, &Ypos, out); }
       else if(Flags & U_PPF_C){  (void) U_PMF_POINT_print(contents, out);                }
       else {                     (void) U_PMF_POINTF_print(contents, out);               }
@@ -67,9 +67,9 @@ int residual;
 uintptr_t holdptr = (uintptr_t) *contents;
   residual = holdptr & 0x3;
   if(residual){ *contents += (4-residual); }
-printf("DEBUG U_PMF_VARPOINTS_print residual:%d *contents:%p\n",residual,*contents);fflush(stdout);
+verbose_printf("DEBUG U_PMF_VARPOINTS_print residual:%d *contents:%p\n",residual,*contents);fflush(stdout);
 #endif
-   printf("\n");
+   verbose_printf("\n");
 }
 
 /* 
@@ -77,12 +77,12 @@ printf("DEBUG U_PMF_VARPOINTS_print residual:%d *contents:%p\n",residual,*conten
 */
 void U_PMF_VARPOINTF_S_print(U_PMF_POINTF *Points, uint32_t Elements, FILE *out){
    unsigned int i;
-   printf("   +  Points:");
+   verbose_printf("   +  Points:");
    for(i=0; i<Elements; i++, Points++){
-      printf(" %d:",i);
+      verbose_printf(" %d:",i);
       (void) U_PMF_POINTF_S_print(Points, out);
    }
-   printf("\n");
+   verbose_printf("\n");
 }
 
 /* 
@@ -90,13 +90,13 @@ void U_PMF_VARPOINTF_S_print(U_PMF_POINTF *Points, uint32_t Elements, FILE *out)
 */
 int U_PMF_VARRECTF_S_print(U_PMF_RECTF *Rects, uint32_t Elements, FILE *out){
     if(!Elements)return(0);
-    if(Elements == 1){ printf(" Rect(Float):");  }
-    else {             printf(" Rects(Float):"); }
+    if(Elements == 1){ verbose_printf(" Rect(Float):");  }
+    else {             verbose_printf(" Rects(Float):"); }
     while(1){
        U_PMF_RECTF_S_print(Rects++, out);
        Elements--;
        if(!Elements)break;
-       printf(" ");
+       verbose_printf(" ");
     }
     return(1);
 }
@@ -106,11 +106,11 @@ int U_PMF_VARRECTF_S_print(U_PMF_RECTF *Rects, uint32_t Elements, FILE *out){
 */
 int U_PMF_VARBRUSHID_print(int btype, uint32_t BrushID, FILE *out){
    if(btype){
-      printf(" Color:");
+      verbose_printf(" Color:");
       (void) U_PMF_ARGB_print((char *)&(BrushID), out);
    }
    else {
-      printf(" BrushID:%u",BrushID);
+      verbose_printf(" BrushID:%u",BrushID);
    }
    return(1);
 }
@@ -215,7 +215,7 @@ int U_pmf_onerec_print(const char *contents, const char *blimit, int recnum, int
     common structure present at the beginning of all(*) EMF+ records
 */
 int U_PMF_CMN_HDR_print(U_PMF_CMN_HDR Header, int precnum, int off, FILE *out){
-   printf("   %-29srec+:%5d type:%X offset:%8d rsize:%8u dsize:%8u flags:%4.4X\n",
+   verbose_printf("   %-29srec+:%5d type:%X offset:%8d rsize:%8u dsize:%8u flags:%4.4X\n",
       U_pmr_names(Header.Type &U_PMR_TYPE_MASK),precnum, Header.Type,off,Header.Size,Header.DataSize,Header.Flags);
    return((int) Header.Size);
 }
@@ -229,9 +229,9 @@ int U_PMF_CMN_HDR_print(U_PMF_CMN_HDR Header, int precnum, int off, FILE *out){
     \param  End        Text to follow array data
 */
 int U_PMF_UINT8_ARRAY_print(const char *Start, const uint8_t *Array, int Elements, char *End, FILE *out){
-   if(Start)printf("%s",Start);
-   for(; Elements--; Array++){ printf(" %u", *Array); }
-   if(End)printf("%s",End);
+   if(Start)verbose_printf("%s",Start);
+   for(; Elements--; Array++){ verbose_printf(" %u", *Array); }
+   if(End)verbose_printf("%s",End);
    return(1);
 }
 
@@ -244,12 +244,12 @@ int U_PMF_UINT8_ARRAY_print(const char *Start, const uint8_t *Array, int Element
 int U_PMF_BRUSHTYPEENUMERATION_print(int otype, FILE *out){
    int status=1;
    switch(otype){
-      case U_BT_SolidColor:            printf("SolidColor");        break;
-      case U_BT_HatchFill:             printf("HatchFill");         break;
-      case U_BT_TextureFill:           printf("TextureFill");       break;
-      case U_BT_PathGradient:          printf("PathGradient");      break;
-      case U_BT_LinearGradient:        printf("LinearGradient");    break;
-      default: status=0;               printf("INVALID(%d)",otype); break;
+      case U_BT_SolidColor:            verbose_printf("SolidColor");        break;
+      case U_BT_HatchFill:             verbose_printf("HatchFill");         break;
+      case U_BT_TextureFill:           verbose_printf("TextureFill");       break;
+      case U_BT_PathGradient:          verbose_printf("PathGradient");      break;
+      case U_BT_LinearGradient:        verbose_printf("LinearGradient");    break;
+      default: status=0;               verbose_printf("INVALID(%d)",otype); break;
    }
    return(status);
 }
@@ -263,13 +263,13 @@ int U_PMF_BRUSHTYPEENUMERATION_print(int otype, FILE *out){
 int U_PMF_COMBINEMODEENUMERATION_print(int otype, FILE *out){
    int status=1;
    switch(otype){
-      case  U_CM_Replace:         printf("Replace"   );        break;
-      case  U_CM_Intersect:       printf("Intersect" );        break;
-      case  U_CM_Union:           printf("Union"     );        break;
-      case  U_CM_XOR:             printf("XOR"       );        break;
-      case  U_CM_Exclude:         printf("Exclude"   );        break;
-      case  U_CM_Complement:      printf("Complement");        break;
-      default: status=0;          printf("INVALID(%d)",otype); break;
+      case  U_CM_Replace:         verbose_printf("Replace"   );        break;
+      case  U_CM_Intersect:       verbose_printf("Intersect" );        break;
+      case  U_CM_Union:           verbose_printf("Union"     );        break;
+      case  U_CM_XOR:             verbose_printf("XOR"       );        break;
+      case  U_CM_Exclude:         verbose_printf("Exclude"   );        break;
+      case  U_CM_Complement:      verbose_printf("Complement");        break;
+      default: status=0;          verbose_printf("INVALID(%d)",otype); break;
    }
    return(status);
 }
@@ -283,60 +283,60 @@ int U_PMF_COMBINEMODEENUMERATION_print(int otype, FILE *out){
 int U_PMF_HATCHSTYLEENUMERATION_print(int hstype, FILE *out){
    int status=1;
    switch(hstype){
-      case U_HSP_Horizontal:              printf("Horizontal");              break;
-      case U_HSP_Vertical:                printf("Vertical");                break;
-      case U_HSP_ForwardDiagonal:         printf("ForwardDiagonal");         break;
-      case U_HSP_BackwardDiagonal:        printf("BackwardDiagonal");        break;
-      case U_HSP_LargeGrid:               printf("LargeGrid");               break;
-      case U_HSP_DiagonalCross:           printf("DiagonalCross");           break;
-      case U_HSP_05Percent:               printf("05Percent");               break;
-      case U_HSP_10Percent:               printf("10Percent");               break;
-      case U_HSP_20Percent:               printf("20Percent");               break;
-      case U_HSP_25Percent:               printf("25Percent");               break;
-      case U_HSP_30Percent:               printf("30Percent");               break;
-      case U_HSP_40Percent:               printf("40Percent");               break;
-      case U_HSP_50Percent:               printf("50Percent");               break;
-      case U_HSP_60Percent:               printf("60Percent");               break;
-      case U_HSP_70Percent:               printf("70Percent");               break;
-      case U_HSP_75Percent:               printf("75Percent");               break;
-      case U_HSP_80Percent:               printf("80Percent");               break;
-      case U_HSP_90Percent:               printf("90Percent");               break;
-      case U_HSP_LightDownwardDiagonal:   printf("LightDownwardDiagonal");   break;
-      case U_HSP_LightUpwardDiagonal:     printf("LightUpwardDiagonal");     break;
-      case U_HSP_DarkDownwardDiagonal:    printf("DarkDownwardDiagonal");    break;
-      case U_HSP_DarkUpwardDiagonal:      printf("DarkUpwardDiagonal");      break;
-      case U_HSP_WideDownwardDiagonal:    printf("WideDownwardDiagonal");    break;
-      case U_HSP_WideUpwardDiagonal:      printf("WideUpwardDiagonal");      break;
-      case U_HSP_LightVertical:           printf("LightVertical");           break;
-      case U_HSP_LightHorizontal:         printf("LightHorizontal");         break;
-      case U_HSP_NarrowVertical:          printf("NarrowVertical");          break;
-      case U_HSP_NarrowHorizontal:        printf("NarrowHorizontal");        break;
-      case U_HSP_DarkVertical:            printf("DarkVertical");            break;
-      case U_HSP_DarkHorizontal:          printf("DarkHorizontal");          break;
-      case U_HSP_DashedDownwardDiagonal:  printf("DashedDownwardDiagonal");  break;
-      case U_HSP_DashedUpwardDiagonal:    printf("DashedUpwardDiagonal");    break;
-      case U_HSP_DashedHorizontal:        printf("DashedHorizontal");        break;
-      case U_HSP_DashedVertical:          printf("DashedVertical");          break;
-      case U_HSP_SmallConfetti:           printf("SmallConfetti");           break;
-      case U_HSP_LargeConfetti:           printf("LargeConfetti");           break;
-      case U_HSP_ZigZag:                  printf("ZigZag");                  break;
-      case U_HSP_Wave:                    printf("Wave");                    break;
-      case U_HSP_DiagonalBrick:           printf("DiagonalBrick");           break;
-      case U_HSP_HorizontalBrick:         printf("HorizontalBrick");         break;
-      case U_HSP_Weave:                   printf("Weave");                   break;
-      case U_HSP_Plaid:                   printf("Plaid");                   break;
-      case U_HSP_Divot:                   printf("Divot");                   break;
-      case U_HSP_DottedGrid:              printf("DottedGrid");              break;
-      case U_HSP_DottedDiamond:           printf("DottedDiamond");           break;
-      case U_HSP_Shingle:                 printf("Shingle");                 break;
-      case U_HSP_Trellis:                 printf("Trellis");                 break;
-      case U_HSP_Sphere:                  printf("Sphere");                  break;
-      case U_HSP_SmallGrid:               printf("SmallGrid");               break;
-      case U_HSP_SmallCheckerBoard:       printf("SmallCheckerBoard");       break;
-      case U_HSP_LargeCheckerBoard:       printf("LargeCheckerBoard");       break;
-      case U_HSP_OutlinedDiamond:         printf("OutlinedDiamond");         break;
-      case U_HSP_SolidDiamond:            printf("SolidDiamond");            break;
-      default:                status=0;   printf("INVALID(%d)",hstype);    break;
+      case U_HSP_Horizontal:              verbose_printf("Horizontal");              break;
+      case U_HSP_Vertical:                verbose_printf("Vertical");                break;
+      case U_HSP_ForwardDiagonal:         verbose_printf("ForwardDiagonal");         break;
+      case U_HSP_BackwardDiagonal:        verbose_printf("BackwardDiagonal");        break;
+      case U_HSP_LargeGrid:               verbose_printf("LargeGrid");               break;
+      case U_HSP_DiagonalCross:           verbose_printf("DiagonalCross");           break;
+      case U_HSP_05Percent:               verbose_printf("05Percent");               break;
+      case U_HSP_10Percent:               verbose_printf("10Percent");               break;
+      case U_HSP_20Percent:               verbose_printf("20Percent");               break;
+      case U_HSP_25Percent:               verbose_printf("25Percent");               break;
+      case U_HSP_30Percent:               verbose_printf("30Percent");               break;
+      case U_HSP_40Percent:               verbose_printf("40Percent");               break;
+      case U_HSP_50Percent:               verbose_printf("50Percent");               break;
+      case U_HSP_60Percent:               verbose_printf("60Percent");               break;
+      case U_HSP_70Percent:               verbose_printf("70Percent");               break;
+      case U_HSP_75Percent:               verbose_printf("75Percent");               break;
+      case U_HSP_80Percent:               verbose_printf("80Percent");               break;
+      case U_HSP_90Percent:               verbose_printf("90Percent");               break;
+      case U_HSP_LightDownwardDiagonal:   verbose_printf("LightDownwardDiagonal");   break;
+      case U_HSP_LightUpwardDiagonal:     verbose_printf("LightUpwardDiagonal");     break;
+      case U_HSP_DarkDownwardDiagonal:    verbose_printf("DarkDownwardDiagonal");    break;
+      case U_HSP_DarkUpwardDiagonal:      verbose_printf("DarkUpwardDiagonal");      break;
+      case U_HSP_WideDownwardDiagonal:    verbose_printf("WideDownwardDiagonal");    break;
+      case U_HSP_WideUpwardDiagonal:      verbose_printf("WideUpwardDiagonal");      break;
+      case U_HSP_LightVertical:           verbose_printf("LightVertical");           break;
+      case U_HSP_LightHorizontal:         verbose_printf("LightHorizontal");         break;
+      case U_HSP_NarrowVertical:          verbose_printf("NarrowVertical");          break;
+      case U_HSP_NarrowHorizontal:        verbose_printf("NarrowHorizontal");        break;
+      case U_HSP_DarkVertical:            verbose_printf("DarkVertical");            break;
+      case U_HSP_DarkHorizontal:          verbose_printf("DarkHorizontal");          break;
+      case U_HSP_DashedDownwardDiagonal:  verbose_printf("DashedDownwardDiagonal");  break;
+      case U_HSP_DashedUpwardDiagonal:    verbose_printf("DashedUpwardDiagonal");    break;
+      case U_HSP_DashedHorizontal:        verbose_printf("DashedHorizontal");        break;
+      case U_HSP_DashedVertical:          verbose_printf("DashedVertical");          break;
+      case U_HSP_SmallConfetti:           verbose_printf("SmallConfetti");           break;
+      case U_HSP_LargeConfetti:           verbose_printf("LargeConfetti");           break;
+      case U_HSP_ZigZag:                  verbose_printf("ZigZag");                  break;
+      case U_HSP_Wave:                    verbose_printf("Wave");                    break;
+      case U_HSP_DiagonalBrick:           verbose_printf("DiagonalBrick");           break;
+      case U_HSP_HorizontalBrick:         verbose_printf("HorizontalBrick");         break;
+      case U_HSP_Weave:                   verbose_printf("Weave");                   break;
+      case U_HSP_Plaid:                   verbose_printf("Plaid");                   break;
+      case U_HSP_Divot:                   verbose_printf("Divot");                   break;
+      case U_HSP_DottedGrid:              verbose_printf("DottedGrid");              break;
+      case U_HSP_DottedDiamond:           verbose_printf("DottedDiamond");           break;
+      case U_HSP_Shingle:                 verbose_printf("Shingle");                 break;
+      case U_HSP_Trellis:                 verbose_printf("Trellis");                 break;
+      case U_HSP_Sphere:                  verbose_printf("Sphere");                  break;
+      case U_HSP_SmallGrid:               verbose_printf("SmallGrid");               break;
+      case U_HSP_SmallCheckerBoard:       verbose_printf("SmallCheckerBoard");       break;
+      case U_HSP_LargeCheckerBoard:       verbose_printf("LargeCheckerBoard");       break;
+      case U_HSP_OutlinedDiamond:         verbose_printf("OutlinedDiamond");         break;
+      case U_HSP_SolidDiamond:            verbose_printf("SolidDiamond");            break;
+      default:                status=0;   verbose_printf("INVALID(%d)",hstype);    break;
    }
    return(status);
 }
@@ -350,18 +350,18 @@ int U_PMF_HATCHSTYLEENUMERATION_print(int hstype, FILE *out){
 int U_PMF_OBJECTTYPEENUMERATION_print(int otype, FILE *out){
    int status=1;
    switch(otype){
-      case U_OT_Invalid:         printf("Invalid");           break;
-      case U_OT_Brush:           printf("Brush");             break;
-      case U_OT_Pen:             printf("Pen");               break;
-      case U_OT_Path:            printf("Path");              break;
-      case U_OT_Region:          printf("Region");            break;
-      case U_OT_Image:           printf("Image");             break;
-      case U_OT_Font:            printf("Font");              break;
-      case U_OT_StringFormat:    printf("StringFormat");      break;
-      case U_OT_ImageAttributes: printf("ImageAttributes");   break;
-      case U_OT_CustomLineCap:   printf("CustomLineCap");     break;
+      case U_OT_Invalid:         verbose_printf("Invalid");           break;
+      case U_OT_Brush:           verbose_printf("Brush");             break;
+      case U_OT_Pen:             verbose_printf("Pen");               break;
+      case U_OT_Path:            verbose_printf("Path");              break;
+      case U_OT_Region:          verbose_printf("Region");            break;
+      case U_OT_Image:           verbose_printf("Image");             break;
+      case U_OT_Font:            verbose_printf("Font");              break;
+      case U_OT_StringFormat:    verbose_printf("StringFormat");      break;
+      case U_OT_ImageAttributes: verbose_printf("ImageAttributes");   break;
+      case U_OT_CustomLineCap:   verbose_printf("CustomLineCap");     break;
       default:
-         status=0;               printf("INVALID(%d)",otype); break;
+         status=0;               verbose_printf("INVALID(%d)",otype); break;
    }
    return(status);
 }
@@ -374,10 +374,10 @@ int U_PMF_OBJECTTYPEENUMERATION_print(int otype, FILE *out){
 */
 int U_PMF_PATHPOINTTYPE_ENUM_print(int Type, FILE *out){
    switch(Type & U_PPT_MASK){
-       case U_PPT_Start : printf("Start");            break;
-       case U_PPT_Line  : printf("Line");             break;
-       case U_PPT_Bezier: printf("Bezier");           break;
-       default:           printf("INVALID(%d)",Type); break;
+       case U_PPT_Start : verbose_printf("Start");            break;
+       case U_PPT_Line  : verbose_printf("Line");             break;
+       case U_PPT_Bezier: verbose_printf("Bezier");           break;
+       default:           verbose_printf("INVALID(%d)",Type); break;
    }
    return(1);
 }
@@ -390,35 +390,35 @@ int U_PMF_PATHPOINTTYPE_ENUM_print(int Type, FILE *out){
 */
 int U_PMF_PX_FMT_ENUM_print(int pfe, FILE *out){
    uint8_t idx;
-   printf("   +  PxFmtEnum: ");
-   printf(" 32Bit:%c",     (pfe & 1<< 9 ? 'Y' : 'N'));
-   printf(" 16Bit:%c",     (pfe & 1<<10 ? 'Y' : 'N'));
-   printf(" PreAlpha:%c",  (pfe & 1<<11 ? 'Y' : 'N'));
-   printf(" Alpha:%c",     (pfe & 1<<12 ? 'Y' : 'N'));
-   printf(" GDI:%c",       (pfe & 1<<13 ? 'Y' : 'N'));
-   printf(" LUT:%c",       (pfe & 1<<14 ? 'Y' : 'N'));
-   printf(" BitsPerPx:%u", (pfe >> 16) & 0xFF);
+   verbose_printf("   +  PxFmtEnum: ");
+   verbose_printf(" 32Bit:%c",     (pfe & 1<< 9 ? 'Y' : 'N'));
+   verbose_printf(" 16Bit:%c",     (pfe & 1<<10 ? 'Y' : 'N'));
+   verbose_printf(" PreAlpha:%c",  (pfe & 1<<11 ? 'Y' : 'N'));
+   verbose_printf(" Alpha:%c",     (pfe & 1<<12 ? 'Y' : 'N'));
+   verbose_printf(" GDI:%c",       (pfe & 1<<13 ? 'Y' : 'N'));
+   verbose_printf(" LUT:%c",       (pfe & 1<<14 ? 'Y' : 'N'));
+   verbose_printf(" BitsPerPx:%u", (pfe >> 16) & 0xFF);
    idx = pfe >> 24;
-   printf(" Type:%u(",idx);
+   verbose_printf(" Type:%u(",idx);
    switch(idx){
-      case  0: printf("undefined");                                                      break;
-      case  1: printf("monochrome with LUT");                                            break;
-      case  2: printf("4 bit with LUT");                                                 break;
-      case  3: printf("8 bit with LUT");                                                 break;
-      case  4: printf("16 bits grey values");                                            break;
-      case  5: printf("16 bit RGB values (5,5,5,(1 ignored))");                          break;
-      case  6: printf("16 bit RGB values (5,6,5)");                                      break;
-      case  7: printf("16 bit ARGB values (1 alpha, 5,5,5 colors)");                     break;
-      case  8: printf("24 bit RGB values (8,8.8)");                                      break;
-      case  9: printf("32 bit RGB value  (8,8,8,(8 ignored))");                          break;
-      case 10: printf("32 bit ARGB values (8 alpha,8,8,8)");                             break;
-      case 11: printf("32 bit PARGB values (8,8,8,8, but RGB already multiplied by A)"); break;
-      case 12: printf("48 bit RGB (16,16,16)");                                          break;
-      case 13: printf("64 bit ARGB (16 alpha, 16,16,16)");                               break;
-      case 14: printf("64 bit PARGB (16,16,16,16, but RGB already multiplied by A)");    break;
-      default: printf("INVALID(%d)",idx); break;
+      case  0: verbose_printf("undefined");                                                      break;
+      case  1: verbose_printf("monochrome with LUT");                                            break;
+      case  2: verbose_printf("4 bit with LUT");                                                 break;
+      case  3: verbose_printf("8 bit with LUT");                                                 break;
+      case  4: verbose_printf("16 bits grey values");                                            break;
+      case  5: verbose_printf("16 bit RGB values (5,5,5,(1 ignored))");                          break;
+      case  6: verbose_printf("16 bit RGB values (5,6,5)");                                      break;
+      case  7: verbose_printf("16 bit ARGB values (1 alpha, 5,5,5 colors)");                     break;
+      case  8: verbose_printf("24 bit RGB values (8,8.8)");                                      break;
+      case  9: verbose_printf("32 bit RGB value  (8,8,8,(8 ignored))");                          break;
+      case 10: verbose_printf("32 bit ARGB values (8 alpha,8,8,8)");                             break;
+      case 11: verbose_printf("32 bit PARGB values (8,8,8,8, but RGB already multiplied by A)"); break;
+      case 12: verbose_printf("48 bit RGB (16,16,16)");                                          break;
+      case 13: verbose_printf("64 bit ARGB (16 alpha, 16,16,16)");                               break;
+      case 14: verbose_printf("64 bit PARGB (16,16,16,16, but RGB already multiplied by A)");    break;
+      default: verbose_printf("INVALID(%d)",idx); break;
    }
-   printf(")");
+   verbose_printf(")");
    return(1);
 }
 
@@ -429,16 +429,16 @@ int U_PMF_PX_FMT_ENUM_print(int pfe, FILE *out){
     EMF+ manual 2.1.1.27, Microsoft name: RegionNodeDataType Enumeration (U_RNDT_*)
 */
 int U_PMF_NODETYPE_print(int Type, FILE *out){
-   if(     Type == U_RNDT_And       ){ printf("And"       ); }
-   else if(Type == U_RNDT_Or        ){ printf("Or"        ); }
-   else if(Type == U_RNDT_Xor       ){ printf("Xor"       ); }
-   else if(Type == U_RNDT_Exclude   ){ printf("Exclude"   ); }
-   else if(Type == U_RNDT_Complement){ printf("Complement"); }
-   else if(Type == U_RNDT_Rect      ){ printf("Rect"      ); }
-   else if(Type == U_RNDT_Path      ){ printf("Path"      ); }
-   else if(Type == U_RNDT_Empty     ){ printf("Empty"     ); }
-   else if(Type == U_RNDT_Infinite  ){ printf("Infinite"  ); }
-   else {                              printf("Undefined" ); return(0); }
+   if(     Type == U_RNDT_And       ){ verbose_printf("And"       ); }
+   else if(Type == U_RNDT_Or        ){ verbose_printf("Or"        ); }
+   else if(Type == U_RNDT_Xor       ){ verbose_printf("Xor"       ); }
+   else if(Type == U_RNDT_Exclude   ){ verbose_printf("Exclude"   ); }
+   else if(Type == U_RNDT_Complement){ verbose_printf("Complement"); }
+   else if(Type == U_RNDT_Rect      ){ verbose_printf("Rect"      ); }
+   else if(Type == U_RNDT_Path      ){ verbose_printf("Path"      ); }
+   else if(Type == U_RNDT_Empty     ){ verbose_printf("Empty"     ); }
+   else if(Type == U_RNDT_Infinite  ){ verbose_printf("Infinite"  ); }
+   else {                              verbose_printf("Undefined" ); return(0); }
    return(1);
 }
 
@@ -453,35 +453,35 @@ int U_PMF_BRUSH_print(const char *contents, FILE *out){
    const char *Data;
    int status = U_PMF_BRUSH_get(contents, &Version, &Type, &Data);
    if(status){
-      printf("   +  Brush:");
+      verbose_printf("   +  Brush:");
       (void) U_PMF_GRAPHICSVERSION_print((char *)&Version, out);
-      printf(" Type:%X(",Type);
+      verbose_printf(" Type:%X(",Type);
       (void) U_PMF_BRUSHTYPEENUMERATION_print(Type, out);
-      printf(")");
+      verbose_printf(")");
       switch(Type){
          case U_BT_SolidColor:
             status = U_PMF_ARGB_print(Data, out);
             break;
          case U_BT_HatchFill:
-            printf("\n");
+            verbose_printf("\n");
             status = U_PMF_HATCHBRUSHDATA_print(Data, out);
             break;
          case U_BT_TextureFill:
-            printf("\n");
+            verbose_printf("\n");
             status = U_PMF_TEXTUREBRUSHDATA_print(Data, out);
             break;
          case U_BT_PathGradient:
-            printf("\n");
+            verbose_printf("\n");
             status = U_PMF_PATHGRADIENTBRUSHDATA_print(Data, out);
             break;
          case U_BT_LinearGradient:
-            printf("\n");
+            verbose_printf("\n");
             status = U_PMF_LINEARGRADIENTBRUSHDATA_print(Data, out);
             break;
          default:
             status = 0;
       }
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -499,9 +499,9 @@ int U_PMF_CUSTOMLINECAP_print(const char *contents, const char *Which, FILE *out
    int status = U_PMF_CUSTOMLINECAP_get(contents, &Version, &Type, &Data);
 
    if(status){      
-      printf("   +  %sLineCap:",Which);
+      verbose_printf("   +  %sLineCap:",Which);
       (void) U_PMF_GRAPHICSVERSION_print((char *)&Version, out);
-      printf(", Type %X\n",Type);
+      verbose_printf(", Type %X\n",Type);
       switch(Type){
          case U_CLCDT_Default:
             status = U_PMF_CUSTOMLINECAPDATA_print(Data, out);
@@ -530,19 +530,19 @@ int U_PMF_FONT_print(const char *contents, FILE *out){
    char *string;
    int status = U_PMF_FONT_get(contents, &Version, &EmSize, &SizeUnit, &FSFlags, &Length, &Data);
    if(status){      
-      printf("   +  Font:");
+      verbose_printf("   +  Font:");
       (void) U_PMF_GRAPHICSVERSION_print((char *)&Version, out);
-      printf(" EmSize:%f ",  EmSize  );  
-      printf(" SizeUnit:%d ",SizeUnit);
-      printf(" FSFlags:%d ", FSFlags ); 
-      printf(" Length:%d",  Length  );  
+      verbose_printf(" EmSize:%f ",  EmSize  );  
+      verbose_printf(" SizeUnit:%d ",SizeUnit);
+      verbose_printf(" FSFlags:%d ", FSFlags ); 
+      verbose_printf(" Length:%d",  Length  );  
       string = U_Utf16leToUtf8((uint16_t *)Data, Length, NULL);
       if(string){
-         printf(" Family:<%s>\n",string);
+         verbose_printf(" Family:<%s>\n",string);
          free(string);
       }
       else {
-         printf(" Family:<>\n");
+         verbose_printf(" Family:<>\n");
       }
    }
    return(status);
@@ -560,12 +560,12 @@ int U_PMF_IMAGE_print(const char *contents, FILE *out){
    const char *Data;
    int status = U_PMF_IMAGE_get(contents, &Version, &Type, &Data);
    if(status){      
-      printf("   +  Image:");
+      verbose_printf("   +  Image:");
       (void) U_PMF_GRAPHICSVERSION_print((char *)&Version, out);
-      printf(" Type:%X\n",Type);
+      verbose_printf(" Type:%X\n",Type);
       switch(Type){
         case U_IDT_Unknown:
-            printf("   +  Unknown Image Type\n");
+            verbose_printf("   +  Unknown Image Type\n");
             break;
          case U_IDT_Bitmap:
             status = U_PMF_BITMAP_print(Data, out);
@@ -592,11 +592,11 @@ int U_PMF_IMAGEATTRIBUTES_print(const char *contents, FILE *out){
    int status = U_PMF_IMAGEATTRIBUTES_get(contents, &Version, &WrapMode, &ClampColor, &ObjectClamp);
 
    if(status){      
-      printf("   +  Image Attributes: ");
+      verbose_printf("   +  Image Attributes: ");
       (void) U_PMF_GRAPHICSVERSION_print((char *)&Version, out);
-      printf(" WrapMode:%X",      WrapMode);
-      printf(" ClampColor:%X",    ClampColor);
-      printf(" ObjectClamp:%X\n", ObjectClamp);
+      verbose_printf(" WrapMode:%X",      WrapMode);
+      verbose_printf(" ClampColor:%X",    ClampColor);
+      verbose_printf(" ObjectClamp:%X\n", ObjectClamp);
    }
    return(status);
 }
@@ -617,30 +617,30 @@ int U_PMF_PATH_print(const char *contents, FILE *out){
    const char  *Types;
    int status = U_PMF_PATH_get(contents, &Version, &Count, &Flags, &Points, &Types);
    if(status){
-      printf("   +  Path: Version:%X Count:%d Flags:%X\n",Version, Count, Flags);
+      verbose_printf("   +  Path: Version:%X Count:%d Flags:%X\n",Version, Count, Flags);
 
       /* Points part */
       U_PMF_VARPOINTS_print(&Points, Flags, Count, out);
 
       /* Types part */
-      printf("   +  Types:");
+      verbose_printf("   +  Types:");
       pos = 0;
       for(i=0; i<Count; i++){
          /* EMF+ manual says that the first of these two cases can actually contain either type
             of PATHPOINT, but it does not say how the program is supposed to figure out which record
             is which type. */
          if(Flags & U_PPF_R){
-            printf(" %u:",pos);
+            verbose_printf(" %u:",pos);
             pos += U_PMF_PATHPOINTTYPERLE_print(Types, out);
             Types+=2;
          }
          else {
-            printf(" %d:",i);
+            verbose_printf(" %d:",i);
             (void) U_PMF_PATHPOINTTYPE_print(Types, out);
             Types++;
          }
       }
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -657,7 +657,7 @@ int U_PMF_PEN_print(const char *contents, FILE *out){
    const char  *Brush;
    int status = U_PMF_PEN_get(contents, &Version, &Type, &PenData, &Brush);
    if(status){
-      printf("   +  Pen: Version:%X Type:%d\n",Version,Type);
+      verbose_printf("   +  Pen: Version:%X Type:%d\n",Version,Type);
       (void) U_PMF_PENDATA_print(PenData, out);
       (void) U_PMF_BRUSH_print(Brush, out);
    }
@@ -675,9 +675,9 @@ int U_PMF_REGION_print(const char *contents, FILE *out){
    const char   *Nodes;
    int status = U_PMF_REGION_get(contents, &Version, &Count, &Nodes);
    if(status){
-      printf("   + ");
+      verbose_printf("   + ");
       (void) U_PMF_GRAPHICSVERSION_print((char *) &Version, out);
-      printf(" ChildNodes:%d",Count);
+      verbose_printf(" ChildNodes:%d",Count);
       (void) U_PMF_REGIONNODE_print(Nodes, 1, out); /* 1 == top level*/
    }
    return(status);
@@ -694,22 +694,22 @@ int U_PMF_STRINGFORMAT_print(const char *contents, FILE *out){
    const char *Data;
    int status = U_PMF_STRINGFORMAT_get(contents, &Sfs, &Data);
    if(status){
-      printf("   +  StringFormat: ");
-      printf(" Version:%X",          Sfs.Version          );
-      printf(" Flags:%X",            Sfs.Flags            );
-      printf(" Language");           (void) U_PMF_LANGUAGEIDENTIFIER_print(Sfs.Language, out);
-      printf(" StringAlignment:%X",  Sfs.StringAlignment  );
-      printf(" LineAlign:%X",        Sfs.LineAlign        );
-      printf(" DigitSubstitution:%X",Sfs.DigitSubstitution);
-      printf(" DigitLanguage");      (void) U_PMF_LANGUAGEIDENTIFIER_print(Sfs.DigitLanguage, out);
-      printf(" FirstTabOffset:%f",   Sfs.FirstTabOffset   );
-      printf(" HotkeyPrefix:%d",     Sfs.HotkeyPrefix     );
-      printf(" LeadingMargin:%f",    Sfs.LeadingMargin    );
-      printf(" TrailingMargin:%f",   Sfs.TrailingMargin   );
-      printf(" Tracking:%f",         Sfs.Tracking         );
-      printf(" Trimming:%X",         Sfs.Trimming         );
-      printf(" TabStopCount:%u",     Sfs.TabStopCount     );
-      printf(" RangeCount:%u",       Sfs.RangeCount       );
+      verbose_printf("   +  StringFormat: ");
+      verbose_printf(" Version:%X",          Sfs.Version          );
+      verbose_printf(" Flags:%X",            Sfs.Flags            );
+      verbose_printf(" Language");           (void) U_PMF_LANGUAGEIDENTIFIER_print(Sfs.Language, out);
+      verbose_printf(" StringAlignment:%X",  Sfs.StringAlignment  );
+      verbose_printf(" LineAlign:%X",        Sfs.LineAlign        );
+      verbose_printf(" DigitSubstitution:%X",Sfs.DigitSubstitution);
+      verbose_printf(" DigitLanguage");      (void) U_PMF_LANGUAGEIDENTIFIER_print(Sfs.DigitLanguage, out);
+      verbose_printf(" FirstTabOffset:%f",   Sfs.FirstTabOffset   );
+      verbose_printf(" HotkeyPrefix:%d",     Sfs.HotkeyPrefix     );
+      verbose_printf(" LeadingMargin:%f",    Sfs.LeadingMargin    );
+      verbose_printf(" TrailingMargin:%f",   Sfs.TrailingMargin   );
+      verbose_printf(" Tracking:%f",         Sfs.Tracking         );
+      verbose_printf(" Trimming:%X",         Sfs.Trimming         );
+      verbose_printf(" TabStopCount:%u",     Sfs.TabStopCount     );
+      verbose_printf(" RangeCount:%u",       Sfs.RangeCount       );
       (void) U_PMF_STRINGFORMATDATA_print(Data, Sfs.TabStopCount, Sfs.RangeCount, out);
    }
    return(status);
@@ -725,7 +725,7 @@ int U_PMF_ARGB_print(const char *contents, FILE *out){
    uint8_t Blue, Green, Red, Alpha;
    int status = U_PMF_ARGB_get(contents, &Blue, &Green, &Red, &Alpha);
    if(status){
-      printf(" RGBA{%2.2X,%2.2X,%2.2X,%2.2X}", Red, Green, Blue, Alpha);
+      verbose_printf(" RGBA{%2.2X,%2.2X,%2.2X,%2.2X}", Red, Green, Blue, Alpha);
    }
    return(status);
 }
@@ -742,12 +742,12 @@ int U_PMF_BITMAP_print(const char *contents, FILE *out){
    const char *Data;
    int status = U_PMF_BITMAP_get(contents, &Bs, &Data);
    if(status){
-      printf("   +  Bitmap: Width:%d Height:%d Stride:%d\n",Bs.Width, Bs.Height, Bs.Stride);
+      verbose_printf("   +  Bitmap: Width:%d Height:%d Stride:%d\n",Bs.Width, Bs.Height, Bs.Stride);
       U_PMF_PX_FMT_ENUM_print(Bs.PxFormat, out);
       switch(Bs.Type){
-         case 0:   printf(" Type:MSBitmap\n"); break;
-         case 1:   printf(" Type:(PNG|JPG|GIF|EXIF|TIFF)\n"); break;
-         default:  printf(" Type:INVALID(%d)\n",Bs.Type); break;
+         case 0:   verbose_printf(" Type:MSBitmap\n"); break;
+         case 1:   verbose_printf(" Type:(PNG|JPG|GIF|EXIF|TIFF)\n"); break;
+         default:  verbose_printf(" Type:INVALID(%d)\n",Bs.Type); break;
       }
       /* Pixel data is never shown - it could easily swamp the output for even a smallish picture */
    }
@@ -769,7 +769,7 @@ int U_PMF_BITMAPDATA_print(const char *contents, FILE *out){
    int status = U_PMF_BITMAPDATA_get(contents, &Ps, &Colors, &Data);
    if(status){
       status = 0;
-      printf(" BMData: Flags:%X, Elements:%u Colors:", Ps.Flags, Ps.Elements);
+      verbose_printf(" BMData: Flags:%X, Elements:%u Colors:", Ps.Flags, Ps.Elements);
       for(i=0; i<Ps.Elements; i++, Colors+=sizeof(U_PMF_ARGB)){
          (void) U_PMF_ARGB_print(Colors, out);
       }
@@ -790,12 +790,12 @@ int U_PMF_BLENDCOLORS_print(const char *contents, FILE *out){
    const char  *Colors;
    int status = U_PMF_BLENDCOLORS_get(contents, &Elements, &Positions, &Colors);
    if(status){
-      printf("   +  BlendColors:  Entries:%d (entry,pos,color): ", Elements);
+      verbose_printf("   +  BlendColors:  Entries:%d (entry,pos,color): ", Elements);
       for(i=0; i<Elements; i++){
-         printf(" (%d,%f,", i, Positions[i]);
+         verbose_printf(" (%d,%f,", i, Positions[i]);
          (void) U_PMF_ARGB_print(Colors, out);
          Colors += sizeof(U_PMF_ARGB);
-         printf(")");
+         verbose_printf(")");
       }
       status = sizeof(uint32_t) + Elements*sizeof(U_FLOAT) + Elements*sizeof(U_PMF_ARGB);
       free(Positions);
@@ -817,9 +817,9 @@ int U_PMF_BLENDFACTORS_print(const char *contents, const char *type, FILE *out){
    U_FLOAT     *Factors;
    int status = U_PMF_BLENDFACTORS_get(contents, &Elements, &Positions, &Factors);
    if(status){
-      printf("   +  BlendFactors%s: Entries:%d (entry,pos,factor): ",type, Elements);
+      verbose_printf("   +  BlendFactors%s: Entries:%d (entry,pos,factor): ",type, Elements);
       for(i=0; i<Elements; i++){
-         printf(" (%d,%f,%f)", i, Positions[i],Factors[i]);
+         verbose_printf(" (%d,%f,%f)", i, Positions[i],Factors[i]);
       }
       status = sizeof(uint32_t) + Elements*2*sizeof(U_FLOAT);
       free(Positions);
@@ -839,7 +839,7 @@ int U_PMF_BOUNDARYPATHDATA_print(const char *contents, FILE *out){
    const char *Data;
    int status = U_PMF_BOUNDARYPATHDATA_get(contents, &Size, &Data);
    if(status){
-      printf("   +  BoundaryPathData: Size:%d\n",Size);
+      verbose_printf("   +  BoundaryPathData: Size:%d\n",Size);
       (void) U_PMF_PATH_print(Data, out);
    }
    return(status);
@@ -857,7 +857,7 @@ int U_PMF_BOUNDARYPOINTDATA_print(const char *contents, FILE *out){
    U_PMF_POINTF *Points;
    int status = U_PMF_BOUNDARYPOINTDATA_get(contents, &Elements, &Points);
    if(status){
-      printf("   +  BoundaryPointData: Elements:%u\n",Elements);
+      verbose_printf("   +  BoundaryPointData: Elements:%u\n",Elements);
       U_PMF_VARPOINTF_S_print(Points, Elements, out);
       free(Points);
    }
@@ -874,7 +874,7 @@ int U_PMF_CHARACTERRANGE_print(const char *contents, FILE *out){
    int32_t  First, Length;
    int status = U_PMF_CHARACTERRANGE_get(contents, &First, &Length);
    if(status){
-      printf(" {%d,%d}",First,Length);
+      verbose_printf(" {%d,%d}",First,Length);
    }
    return(status);
 }
@@ -891,12 +891,12 @@ int U_PMF_COMPOUNDLINEDATA_print(const char *contents, FILE *out){
    U_FLOAT      *hold;
    int status = U_PMF_COMPOUNDLINEDATA_get(contents, &Elements, &Widths);
    if(status){
-      printf("   +  CompoundLineData: Elements:%u {",Elements);
+      verbose_printf("   +  CompoundLineData: Elements:%u {",Elements);
       Elements--;
-      for(hold=Widths; Elements; Elements--,Widths++){ printf("%f, ",*Widths); }
-      printf("%f}",*Widths);
+      for(hold=Widths; Elements; Elements--,Widths++){ verbose_printf("%f, ",*Widths); }
+      verbose_printf("%f}",*Widths);
       free(hold);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -913,7 +913,7 @@ int U_PMF_COMPRESSEDIMAGE_print(const char *contents, FILE *out){
    const char *Data;
    int status = U_PMF_COMPRESSEDIMAGE_get(contents, &Data);
    if(status){
-      printf("CompressedImage:\n");
+      verbose_printf("CompressedImage:\n");
    }
    return(status);
 }
@@ -929,7 +929,7 @@ int U_PMF_CUSTOMENDCAPDATA_print(const char *contents, FILE *out){
    const char *Data;
    int status =  U_PMF_CUSTOMENDCAPDATA_get(contents, &Size, &Data);
    if(status){
-      printf("   +  CustomEndCap: Size:%d\n",Size);
+      verbose_printf("   +  CustomEndCap: Size:%d\n",Size);
       (void) U_PMF_CUSTOMLINECAP_print(Data, "End", out);
    }
    return(status);
@@ -945,19 +945,19 @@ int U_PMF_CUSTOMLINECAPARROWDATA_print(const char *contents, FILE *out){
    U_PMF_CUSTOMLINECAPARROWDATA Ccad;
    int status =  U_PMF_CUSTOMLINECAPARROWDATA_get(contents, &Ccad);
    if(status){
-      printf("CustomLineCapArrowData: ");
-      printf(" Width:%f",           Ccad.Width                             );
-      printf(" Height:%f",          Ccad.Height                            );
-      printf(" MiddleInset:%f",     Ccad.MiddleInset                       );
-      printf(" FillState:%u",       Ccad.FillState                         );
-      printf(" StartCap:%X",        Ccad.StartCap                          );
-      printf(" EndCap:%X",          Ccad.EndCap                            );
-      printf(" Join:%X",            Ccad.Join                              );
-      printf(" MiterLimit:%f",      Ccad.MiterLimit                        );
-      printf(" WidthScale:%f",      Ccad.WidthScale                        );
-      printf(" FillHotSpot:{%f,%f}",Ccad.FillHotSpot[0],Ccad.FillHotSpot[1]);
-      printf(" LineHotSpot:{%f,%f}",Ccad.LineHotSpot[0],Ccad.LineHotSpot[1]);
-      printf("\n");
+      verbose_printf("CustomLineCapArrowData: ");
+      verbose_printf(" Width:%f",           Ccad.Width                             );
+      verbose_printf(" Height:%f",          Ccad.Height                            );
+      verbose_printf(" MiddleInset:%f",     Ccad.MiddleInset                       );
+      verbose_printf(" FillState:%u",       Ccad.FillState                         );
+      verbose_printf(" StartCap:%X",        Ccad.StartCap                          );
+      verbose_printf(" EndCap:%X",          Ccad.EndCap                            );
+      verbose_printf(" Join:%X",            Ccad.Join                              );
+      verbose_printf(" MiterLimit:%f",      Ccad.MiterLimit                        );
+      verbose_printf(" WidthScale:%f",      Ccad.WidthScale                        );
+      verbose_printf(" FillHotSpot:{%f,%f}",Ccad.FillHotSpot[0],Ccad.FillHotSpot[1]);
+      verbose_printf(" LineHotSpot:{%f,%f}",Ccad.LineHotSpot[0],Ccad.LineHotSpot[1]);
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -973,17 +973,17 @@ int U_PMF_CUSTOMLINECAPDATA_print(const char *contents, FILE *out){
    const char *Data;
    int status =  U_PMF_CUSTOMLINECAPDATA_get(contents, &Clcd, &Data);
    if(status){
-      printf("   +  CustomLineCapData: ");
-      printf(" Flags:%X",           Clcd.Flags                             );
-      printf(" Cap:%X",             Clcd.Cap                               );
-      printf(" Inset:%f",           Clcd.Inset                             );
-      printf(" StartCap:%X",        Clcd.StartCap                          );
-      printf(" EndCap:%X",          Clcd.EndCap                            );
-      printf(" Join:%X",            Clcd.Join                              );
-      printf(" MiterLimit:%f",      Clcd.MiterLimit                        );
-      printf(" WidthScale:%f",      Clcd.WidthScale                        );
-      printf(" FillHotSpot:{%f,%f}",Clcd.FillHotSpot[0],Clcd.FillHotSpot[1]);
-      printf(" LineHotSpot:{%f,%f}\n",Clcd.LineHotSpot[0],Clcd.LineHotSpot[1]);
+      verbose_printf("   +  CustomLineCapData: ");
+      verbose_printf(" Flags:%X",           Clcd.Flags                             );
+      verbose_printf(" Cap:%X",             Clcd.Cap                               );
+      verbose_printf(" Inset:%f",           Clcd.Inset                             );
+      verbose_printf(" StartCap:%X",        Clcd.StartCap                          );
+      verbose_printf(" EndCap:%X",          Clcd.EndCap                            );
+      verbose_printf(" Join:%X",            Clcd.Join                              );
+      verbose_printf(" MiterLimit:%f",      Clcd.MiterLimit                        );
+      verbose_printf(" WidthScale:%f",      Clcd.WidthScale                        );
+      verbose_printf(" FillHotSpot:{%f,%f}",Clcd.FillHotSpot[0],Clcd.FillHotSpot[1]);
+      verbose_printf(" LineHotSpot:{%f,%f}\n",Clcd.LineHotSpot[0],Clcd.LineHotSpot[1]);
       (void) U_PMF_CUSTOMLINECAPOPTIONALDATA_print(Data, Clcd.Flags, out);
       /* preceding line always emits an EOL */
    }
@@ -1004,16 +1004,16 @@ int U_PMF_CUSTOMLINECAPOPTIONALDATA_print(const char *contents, uint32_t Flags, 
    const char *LineData;
    int status = U_PMF_CUSTOMLINECAPOPTIONALDATA_get(contents, Flags, &FillData, &LineData);
    if(status){ /* True even if there is nothing in it! */
-      printf("   +  CustomLineCapOptionalData:");
+      verbose_printf("   +  CustomLineCapOptionalData:");
       if(FillData || LineData){
          if(FillData){ (void) U_PMF_FILLPATHOBJ_print(FillData, out); }
          if(LineData){ (void) U_PMF_LINEPATH_print(LineData, out);  }
       }
       else {
-         printf("None");
+         verbose_printf("None");
       }
    }
-   if(status<=1){ printf("\n"); }
+   if(status<=1){ verbose_printf("\n"); }
    return(status);
 }
 
@@ -1028,7 +1028,7 @@ int U_PMF_CUSTOMSTARTCAPDATA_print(const char *contents, FILE *out){
    const char *Data;
    int status =  U_PMF_CUSTOMSTARTCAPDATA_get(contents, &Size, &Data);
    if(status){
-      printf("   +  CustomStartCap: Size:%d ",Size);
+      verbose_printf("   +  CustomStartCap: Size:%d ",Size);
       (void) U_PMF_CUSTOMLINECAP_print(Data, "Start", out);
    }
    return(status);
@@ -1046,10 +1046,10 @@ int U_PMF_DASHEDLINEDATA_print(const char *contents, FILE *out){
    U_FLOAT *hold;
    int status = U_PMF_DASHEDLINEDATA_get(contents, &Elements, &Lengths);
    if(status){
-      printf(" DashedLineData: Elements:%u {",Elements);
+      verbose_printf(" DashedLineData: Elements:%u {",Elements);
       Elements--;
-      for(hold=Lengths; Elements; Elements--, Lengths++){ printf("%f, ", *Lengths); }
-      printf("%f}", *Lengths);
+      for(hold=Lengths; Elements; Elements--, Lengths++){ verbose_printf("%f, ", *Lengths); }
+      verbose_printf("%f}", *Lengths);
       free(hold);
    }
    return(status);
@@ -1066,7 +1066,7 @@ int U_PMF_FILLPATHOBJ_print(const char *contents, FILE *out){
    const char *Data;
    int status = U_PMF_FILLPATHOBJ_get(contents, &Size, &Data);
    if(status){
-      printf(" FillPathObj: Size:%d\n",Size);
+      verbose_printf(" FillPathObj: Size:%d\n",Size);
       if(Size){ (void) U_PMF_PATH_print(Data, out); }
    }
    return(status);
@@ -1083,7 +1083,7 @@ int U_PMF_FOCUSSCALEDATA_print(const char *contents, FILE *out){
    U_FLOAT  ScaleX, ScaleY;
    int status = U_PMF_FOCUSSCALEDATA_get(contents, &Count, &ScaleX, &ScaleY);
    if(status){
-      printf(" FocusScaleData: Count:%d ScaleX:%f ScaleY:%f ",Count,ScaleX,ScaleY);
+      verbose_printf(" FocusScaleData: Count:%d ScaleX:%f ScaleY:%f ",Count,ScaleX,ScaleY);
    }
    return(status);
 }
@@ -1098,8 +1098,8 @@ int U_PMF_GRAPHICSVERSION_print(const char *contents, FILE *out){
    int Signature,GrfVersion;
    int status = U_PMF_GRAPHICSVERSION_get(contents, &Signature, &GrfVersion);
    if(status){
-      printf(" MetaFileSig:%X",Signature );
-      printf(" GraphicsVersion:%X", GrfVersion);
+      verbose_printf(" MetaFileSig:%X",Signature );
+      verbose_printf(" GraphicsVersion:%X", GrfVersion);
    }
    return(status);
 }
@@ -1116,13 +1116,13 @@ int U_PMF_HATCHBRUSHDATA_print(const char *contents, FILE *out){
    U_PMF_ARGB Foreground, Background;
    int status = U_PMF_HATCHBRUSHDATA_get(contents, &Style, &Foreground, &Background);
    if(status){
-      printf("   +  HBdata: Style:%u(",Style);
+      verbose_printf("   +  HBdata: Style:%u(",Style);
       U_PMF_HATCHSTYLEENUMERATION_print(Style, out);
-      printf(") FG:{");
+      verbose_printf(") FG:{");
       (void) U_PMF_ARGB_print((char *)&Foreground, out);
-      printf("} BG:{");
+      verbose_printf("} BG:{");
       (void) U_PMF_ARGB_print((char *)&Background, out);
-      printf("}");
+      verbose_printf("}");
    }
    return(status);
 }
@@ -1137,7 +1137,7 @@ int U_PMF_LANGUAGEIDENTIFIER_print(U_PMF_LANGUAGEIDENTIFIER LId, FILE *out){
    int SubLId, PriLId;
    int status =   U_PMF_LANGUAGEIDENTIFIER_get(LId, &SubLId,  &PriLId);
    if(status){ /* do it the hard way just to verify that the preceding call works, OK to just print LId directly */
-      printf("{%4.4X}",U_PMF_LANGUAGEIDENTIFIEROBJ_set(SubLId, PriLId));
+      verbose_printf("{%4.4X}",U_PMF_LANGUAGEIDENTIFIEROBJ_set(SubLId, PriLId));
    }
    return(status);
 }
@@ -1155,18 +1155,18 @@ int U_PMF_LINEARGRADIENTBRUSHDATA_print(const char *contents, FILE *out){
    const char *Data;
    int   status = U_PMF_LINEARGRADIENTBRUSHDATA_get(contents, &Lgbd, &Data);
    if(status){
-      printf("   +  LinearGradientBrushData: Flags:%X WrapMode:%d Rect:",Lgbd.Flags, Lgbd.WrapMode);
+      verbose_printf("   +  LinearGradientBrushData: Flags:%X WrapMode:%d Rect:",Lgbd.Flags, Lgbd.WrapMode);
       (void) U_PMF_RECTF_S_print(&(Lgbd.RectF), out);
-      printf(" StartColor:");
+      verbose_printf(" StartColor:");
       (void) U_PMF_ARGB_print((char *)&(Lgbd.StartColor), out);
-      printf(" EndColor:");
+      verbose_printf(" EndColor:");
       (void) U_PMF_ARGB_print((char *)&(Lgbd.EndColor), out);
       /* Technically these are to be ignored, in practice they must be colors with the same value as the preceding 2*/
-      printf(" Reserved1:");
+      verbose_printf(" Reserved1:");
       (void) U_PMF_ARGB_print((char *)&(Lgbd.Reserved1), out);
-      printf(" Reserved2:");
+      verbose_printf(" Reserved2:");
       (void) U_PMF_ARGB_print((char *)&(Lgbd.Reserved2), out);
-      printf("\n");
+      verbose_printf("\n");
       (void) U_PMF_LINEARGRADIENTBRUSHOPTIONALDATA_print(Data, Lgbd.Flags, out);
    }
    return(status);
@@ -1187,7 +1187,7 @@ int U_PMF_LINEARGRADIENTBRUSHOPTIONALDATA_print(const char *contents, int BDFlag
    const char *BfH;
    const char *BfV;
    int         None=1;
-   printf("   +  LinearGradientBrushOptionalData: ");
+   verbose_printf("   +  LinearGradientBrushOptionalData: ");
    int status = U_PMF_LINEARGRADIENTBRUSHOPTIONALDATA_get(contents, BDFlag, &Tm, &Bc, &BfH, &BfV);
    if(status){
       if(BDFlag & U_BD_Transform){
@@ -1195,22 +1195,22 @@ int U_PMF_LINEARGRADIENTBRUSHOPTIONALDATA_print(const char *contents, int BDFlag
          None=0;
       }
       if(Bc){
-         printf("\n");
+         verbose_printf("\n");
          (void) U_PMF_BLENDCOLORS_print(Bc, out);
          None=0;
       }
       if(BfH){ 
-         printf("\n");
+         verbose_printf("\n");
          (void) U_PMF_BLENDFACTORS_print(BfH,"H", out);
          None=0;
       }
       if(BfV){ 
-         printf("\n");
+         verbose_printf("\n");
          (void) U_PMF_BLENDFACTORS_print(BfV,"V", out);
          None=0;
       }
       if(None){
-         printf("(none)");
+         verbose_printf("(none)");
       }
    }
    return(status);
@@ -1227,7 +1227,7 @@ int U_PMF_LINEPATH_print(const char *contents, FILE *out){
    const char *Data;
    int   status = U_PMF_LINEPATH_get(contents, &Size, &Data);
    if(status){
-      printf(" LinePath: Size:%d\n", Size);
+      verbose_printf(" LinePath: Size:%d\n", Size);
       (void) U_PMF_PATH_print(Data, out);
    }
    return(status);
@@ -1245,7 +1245,7 @@ int U_PMF_METAFILE_print(const char *contents, FILE *out){
    const char *Data;
    int   status = U_PMF_METAFILE_get(contents, &Type, &Size, &Data);
    if(status){
-      printf(" MetaFile: Type:%X Size:%d",Type, Size);
+      verbose_printf(" MetaFile: Type:%X Size:%d",Type, Size);
       /* embedded metafiles are not handled beyond this*/
    }
    return(status);
@@ -1264,12 +1264,12 @@ int U_PMF_PALETTE_print(const char *contents, FILE *out){
    const char  *Data;
    int status = U_PMF_PALETTE_get(contents, &Flags, &Elements, &Data);
    if(status){
-      printf(" Palette: Flags:%X Elements:%u Colors:",Flags, Elements);
+      verbose_printf(" Palette: Flags:%X Elements:%u Colors:",Flags, Elements);
       for(i=0; i<Elements; i++){
          (void) U_PMF_ARGB_print(Data, out);
          Data += sizeof(U_PMF_ARGB);
       }
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -1288,17 +1288,17 @@ int U_PMF_PATHGRADIENTBRUSHDATA_print(const char *contents, FILE *out){
    unsigned int i;
    int   status = U_PMF_PATHGRADIENTBRUSHDATA_get(contents, &Pgbd, &Gradient, &Boundary, &Data);
    if(status){
-      printf("   +  PathGradientBrushData: Flags:%X WrapMode:%d, CenterColor:",Pgbd.Flags, Pgbd.WrapMode);
+      verbose_printf("   +  PathGradientBrushData: Flags:%X WrapMode:%d, CenterColor:",Pgbd.Flags, Pgbd.WrapMode);
       (void) U_PMF_ARGB_print((char *)&(Pgbd.CenterColor), out);
-      printf(" Center:");
+      verbose_printf(" Center:");
       (void) U_PMF_POINTF_S_print(&(Pgbd.Center), out);
-      printf(" Elements:%u\n",Pgbd.Elements);
+      verbose_printf(" Elements:%u\n",Pgbd.Elements);
       if(Pgbd.Elements){
-         printf("   +  SurroundingColor: ");
+         verbose_printf("   +  SurroundingColor: ");
          for(i=Pgbd.Elements; i; i--, Gradient+=4){
             (void) U_PMF_ARGB_print(Gradient, out);
          }
-         printf("\n");
+         verbose_printf("\n");
       }
       if(Pgbd.Flags & U_BD_Path){
          (void) U_PMF_BOUNDARYPATHDATA_print(Boundary, out);
@@ -1320,7 +1320,7 @@ int U_PMF_PATHGRADIENTBRUSHDATA_print(const char *contents, FILE *out){
 */
 int U_PMF_PATHGRADIENTBRUSHOPTIONALDATA_print(const char *contents, int BDFlag, FILE *out){
    if(BDFlag & (U_BD_Transform | U_BD_PresetColors | U_BD_BlendFactorsH | U_BD_FocusScales)){
-         printf("   +  PathGradientBrushOptionalData: ");
+         verbose_printf("   +  PathGradientBrushOptionalData: ");
    }
    if(BDFlag & U_BD_Transform){
       U_PMF_TRANSFORMMATRIX_print(contents, out);
@@ -1349,9 +1349,9 @@ int U_PMF_PATHPOINTTYPE_print(const char *contents, FILE *out){
    int Flags, Type;
    int status = U_PMF_PATHPOINTTYPE_get(contents, &Flags, &Type);
    if(status){
-      printf("{Flags:%X Type:",Flags);
+      verbose_printf("{Flags:%X Type:",Flags);
       (void) U_PMF_PATHPOINTTYPE_ENUM_print(Type, out);
-      printf("}");
+      verbose_printf("}");
    }
    return(status);
 }
@@ -1367,9 +1367,9 @@ int U_PMF_PATHPOINTTYPERLE_print(const char *contents, FILE *out){
    int status = U_PMF_PATHPOINTTYPERLE_get(contents, &Bezier, &Elements, &Type);
    if(status){
       status = Elements;
-      printf(" PathPointTypeRLE: Bezier:%c Elements:%u, Type: ",(Bezier ? 'Y' : 'N'), Elements);
+      verbose_printf(" PathPointTypeRLE: Bezier:%c Elements:%u, Type: ",(Bezier ? 'Y' : 'N'), Elements);
       (void) U_PMF_PATHPOINTTYPE_ENUM_print(Type, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -1386,7 +1386,7 @@ int U_PMF_PENDATA_print(const char *contents, FILE *out){
    const char *Data;
    int status =  U_PMF_PENDATA_get(contents, &Flags, &Unit, &Width, &Data);
    if(status){
-      printf("   +  Pendata: Flags:%X Unit:%X Width:%f",Flags, Unit, Width);
+      verbose_printf("   +  Pendata: Flags:%X Unit:%X Width:%f",Flags, Unit, Width);
       (void) U_PMF_PENOPTIONALDATA_print(Data, Flags, out); /* prints a new line at end */
    }
    return(status);
@@ -1434,18 +1434,18 @@ int U_PMF_PENOPTIONALDATA_print(const char *contents, int Flags, FILE *out){
                  &CECapData);
    if(status){
       if(Flags & U_PD_Transform){      (void) U_PMF_TRANSFORMMATRIX2_print(&Matrix, out);}
-      if(Flags & U_PD_StartCap){       printf(" StartCap:%d",   StartCap        );}
-      if(Flags & U_PD_EndCap){         printf(" EndCap:%d",     EndCap          );}
-      if(Flags & U_PD_Join){           printf(" Join:%X",       Join            );}
-      if(Flags & U_PD_MiterLimit){     printf(" MiterLimit:%f", MiterLimit      );}
-      if(Flags & U_PD_LineStyle){      printf(" Style:%X",      Style           );}
-      if(Flags & U_PD_DLCap){          printf(" DLCap:%X",      DLCap           );}
-      if(Flags & U_PD_DLOffset){       printf(" DLOffset:%f",   DLOffset        );}
+      if(Flags & U_PD_StartCap){       verbose_printf(" StartCap:%d",   StartCap        );}
+      if(Flags & U_PD_EndCap){         verbose_printf(" EndCap:%d",     EndCap          );}
+      if(Flags & U_PD_Join){           verbose_printf(" Join:%X",       Join            );}
+      if(Flags & U_PD_MiterLimit){     verbose_printf(" MiterLimit:%f", MiterLimit      );}
+      if(Flags & U_PD_LineStyle){      verbose_printf(" Style:%X",      Style           );}
+      if(Flags & U_PD_DLCap){          verbose_printf(" DLCap:%X",      DLCap           );}
+      if(Flags & U_PD_DLOffset){       verbose_printf(" DLOffset:%f",   DLOffset        );}
       if(Flags & U_PD_DLData){         (void) U_PMF_DASHEDLINEDATA_print(DLData, out);}
-      if(Flags & U_PD_NonCenter){      printf(" Alignment:%d",  Alignment       );}
+      if(Flags & U_PD_NonCenter){      verbose_printf(" Alignment:%d",  Alignment       );}
       if(Flags & (U_PD_Transform | U_PD_StartCap   | U_PD_EndCap    |
                   U_PD_Join      | U_PD_MiterLimit | U_PD_LineStyle |
-                  U_PD_DLCap     | U_PD_DLOffset   |U_PD_DLData     |U_PD_NonCenter)){ printf("\n"); }
+                  U_PD_DLCap     | U_PD_DLOffset   |U_PD_DLData     |U_PD_NonCenter)){ verbose_printf("\n"); }
       if(Flags & U_PD_CLData){         (void) U_PMF_COMPOUNDLINEDATA_print(CmpndLineData, out); }
       if(Flags & U_PD_CustomStartCap){ (void) U_PMF_CUSTOMSTARTCAPDATA_print(CSCapData, out);   }
       if(Flags & U_PD_CustomEndCap){   (void) U_PMF_CUSTOMENDCAPDATA_print(CECapData, out);     }
@@ -1462,7 +1462,7 @@ int U_PMF_POINT_print(const char **contents, FILE *out){
    U_FLOAT X, Y;
    int status = U_PMF_POINT_get(contents, &X, &Y);
    if(status){
-      printf("{%f,%f}", X, Y);
+      verbose_printf("{%f,%f}", X, Y);
    }
    return(status);
 }
@@ -1475,7 +1475,7 @@ int U_PMF_POINT_print(const char **contents, FILE *out){
 */
 int U_PMF_POINT_S_print(U_PMF_POINT *Point, FILE *out){\
    if(!Point){ return(0); }
-   printf("{%d,%d}", Point->X, Point->Y);
+   verbose_printf("{%d,%d}", Point->X, Point->Y);
    return(1);
 }
 
@@ -1489,7 +1489,7 @@ int U_PMF_POINTF_print(const char **contents, FILE *out){
    U_FLOAT X, Y;
    int status = U_PMF_POINTF_get(contents, &X, &Y);
    if(status){
-      printf("{%f,%f}", X, Y);
+      verbose_printf("{%f,%f}", X, Y);
    }
    return(status);
 }
@@ -1502,7 +1502,7 @@ int U_PMF_POINTF_print(const char **contents, FILE *out){
 */
 int U_PMF_POINTF_S_print(U_PMF_POINTF *Point, FILE *out){
    if(!Point){ return(0); }
-   printf("{%f,%f}", Point->X, Point->Y);
+   verbose_printf("{%f,%f}", Point->X, Point->Y);
    return(1);
 }
 
@@ -1525,7 +1525,7 @@ int U_PMF_POINTR_print(const char **contents, U_FLOAT *Xpos, U_FLOAT *Ypos, FILE
    *Xpos += X;
    *Ypos += Y;
    if(status){
-      printf("{%f,%f(%f,%f)}", *Xpos, *Ypos, X, Y);
+      verbose_printf("{%f,%f(%f,%f)}", *Xpos, *Ypos, X, Y);
    }
    return(status);
 }
@@ -1540,7 +1540,7 @@ int U_PMF_RECT_print(const char **contents, FILE *out){
    int16_t X, Y, Width, Height;
    int status = U_PMF_RECT_get(contents, &X, &Y, &Width, &Height);
    if(status){
-      printf("{UL{%d,%d},WH{%d,%d}}", X, Y, Width, Height);
+      verbose_printf("{UL{%d,%d},WH{%d,%d}}", X, Y, Width, Height);
    }
    return(status);
 }
@@ -1552,7 +1552,7 @@ int U_PMF_RECT_print(const char **contents, FILE *out){
     EMF+ manual 2.2.2.39, Microsoft name: EmfPlusRectF Object
 */
 int U_PMF_RECT_S_print(U_PMF_RECT *Rect, FILE *out){
-   printf("{UL{%d,%d},WH{%d,%d}}", Rect->X, Rect->Y, Rect->Width, Rect->Height);
+   verbose_printf("{UL{%d,%d},WH{%d,%d}}", Rect->X, Rect->Y, Rect->Width, Rect->Height);
    return(1);
 }
 
@@ -1566,7 +1566,7 @@ int U_PMF_RECTF_print(const char **contents, FILE *out){
    U_FLOAT X, Y, Width, Height;
    int status = U_PMF_RECTF_get(contents, &X, &Y, &Width, &Height);
    if(status){
-      printf("{UL{%f,%f},WH{%f,%f}}", X, Y, Width, Height);
+      verbose_printf("{UL{%f,%f},WH{%f,%f}}", X, Y, Width, Height);
    }
    return(status);
 }
@@ -1578,7 +1578,7 @@ int U_PMF_RECTF_print(const char **contents, FILE *out){
     EMF+ manual 2.2.2.39, Microsoft name: EmfPlusRectF Object
 */
 int U_PMF_RECTF_S_print(U_PMF_RECTF *Rect, FILE *out){
-   printf("{UL{%f,%f},WH{%f,%f}}", Rect->X, Rect->Y, Rect->Width, Rect->Height);
+   verbose_printf("{UL{%f,%f},WH{%f,%f}}", Rect->X, Rect->Y, Rect->Width, Rect->Height);
    return(1);
 }
 
@@ -1595,27 +1595,27 @@ int U_PMF_REGIONNODE_print(const char *contents, int Level, FILE *out){
    const char *Data;
    int status = U_PMF_REGIONNODE_get(contents, &Type, &Data);
    if(status){
-      printf("\n   +  RegionNode(Level:%d) { Type:%X(",Level,Type);
+      verbose_printf("\n   +  RegionNode(Level:%d) { Type:%X(",Level,Type);
       U_PMF_NODETYPE_print(Type, out);
-      printf(")");
+      verbose_printf(")");
       if(Type >= U_RNDT_And && Type <= U_RNDT_Complement){
          len += U_PMF_REGIONNODECHILDNODES_print(Data, Level+1, out);
       }
       else if(Type == U_RNDT_Rect){
          len += sizeof(U_PMF_RECTF);
          (void) U_PMF_RECTF_print(&Data, out);
-         printf("\n");
+         verbose_printf("\n");
       }
       else if(Type == U_RNDT_Path){
          len += U_PMF_REGIONNODEPATH_print(Data, out);
       }
       /* U_RNDT_Empty and  U_RNDT_Infinite do not change the length */
-      else if(Type == U_RNDT_Empty     ){ printf(" Empty"     ); }
-      else if(Type == U_RNDT_Infinite  ){ printf(" Infinite"  ); }
-      printf("   +  RegionNode(Level:%d) }",Level);
+      else if(Type == U_RNDT_Empty     ){ verbose_printf(" Empty"     ); }
+      else if(Type == U_RNDT_Infinite  ){ verbose_printf(" Infinite"  ); }
+      verbose_printf("   +  RegionNode(Level:%d) }",Level);
       status = len; /* length of data + length of type */
    }
-   printf("\n");
+   verbose_printf("\n");
    return(status);
 }
 
@@ -1628,16 +1628,16 @@ int U_PMF_REGIONNODE_print(const char *contents, int Level, FILE *out){
 */
 int U_PMF_REGIONNODECHILDNODES_print(const char *contents, int Level, FILE *out){
    uint32_t    size,rsize;
-   printf(" RegionNodeChildNodes:\n");
-   printf("   +  RNCN__Left(Level:%d) {",    Level);
+   verbose_printf(" RegionNodeChildNodes:\n");
+   verbose_printf("   +  RNCN__Left(Level:%d) {",    Level);
    size = U_PMF_REGIONNODE_print(contents, Level, out);
-   printf("   +  RNCN__Left(Level:%d) },\n", Level);
+   verbose_printf("   +  RNCN__Left(Level:%d) },\n", Level);
    if(size){
       contents += size;
-      printf("   +  RNCN_Right(Level:%d) {",   Level);
+      verbose_printf("   +  RNCN_Right(Level:%d) {",   Level);
       rsize = U_PMF_REGIONNODE_print(contents, Level, out);
       size += rsize;
-      printf("   +  RNCN_Right(Level:%d) },\n",Level);
+      verbose_printf("   +  RNCN_Right(Level:%d) },\n",Level);
    }
    return(size);
 }
@@ -1653,7 +1653,7 @@ int U_PMF_REGIONNODEPATH_print(const char *contents, FILE *out){
    const char *Data;
    int status = U_PMF_REGIONNODEPATH_get(contents, &Size, &Data);
    if(status){
-      printf(" RegionNodePath: \n");
+      verbose_printf(" RegionNodePath: \n");
       (void) U_PMF_PATH_print(Data, out);
       status = Size + 4; /* data sizee + the 4 bytes encoding the size */
    }
@@ -1671,7 +1671,7 @@ int U_PMF_SOLIDBRUSHDATA_print(const char *contents, FILE *out){
    U_PMF_ARGB Color;
    int status = U_PMF_SOLIDBRUSHDATA_get(contents, &Color);
    if(status){
-      printf(" SolidBrushData: ");
+      verbose_printf(" SolidBrushData: ");
       (void) U_PMF_ARGB_print((char *) &Color, out);
    }
    return(status);
@@ -1690,15 +1690,15 @@ int U_PMF_STRINGFORMATDATA_print(const char *contents, uint32_t TabStopCount, ui
    const U_PMF_CHARACTERRANGE  *CharRange;
    int status = U_PMF_STRINGFORMATDATA_get(contents, TabStopCount, RangeCount, &TabStops, &CharRange);
    if(status){
-      printf(" SFdata: TabStopCount:%u RangeCount:%u\n", TabStopCount, RangeCount);
+      verbose_printf(" SFdata: TabStopCount:%u RangeCount:%u\n", TabStopCount, RangeCount);
 
-      printf("  Tabstops:");
-      for(; TabStopCount; TabStopCount--,TabStops++){ printf(" %f",*TabStops);  }
-      printf("\n");
+      verbose_printf("  Tabstops:");
+      for(; TabStopCount; TabStopCount--,TabStops++){ verbose_printf(" %f",*TabStops);  }
+      verbose_printf("\n");
 
-      printf("  CharRange:");
-      for(; RangeCount; RangeCount--,CharRange++){  printf(" {%d,%d}",CharRange->First,CharRange->Length); }
-      printf("\n");
+      verbose_printf("  CharRange:");
+      for(; RangeCount; RangeCount--,CharRange++){  verbose_printf(" {%d,%d}",CharRange->First,CharRange->Length); }
+      verbose_printf("\n");
 
    }
    return(status);
@@ -1716,7 +1716,7 @@ int U_PMF_TEXTUREBRUSHDATA_print(const char *contents, FILE *out){
    const char *Data;
    int status = U_PMF_TEXTUREBRUSHDATA_get(contents, &Flags, &WrapMode, &Data);
    if(status){
-      printf("   +  TBdata: Flags:%X WrapMode:%d", Flags, WrapMode);
+      verbose_printf("   +  TBdata: Flags:%X WrapMode:%d", Flags, WrapMode);
    }
    return(status);
 }
@@ -1734,7 +1734,7 @@ int U_PMF_TEXTUREBRUSHOPTIONALDATA_print(const char *contents, int HasImage, FIL
    const char *Image;
    int status = U_PMF_TEXTUREBRUSHOPTIONALDATA_get(contents, HasImage, &Matrix, &Image);
    if(status){
-      printf("   +  TBOptdata: Image:%c", (HasImage ? 'Y' : 'N'));
+      verbose_printf("   +  TBOptdata: Image:%c", (HasImage ? 'Y' : 'N'));
       (void) U_PMF_TRANSFORMMATRIX2_print(&Matrix, out);
       (void) U_PMF_IMAGE_print(Image, out);
    }
@@ -1763,7 +1763,7 @@ int U_PMF_TRANSFORMMATRIX_print(const char *contents, FILE *out){
     EMF+ manual 2.2.2.47, Microsoft name: EmfPlusTransformMatrix Object
 */
 int U_PMF_TRANSFORMMATRIX2_print(U_PMF_TRANSFORMMATRIX *Tm, FILE *out){
-   printf(" Matrix:{%f,%f,%f,%f,%f,%f}", Tm->m11, Tm->m12, Tm->m21, Tm->m22, Tm->dX, Tm->dY);
+   verbose_printf(" Matrix:{%f,%f,%f,%f,%f,%f}", Tm->m11, Tm->m12, Tm->m21, Tm->m22, Tm->dX, Tm->dY);
    return(1);
 }
 
@@ -1774,7 +1774,7 @@ int U_PMF_TRANSFORMMATRIX2_print(U_PMF_TRANSFORMMATRIX *Tm, FILE *out){
     NOT DOCUMENTED, like EMF+ manual 2.2.2.47, Microsoft name: EmfPlusTransformMatrix Object, but missing offset values
 */
 int U_PMF_ROTMATRIX2_print(U_PMF_ROTMATRIX *Rm, FILE *out){
-   printf(" Matrix:{%f,%f,%f,%f}", Rm->m11, Rm->m12, Rm->m21, Rm->m22);
+   verbose_printf(" Matrix:{%f,%f,%f,%f}", Rm->m11, Rm->m12, Rm->m21, Rm->m22);
    return(1);
 }
 
@@ -1789,7 +1789,7 @@ int U_PMF_IE_BLUR_print(const char *contents, FILE *out){
    uint32_t ExpandEdge;
    int status = U_PMF_IE_BLUR_get(contents, &Radius, &ExpandEdge);
    if(status){
-      printf("BlurEffect Radius:%f ExpandEdge:%u\n", Radius, ExpandEdge);
+      verbose_printf("BlurEffect Radius:%f ExpandEdge:%u\n", Radius, ExpandEdge);
    }
    return(status);
 }
@@ -1804,7 +1804,7 @@ int U_PMF_IE_BRIGHTNESSCONTRAST_print(const char *contents, FILE *out){
    int32_t Brightness, Contrast;
    int status = U_PMF_IE_BRIGHTNESSCONTRAST_get(contents, &Brightness, &Contrast);
    if(status){
-      printf("BrightnessContrastEffect Brightness:%d Contrast:%d\n", Brightness, Contrast);
+      verbose_printf("BrightnessContrastEffect Brightness:%d Contrast:%d\n", Brightness, Contrast);
    }
    return(status);
 }
@@ -1819,7 +1819,7 @@ int U_PMF_IE_COLORBALANCE_print(const char *contents, FILE *out){
    int32_t CyanRed, MagentaGreen, YellowBlue;
    int status = U_PMF_IE_COLORBALANCE_get(contents, &CyanRed, &MagentaGreen, &YellowBlue);
    if(status){
-      printf("ColorBalanceEffect CyanRed:%d MagentaGreen:%d YellowBlue:%d\n", CyanRed, MagentaGreen, YellowBlue);
+      verbose_printf("ColorBalanceEffect CyanRed:%d MagentaGreen:%d YellowBlue:%d\n", CyanRed, MagentaGreen, YellowBlue);
    }
    return(status);
 }
@@ -1835,7 +1835,7 @@ int U_PMF_IE_COLORCURVE_print(const char *contents, FILE *out){
    int32_t  Intensity;
    int status = U_PMF_IE_COLORCURVE_get(contents, &Adjust, &Channel, &Intensity);
    if(status){
-      printf("ColorBalanceEffect Adjust:%u Channel:%u Intensity:%d\n", Adjust, Channel, Intensity);
+      verbose_printf("ColorBalanceEffect Adjust:%u Channel:%u Intensity:%d\n", Adjust, Channel, Intensity);
    }
    return(status);
 }
@@ -1850,7 +1850,7 @@ int U_PMF_IE_COLORLOOKUPTABLE_print(const char *contents, FILE *out){
    const uint8_t *BLUT, *GLUT, *RLUT, *ALUT;
    int status = U_PMF_IE_COLORLOOKUPTABLE_get(contents, &BLUT, &GLUT, &RLUT, &ALUT);
    if(status){
-      printf("ColorLookupTableEffect \n");
+      verbose_printf("ColorLookupTableEffect \n");
       //U_PMF_UINT8_ARRAY_print(" BLUT:", BLUT, 256, "\n");
       //U_PMF_UINT8_ARRAY_print(" GLUT:", GLUT, 256, "\n");
       //U_PMF_UINT8_ARRAY_print(" RLUT:", RLUT, 256, "\n");
@@ -1870,13 +1870,13 @@ int U_PMF_IE_COLORMATRIX_print(const char *contents, FILE *out){
    int i,j;
    int status = U_PMF_IE_COLORMATRIX_get(contents, &Matrix);
    if(status){
-      printf("ColorMatrixEffect\n");
+      verbose_printf("ColorMatrixEffect\n");
       for(i=0;i<5;i++){
-         printf(" {");
-         for(j=0;j<4;i++){  printf("%f,",Matrix.M[i][j]);  }
-         printf("%f}",Matrix.M[i][j]); 
+         verbose_printf(" {");
+         for(j=0;j<4;i++){  verbose_printf("%f,",Matrix.M[i][j]);  }
+         verbose_printf("%f}",Matrix.M[i][j]); 
       }
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -1891,7 +1891,7 @@ int U_PMF_IE_HUESATURATIONLIGHTNESS_print(const char *contents, FILE *out){
    int32_t Hue, Saturation, Lightness;
    int status = U_PMF_IE_HUESATURATIONLIGHTNESS_get(contents, &Hue, &Saturation, &Lightness);
    if(status){
-      printf("HueSaturationLightnessEffect Hue:%d Saturation:%d Lightness:%d\n", Hue, Saturation, Lightness);
+      verbose_printf("HueSaturationLightnessEffect Hue:%d Saturation:%d Lightness:%d\n", Hue, Saturation, Lightness);
    }
    return(status);
 }
@@ -1906,7 +1906,7 @@ int U_PMF_IE_LEVELS_print(const char *contents, FILE *out){
    int32_t Highlight, Midtone, Shadow;
    int status = U_PMF_IE_LEVELS_get(contents, &Highlight, &Midtone, &Shadow);
    if(status){
-      printf("LevelEffect Highlight:%d Midtone:%d Shadow:%d\n", Highlight, Midtone, Shadow);
+      verbose_printf("LevelEffect Highlight:%d Midtone:%d Shadow:%d\n", Highlight, Midtone, Shadow);
    }
    return(status);
 }
@@ -1922,12 +1922,12 @@ int U_PMF_IE_REDEYECORRECTION_print(const char *contents, FILE *out){
    U_RECTL *Rects;
    int status = U_PMF_IE_REDEYECORRECTION_get(contents, &Elements, &Rects);
    if(status){
-      printf("RedEyeCorrectionEffect Elements:%u", Elements);
+      verbose_printf("RedEyeCorrectionEffect Elements:%u", Elements);
       for(; Elements; Elements--, Rects++){
-         printf(" ");
+         verbose_printf(" ");
          rectl_print(*Rects);
       }
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -1943,7 +1943,7 @@ int U_PMF_IE_SHARPEN_print(const char *contents, FILE *out){
    int32_t  Sharpen;
    int status = U_PMF_IE_SHARPEN_get(contents, &Radius, &Sharpen);
    if(status){
-      printf("SharpenEffect Radius:%f Sharpen:%u\n", Radius, Sharpen);
+      verbose_printf("SharpenEffect Radius:%f Sharpen:%u\n", Radius, Sharpen);
    }
    return(status);
 }
@@ -1958,7 +1958,7 @@ int U_PMF_IE_TINT_print(const char *contents, FILE *out){
    int32_t  Hue, Amount;
    int status = U_PMF_IE_TINT_get(contents, &Hue, &Amount);
    if(status){
-      printf("TintEffect Hue:%d Amount:%d\n", Hue, Amount);
+      verbose_printf("TintEffect Hue:%d Amount:%d\n", Hue, Amount);
    }
    return(status);
 }
@@ -1979,7 +1979,7 @@ int U_PMR_OFFSETCLIP_print(const char *contents, FILE *out){
    U_FLOAT       dX,dY;
    int status = U_PMR_OFFSETCLIP_get(contents, &Header, &dX, &dY);
    if(status){
-      printf("   +  dx:%f dy:%f\n",dX,dY);
+      verbose_printf("   +  dx:%f dy:%f\n",dX,dY);
    }
    return(status);
 }
@@ -2005,7 +2005,7 @@ int U_PMR_SETCLIPPATH_print(const char *contents, FILE *out){
    uint32_t PathID;
    int status =  U_PMR_SETCLIPPATH_get(contents, NULL, &PathID, &CMenum);
    if(status){
-      printf("   +  PathID:%u CMenum:%d\n",PathID,CMenum);
+      verbose_printf("   +  PathID:%u CMenum:%d\n",PathID,CMenum);
    }
    return(status);
 }
@@ -2021,11 +2021,11 @@ int U_PMR_SETCLIPRECT_print(const char *contents, FILE *out){
    U_PMF_RECTF Rect;
    int status = U_PMR_SETCLIPRECT_get(contents, NULL, &CMenum, &Rect);
    if(status){
-      printf("   +  CMenum:%d(", CMenum);
+      verbose_printf("   +  CMenum:%d(", CMenum);
       U_PMF_COMBINEMODEENUMERATION_print(CMenum, out);
-      printf(") Rect:");
+      verbose_printf(") Rect:");
       U_PMF_RECTF_S_print(&Rect, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2041,9 +2041,9 @@ int U_PMR_SETCLIPREGION_print(const char *contents, FILE *out){
    uint32_t PathID;
    int status = U_PMR_SETCLIPREGION_get(contents, NULL, &PathID, &CMenum);
    if(status){
-      printf("   +  PathID:%u CMenum:%d(",PathID, CMenum);
+      verbose_printf("   +  PathID:%u CMenum:%d(",PathID, CMenum);
       U_PMF_COMBINEMODEENUMERATION_print(CMenum, out);
-      printf(")\n");
+      verbose_printf(")\n");
    }
    return(status);
 }
@@ -2062,13 +2062,13 @@ int U_PMR_COMMENT_print(const char *contents, FILE *out){
    int status = U_PMR_COMMENT_get(contents, &Header, &Data);
    if(status){
       /* try to print it, but only ASCII, bail on anything that is not ASCII */
-      printf("   +  Data:");
+      verbose_printf("   +  Data:");
       for(i=0; i< Header.DataSize; i++,Data++){
         if(!*Data)break;
-        if(*(unsigned const char *)Data <128){ printf("%c",*Data); }
+        if(*(unsigned const char *)Data <128){ verbose_printf("%c",*Data); }
         else {                                 break;              }
       }
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2106,9 +2106,9 @@ int U_PMR_HEADER_print(const char *contents, FILE *out){
    int status = U_PMR_HEADER_get(contents, NULL,  &Version, &IsDual, &IsVideo, &LogicalDpiX, &LogicalDpiY);
    if(status){
       /* try to print it, but only ASCII, bail on anything that is not ASCII */
-      printf("   + ");
+      verbose_printf("   + ");
       (void) U_PMF_GRAPHICSVERSION_print((char *) &Version, out);
-      printf(" IsDual:%c IsVideo:%d LogicalDpiX,y:{%u,%u}\n",(IsDual ? 'Y' : 'N'),IsVideo,LogicalDpiX, LogicalDpiY);
+      verbose_printf(" IsDual:%c IsVideo:%d LogicalDpiX,y:{%u,%u}\n",(IsDual ? 'Y' : 'N'),IsVideo,LogicalDpiX, LogicalDpiY);
    }
    return(status);
 }
@@ -2124,7 +2124,7 @@ int U_PMR_CLEAR_print(const char *contents, FILE *out){
    int status = U_PMR_CLEAR_get(contents, NULL, &Color);
    if(status){
       /* try to print it, but only ASCII, bail on anything that is not ASCII */
-      printf("   +  Color:");
+      verbose_printf("   +  Color:");
       (void) U_PMF_ARGB_print((char *) &Color, out);
    }
    return(status);
@@ -2143,9 +2143,9 @@ int U_PMR_DRAWARC_print(const char *contents, FILE *out){
    U_PMF_RECTF Rect;
    int status = U_PMR_DRAWARC_get(contents, NULL, &PenID, &ctype, &Start, &Sweep, &Rect);
    if(status){
-      printf("   +  PenID:%u ctype:%d Start:%f Sweep:%f Rect:", PenID,ctype,Start,Sweep);
+      verbose_printf("   +  PenID:%u ctype:%d Start:%f Sweep:%f Rect:", PenID,ctype,Start,Sweep);
       (void) U_PMF_VARRECTF_S_print(&Rect, 1, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2163,7 +2163,7 @@ int U_PMR_DRAWBEZIERS_print(const char *contents, FILE *out){
    U_PMF_POINTF *Points;
    int status = U_PMR_DRAWBEZIERS_get(contents, NULL, &PenID, &ctype, &RelAbs, &Elements, &Points);
    if(status){
-      printf("   +  PenIdx:%u ctype:%d RelAbs:%d Elements:%u\n", PenID, ctype, RelAbs, Elements);
+      verbose_printf("   +  PenIdx:%u ctype:%d RelAbs:%d Elements:%u\n", PenID, ctype, RelAbs, Elements);
       U_PMF_VARPOINTF_S_print(Points, Elements, out);
       free(Points);
    }
@@ -2190,7 +2190,7 @@ int U_PMR_DRAWCLOSEDCURVE_print(const char *contents, FILE *out){
    U_PMF_POINTF *Points;
    int status = U_PMR_DRAWCLOSEDCURVE_get(contents, NULL, &PenID, &ctype, &RelAbs, &Tension, &Elements, &Points);
    if(status){
-      printf("   +  PenID:%u ctype:%d RelAbs:%d Tension:%f\n", PenID, ctype, RelAbs, Tension);
+      verbose_printf("   +  PenID:%u ctype:%d RelAbs:%d Tension:%f\n", PenID, ctype, RelAbs, Tension);
       U_PMF_VARPOINTF_S_print(Points, Elements, out);
       free(Points);
    }
@@ -2217,7 +2217,7 @@ int U_PMR_DRAWCURVE_print(const char *contents, FILE *out){
    U_PMF_POINTF *Points;
    int status = U_PMR_DRAWCURVE_get(contents, NULL, &PenID, &ctype, &Tension, &Offset, &NSegs, &Elements, &Points);
    if(status){
-      printf("   +  PenID:%u ctype:%d Tension:%f Offset:%u NSegs:%u Elements:%u\n", PenID, ctype, Tension, Offset, NSegs, Elements);
+      verbose_printf("   +  PenID:%u ctype:%d Tension:%f Offset:%u NSegs:%u Elements:%u\n", PenID, ctype, Tension, Offset, NSegs, Elements);
       U_PMF_VARPOINTF_S_print(Points, Elements, out);
       free(Points);
    }
@@ -2242,32 +2242,32 @@ int U_PMR_DRAWDRIVERSTRING_print(const char *contents, FILE *out){
    int status = U_PMR_DRAWDRIVERSTRING_get(contents, NULL, &FontID, &btype,
       &Tension, &BrushID, &DSOFlags, &HasMatrix, &Elements,&Glyphs, &Points, &Matrix);
    if(status){
-      printf("   +  FontID:%u btype:%d Tension:%f BrushID:%u DSOFlags:%X Elements:%u\n", FontID,btype,Tension, BrushID, DSOFlags, Elements);
+      verbose_printf("   +  FontID:%u btype:%d Tension:%f BrushID:%u DSOFlags:%X Elements:%u\n", FontID,btype,Tension, BrushID, DSOFlags, Elements);
 
-      printf("   +  Glyphs:");
+      verbose_printf("   +  Glyphs:");
       if(*Glyphs){
-         for(i=0; i<Elements;i++, Glyphs++){ printf(" %u",*Glyphs); }
+         for(i=0; i<Elements;i++, Glyphs++){ verbose_printf(" %u",*Glyphs); }
          free(Glyphs);
       }
       else {
-         printf("(none)");
+         verbose_printf("(none)");
       }
-      printf("\n");
+      verbose_printf("\n");
 
-      printf("   +  Positions:\n");
+      verbose_printf("   +  Positions:\n");
       if(Points){
          U_PMF_VARPOINTF_S_print(Points, Elements, out);
          free(Points);
       }
       else {
-         printf("(none)\n");
+         verbose_printf("(none)\n");
       }
 
       if(Matrix){
-         printf("   + ");
+         verbose_printf("   + ");
          U_PMF_TRANSFORMMATRIX2_print(Matrix, out);
          free(Matrix);
-         printf("\n");
+         verbose_printf("\n");
       }
 
    }
@@ -2286,9 +2286,9 @@ int U_PMR_DRAWELLIPSE_print(const char *contents, FILE *out){
    U_PMF_RECTF Rect;
    int status = U_PMR_DRAWELLIPSE_get(contents, NULL, &PenID, &ctype, &Rect);
    if(status){
-      printf("   +  PenID:%u ctype:%d", PenID,ctype);
+      verbose_printf("   +  PenID:%u ctype:%d", PenID,ctype);
       (void) U_PMF_VARRECTF_S_print(&Rect, 1, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2307,11 +2307,11 @@ int U_PMR_DRAWIMAGE_print(const char *contents, FILE *out){
    U_PMF_RECTF DstRect;
    int status = U_PMR_DRAWIMAGE_get(contents, NULL, &ImgID, &ctype, &ImgAttrID, &SrcUnit, &SrcRect, &DstRect);
    if(status){
-      printf("   +  ImgID:%u ctype:%d ImgAttrID:%u SrcUnit:%d SrcRect:", ImgID, ctype, ImgAttrID, SrcUnit);
+      verbose_printf("   +  ImgID:%u ctype:%d ImgAttrID:%u SrcUnit:%d SrcRect:", ImgID, ctype, ImgAttrID, SrcUnit);
       (void) U_PMF_RECTF_S_print(&SrcRect, out);
-      printf(" DstRect:");
+      verbose_printf(" DstRect:");
       (void) U_PMF_RECTF_S_print(&DstRect, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2332,10 +2332,10 @@ int U_PMR_DRAWIMAGEPOINTS_print(const char *contents, FILE *out){
    int status = U_PMR_DRAWIMAGEPOINTS_get(contents, NULL, &ImgID, &ctype, &etype, &RelAbs,
       &ImgAttrID, &SrcUnit, &SrcRect, &Elements, &Points);
    if(status){
-      printf("   +  ImgID:%u ctype:%d etype:%d ImgAttrID:%u SrcUnit:%d Elements:%u SrcRect:",
+      verbose_printf("   +  ImgID:%u ctype:%d etype:%d ImgAttrID:%u SrcUnit:%d Elements:%u SrcRect:",
          ImgID, ctype, etype, ImgAttrID, SrcUnit, Elements);
       (void) U_PMF_RECTF_S_print(&SrcRect, out);
-      printf("\n");
+      verbose_printf("\n");
       U_PMF_VARPOINTF_S_print(Points, Elements, out);
       free(Points);
    }
@@ -2356,7 +2356,7 @@ int U_PMR_DRAWLINES_print(const char *contents, FILE *out){
    U_PMF_POINTF *Points;
    int status = U_PMR_DRAWLINES_get(contents, NULL, &PenIdx, &ctype, &dtype, &RelAbs, &Elements, &Points);
    if(status){
-      printf("   +  PenIdx:%d ctype:%d dtype:%d RelAbs:%d\n", PenIdx,ctype,dtype,RelAbs);
+      verbose_printf("   +  PenIdx:%d ctype:%d dtype:%d RelAbs:%d\n", PenIdx,ctype,dtype,RelAbs);
       U_PMF_VARPOINTF_S_print(Points, Elements, out);
       free(Points);
    }
@@ -2373,7 +2373,7 @@ int U_PMR_DRAWPATH_print(const char *contents, FILE *out){
    uint32_t PathIdx, PenIdx;
    int status = U_PMR_DRAWPATH_get(contents, NULL, &PathIdx, &PenIdx);
    if(status){
-      printf("   +  PathIdx:%d PenIdx:%d\n", PathIdx, PenIdx);
+      verbose_printf("   +  PathIdx:%d PenIdx:%d\n", PathIdx, PenIdx);
    }
    return(status);
 }
@@ -2391,9 +2391,9 @@ int U_PMR_DRAWPIE_print(const char *contents, FILE *out){
    U_PMF_RECTF Rect;
    int status = U_PMR_DRAWPIE_get(contents, NULL, &PenID, &ctype, &Start, &Sweep, &Rect);
    if(status){
-      printf("   +  PenID:%u ctype:%d Start:%f Sweep:%f Rect:", PenID,ctype,Start,Sweep);
+      verbose_printf("   +  PenID:%u ctype:%d Start:%f Sweep:%f Rect:", PenID,ctype,Start,Sweep);
       (void) U_PMF_VARRECTF_S_print(&Rect, 1, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2414,9 +2414,9 @@ int U_PMR_DRAWRECTS_print(const char *contents, const char *blimit, FILE *out){
    int status = U_PMR_DRAWRECTS_get(contents, &hdr, &PenID, &ctype, &Elements, &Rects);
    if(status){
       if(contents + hdr.Size >= blimit)return(0);
-      printf("   +  PenID:%u ctype:%d Elements:%u Rect:", PenID,ctype,Elements);
+      verbose_printf("   +  PenID:%u ctype:%d Elements:%u Rect:", PenID,ctype,Elements);
       (void) U_PMF_VARRECTF_S_print(Rects, Elements, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    if(Rects)free(Rects);
    return(status);
@@ -2437,19 +2437,19 @@ int U_PMR_DRAWSTRING_print(const char *contents, FILE *out){
    int status = U_PMR_DRAWSTRING_get(contents, NULL, &FontID, &btype, 
       &BrushID, &FormatID, &Length, &Rect, &String16);
    if(status){
-      printf("   +  FontID:%u StringFormatID:%u btype:%d Length:%u Rect:", FontID, FormatID, btype, Length);
+      verbose_printf("   +  FontID:%u StringFormatID:%u btype:%d Length:%u Rect:", FontID, FormatID, btype, Length);
       (void) U_PMF_RECTF_S_print(&Rect, out);
       (void) U_PMF_VARBRUSHID_print(btype, BrushID, out);
       if(String16){
          String8 = U_Utf16leToUtf8(String16, Length, NULL);
          free(String16);
          if(String8){
-            printf(" String(as_UTF8):<%s>\n",String8);
+            verbose_printf(" String(as_UTF8):<%s>\n",String8);
             free(String8);
          }
       }
       else {
-         printf(" String(as_UTF8):(none)\n");
+         verbose_printf(" String(as_UTF8):(none)\n");
       }
    }
    return(status);
@@ -2470,10 +2470,10 @@ int U_PMR_FILLCLOSEDCURVE_print(const char *contents, FILE *out){
    int status = U_PMR_FILLCLOSEDCURVE_get(contents, NULL, &btype, &ctype, &ftype, &RelAbs, 
       &BrushID, &Tension, &Elements, &Points);
    if(status){
-      printf("   +  btype:%d ctype:%d ftype:%d RelAbs:%d Elements:%u", 
+      verbose_printf("   +  btype:%d ctype:%d ftype:%d RelAbs:%d Elements:%u", 
         btype, ctype, ftype, RelAbs, Elements);
       (void) U_PMF_VARBRUSHID_print(btype, BrushID, out);
-      printf("\n");
+      verbose_printf("\n");
       U_PMF_VARPOINTF_S_print(Points, Elements, out);
       free(Points);
    }
@@ -2493,10 +2493,10 @@ int U_PMR_FILLELLIPSE_print(const char *contents, FILE *out){
    U_PMF_RECTF Rect;
    int status = U_PMR_FILLELLIPSE_get(contents, NULL, &btype, &ctype, &BrushID, &Rect);
    if(status){
-      printf("   +  btype:%d ctype:%d",btype,ctype);
+      verbose_printf("   +  btype:%d ctype:%d",btype,ctype);
       (void) U_PMF_VARBRUSHID_print(btype, BrushID, out);
       (void) U_PMF_VARRECTF_S_print(&Rect, 1, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2512,9 +2512,9 @@ int U_PMR_FILLPATH_print(const char *contents, FILE *out){
    uint32_t PathID, BrushID;
    int status = U_PMR_FILLPATH_get(contents, NULL, &PathID, &btype, &BrushID);
    if(status){
-      printf("   +  PathID:%u btype:%d",PathID, btype);
+      verbose_printf("   +  PathID:%u btype:%d",PathID, btype);
       (void) U_PMF_VARBRUSHID_print(btype, BrushID, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2532,10 +2532,10 @@ int U_PMR_FILLPIE_print(const char *contents, FILE *out){
    U_PMF_RECTF Rect;
    int status = U_PMR_FILLPIE_get(contents, NULL, &btype, &ctype, &BrushID, &Start, &Sweep, &Rect);
    if(status){
-      printf("   +  btype:%d ctype:%d",btype,ctype);
+      verbose_printf("   +  btype:%d ctype:%d",btype,ctype);
       (void) U_PMF_VARBRUSHID_print(btype, BrushID, out);
       (void) U_PMF_VARRECTF_S_print(&Rect, 1, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2552,9 +2552,9 @@ int U_PMR_FILLPOLYGON_print(const char *contents, FILE *out){
    U_PMF_POINTF *Points;
    int status = U_PMR_FILLPOLYGON_get(contents, NULL, &btype, &ctype, &RelAbs, &BrushID, &Elements, &Points);
    if(status){
-      printf("   +  btype:%d ctype:%d RelAbs:%d Elements:%u",btype,ctype,RelAbs,Elements);
+      verbose_printf("   +  btype:%d ctype:%d RelAbs:%d Elements:%u",btype,ctype,RelAbs,Elements);
       (void) U_PMF_VARBRUSHID_print(btype, BrushID, out);
-      printf("\n");
+      verbose_printf("\n");
       U_PMF_VARPOINTF_S_print(Points, Elements, out);
       free(Points);
    }
@@ -2576,11 +2576,11 @@ int U_PMR_FILLRECTS_print(const char *contents, const char *blimit, FILE *out){
    int status = U_PMR_FILLRECTS_get(contents, &hdr, &btype,&ctype, &BrushID, &Elements, &Rects);
    if(status){
       if(contents + hdr.Size >= blimit)return(0);
-      printf("   +  btype:%d ctype:%d Elements:%u",btype,ctype,Elements);
+      verbose_printf("   +  btype:%d ctype:%d Elements:%u",btype,ctype,Elements);
       (void) U_PMF_VARBRUSHID_print(btype, BrushID, out);
       (void) U_PMF_VARRECTF_S_print(Rects, Elements, out);
       free(Rects);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2596,9 +2596,9 @@ int U_PMR_FILLREGION_print(const char *contents, FILE *out){
    int btype, ctype;
    int status = U_PMR_FILLREGION_get(contents, NULL, &RgnID, &btype, &ctype, &BrushID);
    if(status){
-      printf("   +  RgnID:%u btype:%d ctype:%d", RgnID, btype, ctype);
+      verbose_printf("   +  RgnID:%u btype:%d ctype:%d", RgnID, btype, ctype);
       (void) U_PMF_VARBRUSHID_print(btype, BrushID, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2620,7 +2620,7 @@ int U_PMR_OBJECT_print(const char *contents, const char *blimit, U_OBJ_ACCUM *Ob
    const char *Data;
    int ttype,status;
 
-//int k; const char *cptr; for(cptr=contents, k=0; k<608;k++,cptr++){ printf("%3.3d %2.2X\n",k,*(uint8_t*)cptr); }; fflush(stdout);
+//int k; const char *cptr; for(cptr=contents, k=0; k<608;k++,cptr++){ verbose_printf("%3.3d %2.2X\n",k,*(uint8_t*)cptr); }; fflush(stdout);
 
    /* Continued records are a pain. Each contains the total size of the continued object in the first 4 bytes
       of data.  When the total hits that then then the record is complete, even though the continuation bit will
@@ -2629,11 +2629,11 @@ int U_PMR_OBJECT_print(const char *contents, const char *blimit, U_OBJ_ACCUM *Ob
 
    if(term){ /* mode for handling unexpected end of accumulated object */
       if(ObjCont->used == 0)return(0);                           /* no continued object pending */
-      printf("   +  START Forced Termination of Accumulating object Bytes:%u ObjID:%u DeclaredType:%d(", 
+      verbose_printf("   +  START Forced Termination of Accumulating object Bytes:%u ObjID:%u DeclaredType:%d(", 
          ObjCont->used, ObjCont->Id, ObjCont->Type);
       U_PMF_OBJECTTYPEENUMERATION_print(ObjCont->Type, out);
       ttype = ObjCont->Type & 0x3F;
-      printf(")\n");
+      verbose_printf(")\n");
       status = 1;
    }
    else {
@@ -2646,20 +2646,20 @@ int U_PMR_OBJECT_print(const char *contents, const char *blimit, U_OBJ_ACCUM *Ob
       if((ObjCont->used > 0) && (U_OA_append(ObjCont, NULL, 0, otype, ObjID) < 0)){
          U_PMR_OBJECT_print(contents, blimit, ObjCont, 1, out);
       }
-      printf("   +  ObjID:%u ObjType:%d(", ObjID, otype);
+      verbose_printf("   +  ObjID:%u ObjType:%d(", ObjID, otype);
       U_PMF_OBJECTTYPEENUMERATION_print(otype, out);
-      printf(") ntype:%d", ntype);
-      printf(" ContinueD:%c",( ObjCont->used ? 'Y' : 'N'));
-      printf(" ContinueB:%c",( ntype    ? 'Y' : 'N'));
+      verbose_printf(") ntype:%d", ntype);
+      verbose_printf(" ContinueD:%c",( ObjCont->used ? 'Y' : 'N'));
+      verbose_printf(" ContinueB:%c",( ntype    ? 'Y' : 'N'));
       if(ntype){
          U_OA_append(ObjCont, Data, Header.DataSize - 4, otype, ObjID); // The total byte count is not added to the object
-         printf(" TotalSize:%u",TSize);
-         printf(" Accumulated:%u",ObjCont->used);
+         verbose_printf(" TotalSize:%u",TSize);
+         verbose_printf(" Accumulated:%u",ObjCont->used);
       }
       else {
          U_OA_append(ObjCont, Data, Header.DataSize, otype, ObjID); // The total byte count is not added to the object
       }
-      printf("\n");
+      verbose_printf("\n");
       if(ntype && ObjCont->used < TSize)return(status);
       /* preceding terminates any continued series for >= accumulated bytes */
       ttype = otype;
@@ -2677,12 +2677,12 @@ int U_PMR_OBJECT_print(const char *contents, const char *blimit, U_OBJ_ACCUM *Ob
          case U_OT_CustomLineCap:   (void) U_PMF_CUSTOMLINECAP_print(ObjCont->accum,"", out); break;
          case U_OT_Invalid:
          default:
-            printf("INVALID OBJECT TYPE!!!!\n");
+            verbose_printf("INVALID OBJECT TYPE!!!!\n");
             break;
       }
       U_OA_clear(ObjCont);  
    }
-   if(term)printf("   +  END   Forced Termination of Accumulating object\n");
+   if(term)verbose_printf("   +  END   Forced Termination of Accumulating object\n");
    return(status);
 }
 
@@ -2702,12 +2702,12 @@ int U_PMR_SERIALIZABLEOBJECT_print(const char *contents, FILE *out){
    if(status){
       string = U_PMF_CURLYGUID_set(&GUID[0]);
       if(string){
-         printf("   +  GUID:%s Size:%u",string,Size);
+         verbose_printf("   +  GUID:%s Size:%u",string,Size);
          iee = U_PMF_KNOWNCURLYGUID_set(string); /* overwrites string with short text form */
-         printf("\n   +  Effect:");
+         verbose_printf("\n   +  Effect:");
          free(string);
          switch(iee){
-            case U_IEE_Unknown:                          printf("(undefined)\n");                     break;                        
+            case U_IEE_Unknown:                          verbose_printf("(undefined)\n");                     break;                        
             case U_IEE_BlurEffectGuid:                   U_PMF_IE_BLUR_print(Data, out);                   break;
             case U_IEE_BrightnessContrastEffectGuid:     U_PMF_IE_BRIGHTNESSCONTRAST_print(Data, out);     break;
             case U_IEE_ColorBalanceEffectGuid:           U_PMF_IE_COLORBALANCE_print(Data, out);           break;
@@ -2722,7 +2722,7 @@ int U_PMR_SERIALIZABLEOBJECT_print(const char *contents, FILE *out){
          }
       }
       else {
-         printf("   +  GUID:ERROR Size:%u\n",Size);
+         verbose_printf("   +  GUID:ERROR Size:%u\n",Size);
       }
    }
    return(status);
@@ -2738,7 +2738,7 @@ int U_PMR_SETANTIALIASMODE_print(const char *contents, FILE *out){
    int SMenum, aatype;
    int status = U_PMR_SETANTIALIASMODE_get(contents, NULL, &SMenum, &aatype);
    if(status){
-      printf("   +  SMenum:%d AntiAlias:%c\n",SMenum,(aatype ? 'Y' : 'N'));
+      verbose_printf("   +  SMenum:%d AntiAlias:%c\n",SMenum,(aatype ? 'Y' : 'N'));
    }
    return(status);
 }
@@ -2753,7 +2753,7 @@ int U_PMR_SETCOMPOSITINGMODE_print(const char *contents, FILE *out){
    int CMenum;
    int status = U_PMR_SETCOMPOSITINGMODE_get(contents, NULL, &CMenum);
    if(status){
-      printf("   +  CMenum:%d\n",CMenum);
+      verbose_printf("   +  CMenum:%d\n",CMenum);
    }
    return(status);
 }
@@ -2768,7 +2768,7 @@ int U_PMR_SETCOMPOSITINGQUALITY_print(const char *contents, FILE *out){
    int CQenum;
    int status = U_PMR_SETCOMPOSITINGQUALITY_get(contents, NULL, &CQenum);
    if(status){
-      printf("   +  CQenum:%d\n",CQenum);
+      verbose_printf("   +  CQenum:%d\n",CQenum);
    }
    return(status);
 }
@@ -2783,7 +2783,7 @@ int U_PMR_SETINTERPOLATIONMODE_print(const char *contents, FILE *out){
    int IMenum;
    int status = U_PMR_SETINTERPOLATIONMODE_get(contents, NULL, &IMenum);
    if(status){
-      printf("   +  IMenum:%d\n",IMenum);
+      verbose_printf("   +  IMenum:%d\n",IMenum);
    }
    return(status);
 }
@@ -2798,7 +2798,7 @@ int U_PMR_SETPIXELOFFSETMODE_print(const char *contents, FILE *out){
    int POMenum;
    int status = U_PMR_SETPIXELOFFSETMODE_get(contents, NULL, &POMenum);
    if(status){
-      printf("   +  POMenum:%d\n",POMenum);
+      verbose_printf("   +  POMenum:%d\n",POMenum);
    }
    return(status);
 }
@@ -2813,7 +2813,7 @@ int U_PMR_SETRENDERINGORIGIN_print(const char *contents, FILE *out){
    int32_t X, Y;
    int status = U_PMR_SETRENDERINGORIGIN_get(contents, NULL, &X, &Y);
    if(status){
-      printf("   +  X:%d Y:%d\n", X, Y);
+      verbose_printf("   +  X:%d Y:%d\n", X, Y);
    }
    return(status);
 }
@@ -2828,7 +2828,7 @@ int U_PMR_SETTEXTCONTRAST_print(const char *contents, FILE *out){
    int GC;
    int status = U_PMR_SETTEXTCONTRAST_get(contents, NULL, &GC);
    if(status){
-      printf("   +  GC:%d\n", GC);
+      verbose_printf("   +  GC:%d\n", GC);
    }
    return(status);
 }
@@ -2843,7 +2843,7 @@ int U_PMR_SETTEXTRENDERINGHINT_print(const char *contents, FILE *out){
    int TRHenum;
    int status = U_PMR_SETTEXTRENDERINGHINT_get(contents, NULL, &TRHenum);
    if(status){
-      printf("   +  TRHenum:%d\n",TRHenum);
+      verbose_printf("   +  TRHenum:%d\n",TRHenum);
    }
    return(status);
 }
@@ -2860,10 +2860,10 @@ int U_PMR_BEGINCONTAINER_print(const char *contents, FILE *out){
    uint32_t StackID;
    int status = U_PMR_BEGINCONTAINER_get(contents, NULL, &UTenum, &DstRect, &SrcRect, &StackID);
    if(status){
-      printf("   +  UTenum:%d",UTenum);
-      printf(" DstRect:");   (void) U_PMF_RECTF_S_print(&DstRect, out);
-      printf(" SrcRect:");   (void) U_PMF_RECTF_S_print(&SrcRect, out);
-      printf(" StackID:%u\n", StackID);
+      verbose_printf("   +  UTenum:%d",UTenum);
+      verbose_printf(" DstRect:");   (void) U_PMF_RECTF_S_print(&DstRect, out);
+      verbose_printf(" SrcRect:");   (void) U_PMF_RECTF_S_print(&SrcRect, out);
+      verbose_printf(" StackID:%u\n", StackID);
    }
    return(status);
 }
@@ -2878,7 +2878,7 @@ int U_PMR_BEGINCONTAINERNOPARAMS_print(const char *contents, FILE *out){
    uint32_t StackID;
    int status = U_PMR_BEGINCONTAINERNOPARAMS_get(contents, NULL, &StackID);
    if(status){
-      printf("   +  StackID:%u\n", StackID);
+      verbose_printf("   +  StackID:%u\n", StackID);
    }
    return(status);
 }
@@ -2893,7 +2893,7 @@ int U_PMR_ENDCONTAINER_print(const char *contents, FILE *out){
    uint32_t StackID;
    int status = U_PMR_ENDCONTAINER_get(contents, NULL, &StackID);
    if(status){
-      printf("   +  StackID:%u\n", StackID);
+      verbose_printf("   +  StackID:%u\n", StackID);
    }
    return(status);
 }
@@ -2908,7 +2908,7 @@ int U_PMR_RESTORE_print(const char *contents, FILE *out){
    uint32_t StackID;
    int status = U_PMR_RESTORE_get(contents, NULL, &StackID);
    if(status){
-      printf("   +  StackID:%u\n", StackID);
+      verbose_printf("   +  StackID:%u\n", StackID);
    }
    return(status);
 }
@@ -2923,7 +2923,7 @@ int U_PMR_SAVE_print(const char *contents, FILE *out){
    uint32_t StackID;
    int status = U_PMR_SAVE_get(contents, NULL, &StackID);
    if(status){
-      printf("   +  StackID:%u\n", StackID);
+      verbose_printf("   +  StackID:%u\n", StackID);
    }
    return(status);
 }
@@ -2940,10 +2940,10 @@ int U_PMR_SETTSCLIP_print(const char *contents, FILE *out){
    U_PMF_RECTF *Rects;
    int status = U_PMR_SETTSCLIP_get(contents, NULL, &ctype, &Elements, &Rects);
    if(status){
-      printf("   +  ctype:%d Elements:%u",ctype,Elements);
+      verbose_printf("   +  ctype:%d Elements:%u",ctype,Elements);
       (void) U_PMF_VARRECTF_S_print(Rects, Elements, out);
       free(Rects);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2967,15 +2967,15 @@ int U_PMR_SETTSGRAPHICS_print(const char *contents, FILE *out){
       &RenderOriginX, &RenderOriginY,  &TextContrast,    &FilterType,
       &PixelOffset,   &WorldToDevice, &Data);
    if(status){
-      printf("   +  vgatype:%d pptype:%u",vgatype,pptype);
-      printf(" AntiAliasMode:%u TextRenderHint:%u CompositingMode:%u CompositingQuality:%u",
+      verbose_printf("   +  vgatype:%d pptype:%u",vgatype,pptype);
+      verbose_printf(" AntiAliasMode:%u TextRenderHint:%u CompositingMode:%u CompositingQuality:%u",
          AntiAliasMode, TextRenderHint, CompositingMode, CompositingQuality);
-      printf(" RenderOriginX:%d RenderOriginY:%d",RenderOriginX, RenderOriginY);
-      printf(" TextContrast:%u",TextContrast);
-      printf(" WorldToDevice:");
+      verbose_printf(" RenderOriginX:%d RenderOriginY:%d",RenderOriginX, RenderOriginY);
+      verbose_printf(" TextContrast:%u",TextContrast);
+      verbose_printf(" WorldToDevice:");
       U_PMF_TRANSFORMMATRIX2_print(&WorldToDevice, out);
       if(pptype){ (void) U_PMF_PALETTE_print(Data, out); }
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -2992,9 +2992,9 @@ int U_PMR_MULTIPLYWORLDTRANSFORM_print(const char *contents, FILE *out){
    U_PMF_TRANSFORMMATRIX Matrix;
    int status = U_PMR_MULTIPLYWORLDTRANSFORM_get(contents, NULL, &xmtype, &Matrix);
    if(status){
-      printf("   +  xmtype:%d Multiply:%s",xmtype,(xmtype ? "Post" : "Pre"));
+      verbose_printf("   +  xmtype:%d Multiply:%s",xmtype,(xmtype ? "Post" : "Pre"));
       U_PMF_TRANSFORMMATRIX2_print(&Matrix, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -3020,7 +3020,7 @@ int U_PMR_ROTATEWORLDTRANSFORM_print(const char *contents, FILE *out){
    U_FLOAT Angle;
    int status = U_PMR_ROTATEWORLDTRANSFORM_get(contents, NULL, &xmtype, &Angle);
    if(status){
-      printf("   +  xmtype:%d Multiply:%s Angle:%f\n",xmtype,(xmtype ? "Post" : "Pre"), Angle);
+      verbose_printf("   +  xmtype:%d Multiply:%s Angle:%f\n",xmtype,(xmtype ? "Post" : "Pre"), Angle);
    }
    return(status);
 }
@@ -3036,7 +3036,7 @@ int U_PMR_SCALEWORLDTRANSFORM_print(const char *contents, FILE *out){
    U_FLOAT Sx, Sy;
    int status = U_PMR_SCALEWORLDTRANSFORM_get(contents, NULL, &xmtype, &Sx, &Sy);
    if(status){
-      printf("   +  xmtype:%d Multiply:%s ScaleX:%f ScaleY:%f\n",xmtype,(xmtype ? "Post" : "Pre"), Sx, Sy);
+      verbose_printf("   +  xmtype:%d Multiply:%s ScaleX:%f ScaleY:%f\n",xmtype,(xmtype ? "Post" : "Pre"), Sx, Sy);
    }
    return(status);
 }
@@ -3052,7 +3052,7 @@ int U_PMR_SETPAGETRANSFORM_print(const char *contents, FILE *out){
    U_FLOAT Scale;
    int status = U_PMR_SETPAGETRANSFORM_get(contents, NULL, &UTenum, &Scale);
    if(status){
-      printf("   +  UTenum:%d Scale:%f\n",UTenum, Scale);
+      verbose_printf("   +  UTenum:%d Scale:%f\n",UTenum, Scale);
    }
    return(status);
 }
@@ -3067,9 +3067,9 @@ int U_PMR_SETWORLDTRANSFORM_print(const char *contents, FILE *out){
    U_PMF_TRANSFORMMATRIX Matrix;
    int status = U_PMR_SETWORLDTRANSFORM_get(contents, NULL, &Matrix);
    if(status){
-      printf("   + ");
+      verbose_printf("   + ");
       U_PMF_TRANSFORMMATRIX2_print(&Matrix, out);
-      printf("\n");
+      verbose_printf("\n");
    }
    return(status);
 }
@@ -3085,7 +3085,7 @@ int U_PMR_TRANSLATEWORLDTRANSFORM_print(const char *contents, FILE *out){
    U_FLOAT Dx, Dy;
    int status = U_PMR_TRANSLATEWORLDTRANSFORM_get(contents, NULL, &xmtype, &Dx, &Dy);
    if(status){
-      printf("   +  xmtype:%d Multiply:%s TranslateX:%f TranlateY:%f\n",xmtype,(xmtype ? "Post" : "Pre"), Dx, Dy);
+      verbose_printf("   +  xmtype:%d Multiply:%s TranslateX:%f TranlateY:%f\n",xmtype,(xmtype ? "Post" : "Pre"), Dx, Dy);
    }
    return(status);
 }
@@ -3143,20 +3143,20 @@ int pmf2svg(char *contents, size_t length, FILE *out)
 
     while(OK){
        if(off>=length){ //normally should exit from while after EMREOF sets OK to false, this is most likely a corrupt EMF
-          printf("%d:%d\n",off, length);
-          printf("WARNING: record claims to extend beyond the end of the EMF+ file\n");
+          verbose_printf("%d:%d\n",off, length);
+          verbose_printf("WARNING: record claims to extend beyond the end of the EMF+ file\n");
           return(0);
        }
 
        pEmr = (PU_ENHMETARECORD)(contents + off);
 
        //if(!recnum && (pEmr->iType != U_PMR_HEADER)){
-       //   printf("WARNING: EMF file does not begin with an EMR_HEADER record\n");
+       //   verbose_printf("WARNING: EMF file does not begin with an EMR_HEADER record\n");
        //}
 
        result = U_pmf_onerec_print(contents, blimit, recnum, off, out);
        if(result == (size_t) -1){
-          printf("ABORTING on invalid record - corrupt file?\n");
+          verbose_printf("ABORTING on invalid record - corrupt file?\n");
           OK=0;
        }
        else if(!result){

@@ -30,11 +30,13 @@ extern "C" {
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 
-#define FLAG_SUPPORTED printf("   Status: %sSUPPORTED%s\n", KGRN, KNRM);
-#define FLAG_IGNORED   printf("   Status: %sIGNORED%s\n", KRED, KNRM);
-#define FLAG_PARTIAL   printf("   Status: %sPARTIAL SUPPORT%s\n", KYEL, KNRM);
-#define FLAG_USELESS   printf("   Status  %sUSELESS%s\n", KCYN, KNRM);
-#define FLAG_RESET printf("%s", KNRM);
+#define verbose_printf(...) if(1) printf(__VA_ARGS__);
+#define FLAG_SUPPORTED verbose_printf("   Status: %sSUPPORTED%s\n", KGRN, KNRM);
+#define FLAG_IGNORED   verbose_printf("   Status: %sIGNORED%s\n", KRED, KNRM);
+#define FLAG_PARTIAL   verbose_printf("   Status: %sPARTIAL SUPPORT%s\n", KYEL, KNRM);
+#define FLAG_USELESS   verbose_printf("   Status  %sUSELESS%s\n", KCYN, KNRM);
+#define FLAG_RESET     verbose_printf("%s", KNRM);
+
 
 typedef struct {
     char *nameSpace;

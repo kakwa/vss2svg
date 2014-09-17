@@ -37,7 +37,7 @@ void U_swap4(void *ul, unsigned int count);
 */
 void hexbytes_print(uint8_t *buf,unsigned int num){
    for(; num; num--,buf++){
-      printf("%2.2X",*buf);
+      verbose_printf("%2.2X",*buf);
    }
 }
 
@@ -55,7 +55,7 @@ void hexbytes_print(uint8_t *buf,unsigned int num){
 void colorref_print(
       U_COLORREF color
    ){
-   printf("{%u,%u,%u} ",color.Red,color.Green,color.Blue);
+   verbose_printf("{%u,%u,%u} ",color.Red,color.Green,color.Blue);
 }
 
 
@@ -66,7 +66,7 @@ void colorref_print(
 void rgbquad_print(
       U_RGBQUAD color
    ){
-   printf("{%u,%u,%u,%u} ",color.Blue,color.Green,color.Red,color.Reserved);
+   verbose_printf("{%u,%u,%u,%u} ",color.Blue,color.Green,color.Red,color.Reserved);
 }
 
 /**
@@ -76,7 +76,7 @@ void rgbquad_print(
 void rectl_print(
       U_RECTL rect
     ){
-    printf("{%d,%d,%d,%d} ",rect.left,rect.top,rect.right,rect.bottom);
+    verbose_printf("{%d,%d,%d,%d} ",rect.left,rect.top,rect.right,rect.bottom);
 }
 
 /**
@@ -86,7 +86,7 @@ void rectl_print(
 void sizel_print(
        U_SIZEL sz
     ){
-    printf("{%d,%d} ",sz.cx ,sz.cy);
+    verbose_printf("{%d,%d} ",sz.cx ,sz.cy);
 } 
 
 /**
@@ -96,7 +96,7 @@ void sizel_print(
 void pointl_print(
        U_POINTL pt
     ){
-    printf("{%d,%d} ",pt.x ,pt.y);
+    verbose_printf("{%d,%d} ",pt.x ,pt.y);
 } 
 
 /**
@@ -109,7 +109,7 @@ void point16_print(
        U_POINT16 pt,
        FILE * out
     ){
-    printf("{%d,%d} ",pt.x ,pt.y);
+    verbose_printf("{%d,%d} ",pt.x ,pt.y);
 } 
 
 /**
@@ -122,7 +122,7 @@ void point16_draw(
        U_POINT16 pt,
        FILE * out
     ){
-    printf("{%d,%d} ",pt.x ,pt.y);
+    verbose_printf("{%d,%d} ",pt.x ,pt.y);
     fprintf(out, "%d %d ", pt.x ,pt.y);
 } 
 
@@ -136,10 +136,10 @@ void lcs_gamma_print(
       U_LCS_GAMMA lg
    ){
    uint8_t tmp;
-   tmp = lg.ignoreHi; printf("ignoreHi:%u ",tmp);
-   tmp = lg.intPart ; printf("intPart :%u ",tmp);
-   tmp = lg.fracPart; printf("fracPart:%u ",tmp);
-   tmp = lg.ignoreLo; printf("ignoreLo:%u ",tmp);
+   tmp = lg.ignoreHi; verbose_printf("ignoreHi:%u ",tmp);
+   tmp = lg.intPart ; verbose_printf("intPart :%u ",tmp);
+   tmp = lg.fracPart; verbose_printf("fracPart:%u ",tmp);
+   tmp = lg.ignoreLo; verbose_printf("ignoreLo:%u ",tmp);
 }
 
 /**
@@ -149,9 +149,9 @@ void lcs_gamma_print(
 void lcs_gammargb_print(
       U_LCS_GAMMARGB lgr
    ){
-   printf("lcsGammaRed:");   lcs_gamma_print(lgr.lcsGammaRed  );
-   printf("lcsGammaGreen:"); lcs_gamma_print(lgr.lcsGammaGreen);
-   printf("lcsGammaBlue:");  lcs_gamma_print(lgr.lcsGammaBlue );
+   verbose_printf("lcsGammaRed:");   lcs_gamma_print(lgr.lcsGammaRed  );
+   verbose_printf("lcsGammaGreen:"); lcs_gamma_print(lgr.lcsGammaGreen);
+   verbose_printf("lcsGammaBlue:");  lcs_gamma_print(lgr.lcsGammaBlue );
 }
 
 /**
@@ -161,7 +161,7 @@ void lcs_gammargb_print(
 void trivertex_print(
       U_TRIVERTEX tv
    ){
-   printf("{{%d,%d},{%u,%u,%u,%u}} ",tv.x,tv.y,tv.Red,tv.Green,tv.Blue,tv.Alpha);
+   verbose_printf("{{%d,%d},{%u,%u,%u,%u}} ",tv.x,tv.y,tv.Red,tv.Green,tv.Blue,tv.Alpha);
 }
 
 /**
@@ -171,7 +171,7 @@ void trivertex_print(
 void gradient3_print(
       U_GRADIENT3 g3
    ){
-   printf("{%u,%u,%u} ",g3.Vertex1,g3.Vertex2,g3.Vertex3);
+   verbose_printf("{%u,%u,%u} ",g3.Vertex1,g3.Vertex2,g3.Vertex3);
 }
 
 /**
@@ -181,7 +181,7 @@ void gradient3_print(
 void gradient4_print(
       U_GRADIENT4 g4
    ){
-   printf("{%u,%u} ",g4.UpperLeft,g4.LowerRight);
+   verbose_printf("{%u,%u} ",g4.UpperLeft,g4.LowerRight);
 }
 
 /**
@@ -191,9 +191,9 @@ void gradient4_print(
 void logbrush_print(
       U_LOGBRUSH lb  
    ){
-    printf("lbStyle:0x%8.8X ",  lb.lbStyle);
-    printf("lbColor:");         colorref_print(lb.lbColor);
-    printf("lbHatch:0x%8.8X ",  lb.lbHatch);
+    verbose_printf("lbStyle:0x%8.8X ",  lb.lbStyle);
+    verbose_printf("lbColor:");         colorref_print(lb.lbColor);
+    verbose_printf("lbHatch:0x%8.8X ",  lb.lbHatch);
 }
 
 /**
@@ -203,7 +203,7 @@ void logbrush_print(
 void xform_print(
       U_XFORM xform
    ){
-   printf("{%f,%f.%f,%f,%f,%f} ",xform.eM11,xform.eM12,xform.eM21,xform.eM22,xform.eDx,xform.eDy);
+   verbose_printf("{%f,%f.%f,%f,%f,%f} ",xform.eM11,xform.eM12,xform.eM21,xform.eM22,xform.eDx,xform.eDy);
 }
 
 /**
@@ -213,7 +213,7 @@ void xform_print(
 void ciexyz_print(
       U_CIEXYZ ciexyz
    ){
-   printf("{%d,%d.%d} ",ciexyz.ciexyzX,ciexyz.ciexyzY,ciexyz.ciexyzZ);
+   verbose_printf("{%d,%d.%d} ",ciexyz.ciexyzX,ciexyz.ciexyzY,ciexyz.ciexyzZ);
     
 }
 
@@ -224,10 +224,10 @@ void ciexyz_print(
 void ciexyztriple_print(
       U_CIEXYZTRIPLE cie3
    ){
-   printf("{Red:");     ciexyz_print(cie3.ciexyzRed  );
-   printf(", Green:");  ciexyz_print(cie3.ciexyzGreen);
-   printf(", Blue:");   ciexyz_print(cie3.ciexyzBlue );
-   printf("} ");
+   verbose_printf("{Red:");     ciexyz_print(cie3.ciexyzRed  );
+   verbose_printf(", Green:");  ciexyz_print(cie3.ciexyzGreen);
+   verbose_printf(", Blue:");   ciexyz_print(cie3.ciexyzBlue );
+   verbose_printf("} ");
 }
 /**
     \brief Print a U_LOGCOLORSPACEA object.
@@ -236,14 +236,14 @@ void ciexyztriple_print(
 void logcolorspacea_print(
       U_LOGCOLORSPACEA lcsa
    ){
-   printf("lcsSignature:%u ",lcsa.lcsSignature);
-   printf("lcsVersion:%u ",  lcsa.lcsVersion  );
-   printf("lcsSize:%u ",     lcsa.lcsSize     );
-   printf("lcsCSType:%d ",    lcsa.lcsCSType   );
-   printf("lcsIntent:%d ",    lcsa.lcsIntent   );
-   printf("lcsEndpoints:");   ciexyztriple_print(lcsa.lcsEndpoints);
-   printf("lcsGammaRGB: ");   lcs_gammargb_print(lcsa.lcsGammaRGB );
-   printf("filename:%s ",     lcsa.lcsFilename );
+   verbose_printf("lcsSignature:%u ",lcsa.lcsSignature);
+   verbose_printf("lcsVersion:%u ",  lcsa.lcsVersion  );
+   verbose_printf("lcsSize:%u ",     lcsa.lcsSize     );
+   verbose_printf("lcsCSType:%d ",    lcsa.lcsCSType   );
+   verbose_printf("lcsIntent:%d ",    lcsa.lcsIntent   );
+   verbose_printf("lcsEndpoints:");   ciexyztriple_print(lcsa.lcsEndpoints);
+   verbose_printf("lcsGammaRGB: ");   lcs_gammargb_print(lcsa.lcsGammaRGB );
+   verbose_printf("filename:%s ",     lcsa.lcsFilename );
 }
 
 /**
@@ -255,15 +255,15 @@ void logcolorspacew_print(
       U_LOGCOLORSPACEW lcsa
    ){
    char *string;
-   printf("lcsSignature:%d ",lcsa.lcsSignature);
-   printf("lcsVersion:%d ",  lcsa.lcsVersion  );
-   printf("lcsSize:%d ",     lcsa.lcsSize     );
-   printf("lcsCSType:%d ",   lcsa.lcsCSType   );
-   printf("lcsIntent:%d ",   lcsa.lcsIntent   );
-   printf("lcsEndpoints:");   ciexyztriple_print(lcsa.lcsEndpoints);
-   printf("lcsGammaRGB: ");   lcs_gammargb_print(lcsa.lcsGammaRGB );
+   verbose_printf("lcsSignature:%d ",lcsa.lcsSignature);
+   verbose_printf("lcsVersion:%d ",  lcsa.lcsVersion  );
+   verbose_printf("lcsSize:%d ",     lcsa.lcsSize     );
+   verbose_printf("lcsCSType:%d ",   lcsa.lcsCSType   );
+   verbose_printf("lcsIntent:%d ",   lcsa.lcsIntent   );
+   verbose_printf("lcsEndpoints:");   ciexyztriple_print(lcsa.lcsEndpoints);
+   verbose_printf("lcsGammaRGB: ");   lcs_gammargb_print(lcsa.lcsGammaRGB );
    string = U_Utf16leToUtf8(lcsa.lcsFilename, U_MAX_PATH, NULL);
-   printf("filename:%s ",   string );
+   verbose_printf("filename:%s ",   string );
    free(string);
 }
 
@@ -274,16 +274,16 @@ void logcolorspacew_print(
 void panose_print(
       U_PANOSE panose
     ){
-    printf("bFamilyType:%u ",     panose.bFamilyType     );
-    printf("bSerifStyle:%u ",     panose.bSerifStyle     );
-    printf("bWeight:%u ",         panose.bWeight         );
-    printf("bProportion:%u ",     panose.bProportion     );
-    printf("bContrast:%u ",       panose.bContrast       );
-    printf("bStrokeVariation:%u ",panose.bStrokeVariation);
-    printf("bArmStyle:%u ",       panose.bArmStyle       );
-    printf("bLetterform:%u ",     panose.bLetterform     );
-    printf("bMidline:%u ",        panose.bMidline        );
-    printf("bXHeight:%u ",        panose.bXHeight        );
+    verbose_printf("bFamilyType:%u ",     panose.bFamilyType     );
+    verbose_printf("bSerifStyle:%u ",     panose.bSerifStyle     );
+    verbose_printf("bWeight:%u ",         panose.bWeight         );
+    verbose_printf("bProportion:%u ",     panose.bProportion     );
+    verbose_printf("bContrast:%u ",       panose.bContrast       );
+    verbose_printf("bStrokeVariation:%u ",panose.bStrokeVariation);
+    verbose_printf("bArmStyle:%u ",       panose.bArmStyle       );
+    verbose_printf("bLetterform:%u ",     panose.bLetterform     );
+    verbose_printf("bMidline:%u ",        panose.bMidline        );
+    verbose_printf("bXHeight:%u ",        panose.bXHeight        );
 }
 
 /**
@@ -294,21 +294,21 @@ void logfont_print(
        U_LOGFONT lf
    ){
    char *string;
-   printf("lfHeight:%d ",            lf.lfHeight        );
-   printf("lfWidth:%d ",             lf.lfWidth         );
-   printf("lfEscapement:%d ",        lf.lfEscapement    );
-   printf("lfOrientation:%d ",       lf.lfOrientation   );
-   printf("lfWeight:%d ",            lf.lfWeight        );
-   printf("lfItalic:0x%2.2X ",         lf.lfItalic        );
-   printf("lfUnderline:0x%2.2X ",      lf.lfUnderline     );
-   printf("lfStrikeOut:0x%2.2X ",      lf.lfStrikeOut     );
-   printf("lfCharSet:0x%2.2X ",        lf.lfCharSet       );
-   printf("lfOutPrecision:0x%2.2X ",   lf.lfOutPrecision  );
-   printf("lfClipPrecision:0x%2.2X ",  lf.lfClipPrecision );
-   printf("lfQuality:0x%2.2X ",        lf.lfQuality       );
-   printf("lfPitchAndFamily:0x%2.2X ", lf.lfPitchAndFamily);
+   verbose_printf("lfHeight:%d ",            lf.lfHeight        );
+   verbose_printf("lfWidth:%d ",             lf.lfWidth         );
+   verbose_printf("lfEscapement:%d ",        lf.lfEscapement    );
+   verbose_printf("lfOrientation:%d ",       lf.lfOrientation   );
+   verbose_printf("lfWeight:%d ",            lf.lfWeight        );
+   verbose_printf("lfItalic:0x%2.2X ",         lf.lfItalic        );
+   verbose_printf("lfUnderline:0x%2.2X ",      lf.lfUnderline     );
+   verbose_printf("lfStrikeOut:0x%2.2X ",      lf.lfStrikeOut     );
+   verbose_printf("lfCharSet:0x%2.2X ",        lf.lfCharSet       );
+   verbose_printf("lfOutPrecision:0x%2.2X ",   lf.lfOutPrecision  );
+   verbose_printf("lfClipPrecision:0x%2.2X ",  lf.lfClipPrecision );
+   verbose_printf("lfQuality:0x%2.2X ",        lf.lfQuality       );
+   verbose_printf("lfPitchAndFamily:0x%2.2X ", lf.lfPitchAndFamily);
      string = U_Utf16leToUtf8(lf.lfFaceName, U_LF_FACESIZE, NULL);
-   printf("lfFaceName:%s ",   string );
+   verbose_printf("lfFaceName:%s ",   string );
    free(string);
 }
 
@@ -320,20 +320,20 @@ void logfont_panose_print(
       U_LOGFONT_PANOSE lfp
    ){    
    char *string;
-   printf("elfLogFont:");       logfont_print(lfp.elfLogFont);
+   verbose_printf("elfLogFont:");       logfont_print(lfp.elfLogFont);
      string = U_Utf16leToUtf8(lfp.elfFullName, U_LF_FULLFACESIZE, NULL);
-   printf("elfFullName:%s ",    string );
+   verbose_printf("elfFullName:%s ",    string );
    free(string);
      string = U_Utf16leToUtf8(lfp.elfStyle, U_LF_FACESIZE, NULL);
-   printf("elfStyle:%s ",       string );
+   verbose_printf("elfStyle:%s ",       string );
    free(string);
-   printf("elfVersion:%u "      ,lfp.elfVersion  );
-   printf("elfStyleSize:%u "    ,lfp.elfStyleSize);
-   printf("elfMatch:%u "        ,lfp.elfMatch    );
-   printf("elfReserved:%u "     ,lfp.elfReserved );
-   printf("elfVendorId:");      hexbytes_print((uint8_t *)lfp.elfVendorId,U_ELF_VENDOR_SIZE); printf(" ");
-   printf("elfCulture:%u "      ,lfp.elfCulture  );
-   printf("elfPanose:");        panose_print(lfp.elfPanose);
+   verbose_printf("elfVersion:%u "      ,lfp.elfVersion  );
+   verbose_printf("elfStyleSize:%u "    ,lfp.elfStyleSize);
+   verbose_printf("elfMatch:%u "        ,lfp.elfMatch    );
+   verbose_printf("elfReserved:%u "     ,lfp.elfReserved );
+   verbose_printf("elfVendorId:");      hexbytes_print((uint8_t *)lfp.elfVendorId,U_ELF_VENDOR_SIZE); verbose_printf(" ");
+   verbose_printf("elfCulture:%u "      ,lfp.elfCulture  );
+   verbose_printf("elfPanose:");        panose_print(lfp.elfPanose);
 }
 
 /**
@@ -356,23 +356,23 @@ int bitmapinfoheader_print(
 
    /* DIB from a WMF may not be properly aligned on a 4 byte boundary, will be aligned on a 2 byte boundary */
 
-   memcpy(&utmp4, Bmih + offsetof(U_BITMAPINFOHEADER,biSize),          4);  printf("biSize:%u "            ,utmp4 );
-   memcpy(&tmp4,  Bmih + offsetof(U_BITMAPINFOHEADER,biWidth),         4);  printf("biWidth:%d "           ,tmp4  );
+   memcpy(&utmp4, Bmih + offsetof(U_BITMAPINFOHEADER,biSize),          4);  verbose_printf("biSize:%u "            ,utmp4 );
+   memcpy(&tmp4,  Bmih + offsetof(U_BITMAPINFOHEADER,biWidth),         4);  verbose_printf("biWidth:%d "           ,tmp4  );
    Width = tmp4;
-   memcpy(&tmp4,  Bmih + offsetof(U_BITMAPINFOHEADER,biHeight),        4);  printf("biHeight:%d "          ,tmp4  );
+   memcpy(&tmp4,  Bmih + offsetof(U_BITMAPINFOHEADER,biHeight),        4);  verbose_printf("biHeight:%d "          ,tmp4  );
    Height = tmp4;
-   memcpy(&tmp2,  Bmih + offsetof(U_BITMAPINFOHEADER,biPlanes),        2);  printf("biPlanes:%u "          ,tmp2  );
-   memcpy(&tmp2,  Bmih + offsetof(U_BITMAPINFOHEADER,biBitCount),      2);  printf("biBitCount:%u "        ,tmp2  );
+   memcpy(&tmp2,  Bmih + offsetof(U_BITMAPINFOHEADER,biPlanes),        2);  verbose_printf("biPlanes:%u "          ,tmp2  );
+   memcpy(&tmp2,  Bmih + offsetof(U_BITMAPINFOHEADER,biBitCount),      2);  verbose_printf("biBitCount:%u "        ,tmp2  );
    BitCount = tmp2;
-   memcpy(&utmp4, Bmih + offsetof(U_BITMAPINFOHEADER,biCompression),   4);  printf("biCompression:%u "     ,utmp4 );
-   memcpy(&utmp4, Bmih + offsetof(U_BITMAPINFOHEADER,biSizeImage),     4);  printf("biSizeImage:%u "       ,utmp4 );
-   memcpy(&tmp4,  Bmih + offsetof(U_BITMAPINFOHEADER,biXPelsPerMeter), 4);  printf("biXPelsPerMeter:%d "   ,tmp4  );
-   memcpy(&tmp4,  Bmih + offsetof(U_BITMAPINFOHEADER,biYPelsPerMeter), 4);  printf("biYPelsPerMeter:%d "   ,tmp4  );
-   memcpy(&utmp4, Bmih + offsetof(U_BITMAPINFOHEADER,biClrUsed),       4);  printf("biClrUsed:%u "         ,utmp4 );
+   memcpy(&utmp4, Bmih + offsetof(U_BITMAPINFOHEADER,biCompression),   4);  verbose_printf("biCompression:%u "     ,utmp4 );
+   memcpy(&utmp4, Bmih + offsetof(U_BITMAPINFOHEADER,biSizeImage),     4);  verbose_printf("biSizeImage:%u "       ,utmp4 );
+   memcpy(&tmp4,  Bmih + offsetof(U_BITMAPINFOHEADER,biXPelsPerMeter), 4);  verbose_printf("biXPelsPerMeter:%d "   ,tmp4  );
+   memcpy(&tmp4,  Bmih + offsetof(U_BITMAPINFOHEADER,biYPelsPerMeter), 4);  verbose_printf("biYPelsPerMeter:%d "   ,tmp4  );
+   memcpy(&utmp4, Bmih + offsetof(U_BITMAPINFOHEADER,biClrUsed),       4);  verbose_printf("biClrUsed:%u "         ,utmp4 );
    Colors = utmp4;
-   memcpy(&utmp4, Bmih + offsetof(U_BITMAPINFOHEADER,biClrImportant),  4);  printf("biClrImportant:%u "    ,utmp4 );
+   memcpy(&utmp4, Bmih + offsetof(U_BITMAPINFOHEADER,biClrImportant),  4);  verbose_printf("biClrImportant:%u "    ,utmp4 );
    RealColors = get_real_color_icount(Colors, BitCount, Width, Height);
-   printf("ColorEntries:%d ",RealColors);
+   verbose_printf("ColorEntries:%d ",RealColors);
    return(RealColors);
 }
 
@@ -390,13 +390,13 @@ void bitmapinfo_print(
    int       i,k;
    int       ClrUsed;
    U_RGBQUAD BmiColor;
-   printf("BmiHeader: ");
+   verbose_printf("BmiHeader: ");
    ClrUsed = bitmapinfoheader_print(Bmi + offsetof(U_BITMAPINFO,bmiHeader));
    if(ClrUsed){
      k= offsetof(U_BITMAPINFO,bmiColors);
      for(i=0; i<ClrUsed; i++, k+= sizeof(U_RGBQUAD)){
         memcpy(&BmiColor, Bmi+k, sizeof(U_RGBQUAD));
-        printf("%d:",i); rgbquad_print(BmiColor);
+        verbose_printf("%d:",i); rgbquad_print(BmiColor);
      }
    }
 }
@@ -408,10 +408,10 @@ void bitmapinfo_print(
 void blend_print(
       U_BLEND blend
    ){
-   printf("Operation:%u " ,blend.Operation);
-   printf("Flags:%u "     ,blend.Flags    );
-   printf("Global:%u "    ,blend.Global   );
-   printf("Op:%u "        ,blend.Op       );
+   verbose_printf("Operation:%u " ,blend.Operation);
+   verbose_printf("Flags:%u "     ,blend.Flags    );
+   verbose_printf("Global:%u "    ,blend.Global   );
+   verbose_printf("Op:%u "        ,blend.Op       );
 }
 
 /**
@@ -423,17 +423,17 @@ void extlogpen_print(
    ){
    unsigned int i;
    U_STYLEENTRY *elpStyleEntry;
-   printf("elpPenStyle:0x%8.8X "   ,elp->elpPenStyle  );
-   printf("elpWidth:%u "           ,elp->elpWidth     );
-   printf("elpBrushStyle:0x%8.8X " ,elp->elpBrushStyle);
-   printf("elpColor");              colorref_print(elp->elpColor);
-   printf("elpHatch:%d "           ,elp->elpHatch     );
-   printf("elpNumEntries:%u "      ,elp->elpNumEntries);
+   verbose_printf("elpPenStyle:0x%8.8X "   ,elp->elpPenStyle  );
+   verbose_printf("elpWidth:%u "           ,elp->elpWidth     );
+   verbose_printf("elpBrushStyle:0x%8.8X " ,elp->elpBrushStyle);
+   verbose_printf("elpColor");              colorref_print(elp->elpColor);
+   verbose_printf("elpHatch:%d "           ,elp->elpHatch     );
+   verbose_printf("elpNumEntries:%u "      ,elp->elpNumEntries);
    if(elp->elpNumEntries){
-     printf("elpStyleEntry:");
+     verbose_printf("elpStyleEntry:");
      elpStyleEntry = (uint32_t *) elp->elpStyleEntry;
      for(i=0;i<elp->elpNumEntries;i++){
-        printf("%d:%u ",i,elpStyleEntry[i]);
+        verbose_printf("%d:%u ",i,elpStyleEntry[i]);
      }
    }
 }
@@ -446,9 +446,9 @@ void extlogpen_print(
 void logpen_print(
       U_LOGPEN lp
    ){
-   printf("lopnStyle:0x%8.8X "    ,lp.lopnStyle  );
-   printf("lopnWidth:");      pointl_print(  lp.lopnWidth  );
-   printf("lopnColor:");      colorref_print(lp.lopnColor );
+   verbose_printf("lopnStyle:0x%8.8X "    ,lp.lopnStyle  );
+   verbose_printf("lopnWidth:");      pointl_print(  lp.lopnWidth  );
+   verbose_printf("lopnColor:");      colorref_print(lp.lopnColor );
 } 
 
 /**
@@ -458,10 +458,10 @@ void logpen_print(
 void logpltntry_print(
       U_LOGPLTNTRY lpny
    ){
-   printf("peReserved:%u " ,lpny.peReserved );
-   printf("peRed:%u "      ,lpny.peRed      );
-   printf("peGreen:%u "    ,lpny.peGreen    );
-   printf("peBlue:%u "     ,lpny.peBlue     );
+   verbose_printf("peReserved:%u " ,lpny.peReserved );
+   verbose_printf("peRed:%u "      ,lpny.peRed      );
+   verbose_printf("peGreen:%u "    ,lpny.peGreen    );
+   verbose_printf("peBlue:%u "     ,lpny.peBlue     );
 }
 
 /**
@@ -473,12 +473,12 @@ void logpalette_print(
    ){
    int            i;
    PU_LOGPLTNTRY palPalEntry;
-   printf("palVersion:%u ",    lp->palVersion );
-   printf("palNumEntries:%u ", lp->palNumEntries );
+   verbose_printf("palVersion:%u ",    lp->palVersion );
+   verbose_printf("palNumEntries:%u ", lp->palNumEntries );
    if(lp->palNumEntries){
      palPalEntry = (PU_LOGPLTNTRY) &(lp->palPalEntry);
      for(i=0;i<lp->palNumEntries;i++){
-        printf("%d:",i); logpltntry_print(palPalEntry[i]);
+        verbose_printf("%d:",i); logpltntry_print(palPalEntry[i]);
      }
    }
 }
@@ -490,11 +490,11 @@ void logpalette_print(
 void rgndataheader_print(
       U_RGNDATAHEADER rdh
    ){
-   printf("dwSize:%u ",   rdh.dwSize   );
-   printf("iType:%u ",    rdh.iType    );
-   printf("nCount:%u ",   rdh.nCount   );
-   printf("nRgnSize:%u ", rdh.nRgnSize );
-   printf("rclBounds:");  rectl_print(rdh.rclBounds  );
+   verbose_printf("dwSize:%u ",   rdh.dwSize   );
+   verbose_printf("iType:%u ",    rdh.iType    );
+   verbose_printf("nCount:%u ",   rdh.nCount   );
+   verbose_printf("nRgnSize:%u ", rdh.nRgnSize );
+   verbose_printf("rclBounds:");  rectl_print(rdh.rclBounds  );
 }
 
 /**
@@ -506,11 +506,11 @@ void rgndata_print(
    ){
    unsigned int i;
    PU_RECTL rects;
-   printf("rdh:");     rgndataheader_print(rd->rdh );
+   verbose_printf("rdh:");     rgndataheader_print(rd->rdh );
    if(rd->rdh.nCount){
      rects = (PU_RECTL) &(rd->Buffer);
      for(i=0;i<rd->rdh.nCount;i++){
-        printf("%d:",i); rectl_print(rects[i]);
+        verbose_printf("%d:",i); rectl_print(rects[i]);
      }
    }
 }
@@ -522,18 +522,18 @@ void rgndata_print(
 void coloradjustment_print(
       U_COLORADJUSTMENT ca
    ){
-   printf("caSize:%u "            ,ca.caSize           );
-   printf("caFlags:0x%4.4X "        ,ca.caFlags          );
-   printf("caIlluminantIndex:%u " ,ca.caIlluminantIndex);
-   printf("caRedGamma:%u "        ,ca.caRedGamma       );
-   printf("caGreenGamma:%u "      ,ca.caGreenGamma     );
-   printf("caBlueGamma:%u "       ,ca.caBlueGamma      );
-   printf("caReferenceBlack:%u "  ,ca.caReferenceBlack );
-   printf("caReferenceWhite:%u "  ,ca.caReferenceWhite );
-   printf("caContrast:%d "         ,ca.caContrast       );
-   printf("caBrightness:%d "       ,ca.caBrightness     );
-   printf("caColorfulness:%d "     ,ca.caColorfulness   );
-   printf("caRedGreenTint:%d "     ,ca.caRedGreenTint   );
+   verbose_printf("caSize:%u "            ,ca.caSize           );
+   verbose_printf("caFlags:0x%4.4X "        ,ca.caFlags          );
+   verbose_printf("caIlluminantIndex:%u " ,ca.caIlluminantIndex);
+   verbose_printf("caRedGamma:%u "        ,ca.caRedGamma       );
+   verbose_printf("caGreenGamma:%u "      ,ca.caGreenGamma     );
+   verbose_printf("caBlueGamma:%u "       ,ca.caBlueGamma      );
+   verbose_printf("caReferenceBlack:%u "  ,ca.caReferenceBlack );
+   verbose_printf("caReferenceWhite:%u "  ,ca.caReferenceWhite );
+   verbose_printf("caContrast:%d "         ,ca.caContrast       );
+   verbose_printf("caBrightness:%d "       ,ca.caBrightness     );
+   verbose_printf("caColorfulness:%d "     ,ca.caColorfulness   );
+   verbose_printf("caRedGreenTint:%d "     ,ca.caRedGreenTint   );
 }
 
 /**
@@ -543,32 +543,32 @@ void coloradjustment_print(
 void pixelformatdescriptor_print(
       U_PIXELFORMATDESCRIPTOR pfd
    ){
-   printf("nSize:%u "           ,pfd.nSize           );
-   printf("nVersion:%u "        ,pfd.nVersion        );
-   printf("dwFlags:0x%8.8X "      ,pfd.dwFlags         );
-   printf("iPixelType:%u "      ,pfd.iPixelType      );
-   printf("cColorBits:%u "      ,pfd.cColorBits      );
-   printf("cRedBits:%u "        ,pfd.cRedBits        );
-   printf("cRedShift:%u "       ,pfd.cRedShift       );
-   printf("cGreenBits:%u "      ,pfd.cGreenBits      );
-   printf("cGreenShift:%u "     ,pfd.cGreenShift     );
-   printf("cBlueBits:%u "       ,pfd.cBlueBits       );
-   printf("cBlueShift:%u "      ,pfd.cBlueShift      );
-   printf("cAlphaBits:%u "      ,pfd.cAlphaBits      );
-   printf("cAlphaShift:%u "     ,pfd.cAlphaShift     );
-   printf("cAccumBits:%u "      ,pfd.cAccumBits      );
-   printf("cAccumRedBits:%u "   ,pfd.cAccumRedBits   );
-   printf("cAccumGreenBits:%u " ,pfd.cAccumGreenBits );
-   printf("cAccumBlueBits:%u "  ,pfd.cAccumBlueBits  );
-   printf("cAccumAlphaBits:%u " ,pfd.cAccumAlphaBits );
-   printf("cDepthBits:%u "      ,pfd.cDepthBits      );
-   printf("cStencilBits:%u "    ,pfd.cStencilBits    );
-   printf("cAuxBuffers:%u "     ,pfd.cAuxBuffers     );
-   printf("iLayerType:%u "      ,pfd.iLayerType      );
-   printf("bReserved:%u "       ,pfd.bReserved       );
-   printf("dwLayerMask:%u "     ,pfd.dwLayerMask     );
-   printf("dwVisibleMask:%u "   ,pfd.dwVisibleMask   );
-   printf("dwDamageMask:%u "    ,pfd.dwDamageMask    );
+   verbose_printf("nSize:%u "           ,pfd.nSize           );
+   verbose_printf("nVersion:%u "        ,pfd.nVersion        );
+   verbose_printf("dwFlags:0x%8.8X "      ,pfd.dwFlags         );
+   verbose_printf("iPixelType:%u "      ,pfd.iPixelType      );
+   verbose_printf("cColorBits:%u "      ,pfd.cColorBits      );
+   verbose_printf("cRedBits:%u "        ,pfd.cRedBits        );
+   verbose_printf("cRedShift:%u "       ,pfd.cRedShift       );
+   verbose_printf("cGreenBits:%u "      ,pfd.cGreenBits      );
+   verbose_printf("cGreenShift:%u "     ,pfd.cGreenShift     );
+   verbose_printf("cBlueBits:%u "       ,pfd.cBlueBits       );
+   verbose_printf("cBlueShift:%u "      ,pfd.cBlueShift      );
+   verbose_printf("cAlphaBits:%u "      ,pfd.cAlphaBits      );
+   verbose_printf("cAlphaShift:%u "     ,pfd.cAlphaShift     );
+   verbose_printf("cAccumBits:%u "      ,pfd.cAccumBits      );
+   verbose_printf("cAccumRedBits:%u "   ,pfd.cAccumRedBits   );
+   verbose_printf("cAccumGreenBits:%u " ,pfd.cAccumGreenBits );
+   verbose_printf("cAccumBlueBits:%u "  ,pfd.cAccumBlueBits  );
+   verbose_printf("cAccumAlphaBits:%u " ,pfd.cAccumAlphaBits );
+   verbose_printf("cDepthBits:%u "      ,pfd.cDepthBits      );
+   verbose_printf("cStencilBits:%u "    ,pfd.cStencilBits    );
+   verbose_printf("cAuxBuffers:%u "     ,pfd.cAuxBuffers     );
+   verbose_printf("iLayerType:%u "      ,pfd.iLayerType      );
+   verbose_printf("bReserved:%u "       ,pfd.bReserved       );
+   verbose_printf("dwLayerMask:%u "     ,pfd.dwLayerMask     );
+   verbose_printf("dwVisibleMask:%u "   ,pfd.dwVisibleMask   );
+   verbose_printf("dwDamageMask:%u "    ,pfd.dwDamageMask    );
 }
 
 /**
@@ -586,29 +586,29 @@ void emrtext_print(
    char *string;
    PU_EMRTEXT pemt = (PU_EMRTEXT) emt;
    // constant part
-   printf("ptlReference:");   pointl_print(pemt->ptlReference);
-   printf("nChars:%u "       ,pemt->nChars      );
-   printf("offString:%u "    ,pemt->offString   );
+   verbose_printf("ptlReference:");   pointl_print(pemt->ptlReference);
+   verbose_printf("nChars:%u "       ,pemt->nChars      );
+   verbose_printf("offString:%u "    ,pemt->offString   );
    if(pemt->offString){
       if(!type){
-         printf("string8:<%s> ",record + pemt->offString);
+         verbose_printf("string8:<%s> ",record + pemt->offString);
       }
       else {
          string = U_Utf16leToUtf8((uint16_t *)(record + pemt->offString), pemt->nChars, NULL);
-         printf("string16:<%s> ",string);
+         verbose_printf("string16:<%s> ",string);
          free(string);
       }
    }
-   printf("fOptions:0x%8.8X "     ,pemt->fOptions    );
+   verbose_printf("fOptions:0x%8.8X "     ,pemt->fOptions    );
    off = sizeof(U_EMRTEXT);
    if(!(pemt->fOptions & U_ETO_NO_RECT)){
-      printf("rcl");   rectl_print( *((U_RECTL *)(emt+off)) );
+      verbose_printf("rcl");   rectl_print( *((U_RECTL *)(emt+off)) );
       off += sizeof(U_RECTL);
    }
-   printf("offDx:%u "        , *((U_OFFDX *)(emt+off))   ); off = *(U_OFFDX *)(emt+off);
-   printf("Dx:");
+   verbose_printf("offDx:%u "        , *((U_OFFDX *)(emt+off))   ); off = *(U_OFFDX *)(emt+off);
+   verbose_printf("Dx:");
    for(i=0; i<pemt->nChars; i++, off+=sizeof(uint32_t)){
-      printf("%d:", *((uint32_t *)(record+off))  );
+      verbose_printf("%d:", *((uint32_t *)(record+off))  );
    }
 }
 
@@ -638,13 +638,13 @@ void core1_print(const char *name, const char *contents, FILE *out){
    unsigned int i;
    UNUSED(name);
    PU_EMRPOLYLINETO pEmr = (PU_EMRPOLYLINETO) (contents);
-   printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    printf("\n");
-   printf("   cptl:           %d\n",pEmr->cptl        );
-   printf("   Points:         ");
+   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   cptl:           %d\n",pEmr->cptl        );
+   verbose_printf("   Points:         ");
    for(i=0;i<pEmr->cptl; i++){
-      printf("[%d]:",i); pointl_print(pEmr->aptl[i]);
+      verbose_printf("[%d]:",i); pointl_print(pEmr->aptl[i]);
    }
-   printf("\n");
+   verbose_printf("\n");
 }
 
 // Functions with the same form starting with U_EMRPOLYPOLYLINE_print
@@ -652,20 +652,20 @@ void core2_print(const char *name, const char *contents, FILE *out){
    unsigned int i;
    UNUSED(name);
    PU_EMRPOLYPOLYGON pEmr = (PU_EMRPOLYPOLYGON) (contents);
-   printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    printf("\n");
-   printf("   nPolys:         %d\n",pEmr->nPolys        );
-   printf("   cptl:           %d\n",pEmr->cptl          );
-   printf("   Counts:         ");
+   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   nPolys:         %d\n",pEmr->nPolys        );
+   verbose_printf("   cptl:           %d\n",pEmr->cptl          );
+   verbose_printf("   Counts:         ");
    for(i=0;i<pEmr->nPolys; i++){
-      printf(" [%d]:%d ",i,pEmr->aPolyCounts[i] );
+      verbose_printf(" [%d]:%d ",i,pEmr->aPolyCounts[i] );
    }
-   printf("\n");
+   verbose_printf("\n");
    PU_POINTL paptl = (PU_POINTL)((char *)pEmr->aPolyCounts + sizeof(uint32_t)* pEmr->nPolys);
-   printf("   Points:         ");
+   verbose_printf("   Points:         ");
    for(i=0;i<pEmr->cptl; i++){
-      printf(" [%d]:",i); pointl_print(paptl[i]);
+      verbose_printf(" [%d]:",i); pointl_print(paptl[i]);
    }
-   printf("\n");
+   verbose_printf("\n");
 }
 
 
@@ -674,13 +674,13 @@ void core3_print(const char *name, const char *label, const char *contents, FILE
    UNUSED(name);
    PU_EMRSETMAPMODE pEmr   = (PU_EMRSETMAPMODE)(contents);
    if(!strcmp(label,"crColor:")){
-      printf("   %-15s ",label); colorref_print(*(U_COLORREF *)&(pEmr->iMode)); printf("\n");
+      verbose_printf("   %-15s ",label); colorref_print(*(U_COLORREF *)&(pEmr->iMode)); verbose_printf("\n");
    }
    else if(!strcmp(label,"iMode:")){
-      printf("   %-15s 0x%8.8X\n",label,pEmr->iMode     );
+      verbose_printf("   %-15s 0x%8.8X\n",label,pEmr->iMode     );
    }
    else {
-      printf("   %-15s %d\n",label,pEmr->iMode        );
+      verbose_printf("   %-15s %d\n",label,pEmr->iMode        );
    }
 } 
 
@@ -688,7 +688,7 @@ void core3_print(const char *name, const char *label, const char *contents, FILE
 void core4_print(const char *name, const char *contents, FILE *out){
    UNUSED(name);
    PU_EMRELLIPSE pEmr      = (PU_EMRELLIPSE)(   contents);
-   printf("   rclBox:         ");  rectl_print(pEmr->rclBox);  printf("\n");
+   verbose_printf("   rclBox:         ");  rectl_print(pEmr->rclBox);  verbose_printf("\n");
 } 
 
 // Functions with the same form starting with U_EMRPOLYBEZIER16_print
@@ -696,14 +696,14 @@ void core6_print(const char *name, const char *contents, FILE *out){
    UNUSED(name);
    unsigned int i;
    PU_EMRPOLYBEZIER16 pEmr = (PU_EMRPOLYBEZIER16) (contents);
-   printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    printf("\n");
-   printf("   cpts:           %d\n",pEmr->cpts        );
-   printf("   Points:         ");
+   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   cpts:           %d\n",pEmr->cpts        );
+   verbose_printf("   Points:         ");
    PU_POINT16 papts = (PU_POINT16)(&(pEmr->apts));
    for(i=0; i<pEmr->cpts; i++){
-      printf(" [%d]:",i);  point16_print(papts[i], out);
+      verbose_printf(" [%d]:",i);  point16_print(papts[i], out);
    }
-   printf("\n");
+   verbose_printf("\n");
 } 
 
 // Functions with the same form starting with U_EMRPOLYBEZIER16_print
@@ -711,15 +711,15 @@ void polyline_draw(const char *name, const char *contents, FILE *out){
    UNUSED(name);
    unsigned int i;
    PU_EMRPOLYBEZIER16 pEmr = (PU_EMRPOLYBEZIER16) (contents);
-   printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    printf("\n");
-   printf("   cpts:           %d\n",pEmr->cpts        );
-   printf("   Points:         ");
+   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   cpts:           %d\n",pEmr->cpts        );
+   verbose_printf("   Points:         ");
    PU_POINT16 papts = (PU_POINT16)(&(pEmr->apts));
    for(i=0; i<pEmr->cpts; i++){
       fprintf(out, "L ");
-      printf(" [%d]:",i);  point16_draw(papts[i], out);
+      verbose_printf(" [%d]:",i);  point16_draw(papts[i], out);
    }
-   printf("\n");
+   verbose_printf("\n");
 } 
 
 // Records with the same form starting with U_EMRSETWINDOWEXTEX_print
@@ -731,11 +731,11 @@ void core7_print(const char *name, const char *field1, const char *field2, const
    PU_EMRGENERICPAIR pEmr = (PU_EMRGENERICPAIR) (contents);
    fprintf(out, "%d %d ", pEmr->pair.x, pEmr->pair.y);
    if(*field2){
-      printf("   %-15s %d\n",field1,pEmr->pair.x);
-      printf("   %-15s %d\n",field2,pEmr->pair.y);
+      verbose_printf("   %-15s %d\n",field1,pEmr->pair.x);
+      verbose_printf("   %-15s %d\n",field2,pEmr->pair.y);
    }
    else {
-      printf("   %-15s {%d,%d}\n",field1,pEmr->pair.x,pEmr->pair.y);
+      verbose_printf("   %-15s {%d,%d}\n",field1,pEmr->pair.x,pEmr->pair.y);
    } 
 }
 
@@ -743,22 +743,22 @@ void core7_print(const char *name, const char *field1, const char *field2, const
 void core8_print(const char *name, const char *contents, FILE *out, int type){
    UNUSED(name);
    PU_EMREXTTEXTOUTA pEmr = (PU_EMREXTTEXTOUTA) (contents);
-   printf("   iGraphicsMode:  %u\n",pEmr->iGraphicsMode );
-   printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);                              printf("\n");
-   printf("   exScale:        %f\n",pEmr->exScale        );
-   printf("   eyScale:        %f\n",pEmr->eyScale        );
-   printf("   emrtext:        ");
+   verbose_printf("   iGraphicsMode:  %u\n",pEmr->iGraphicsMode );
+   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);                              verbose_printf("\n");
+   verbose_printf("   exScale:        %f\n",pEmr->exScale        );
+   verbose_printf("   eyScale:        %f\n",pEmr->eyScale        );
+   verbose_printf("   emrtext:        ");
       emrtext_print(contents + sizeof(U_EMREXTTEXTOUTA) - sizeof(U_EMRTEXT),contents,type);
-      printf("\n");
+      verbose_printf("\n");
 } 
 
 // Functions that take a rect and a pair of points, starting with U_EMRARC_print
 void core9_print(const char *name, const char *contents, FILE *out){
    UNUSED(name);
    PU_EMRARC pEmr = (PU_EMRARC) (contents);
-   printf("   rclBox:         ");    rectl_print(pEmr->rclBox);    printf("\n");
-   printf("   ptlStart:       ");  pointl_print(pEmr->ptlStart);   printf("\n");
-   printf("   ptlEnd:         ");    pointl_print(pEmr->ptlEnd);   printf("\n");
+   verbose_printf("   rclBox:         ");    rectl_print(pEmr->rclBox);    verbose_printf("\n");
+   verbose_printf("   ptlStart:       ");  pointl_print(pEmr->ptlStart);   verbose_printf("\n");
+   verbose_printf("   ptlEnd:         ");    pointl_print(pEmr->ptlEnd);   verbose_printf("\n");
 }
 
 // Functions with the same form starting with U_EMRPOLYPOLYLINE16_print
@@ -766,20 +766,20 @@ void core10_print(const char *name, const char *contents, FILE *out){
    UNUSED(name);
    unsigned int i;
    PU_EMRPOLYPOLYLINE16 pEmr = (PU_EMRPOLYPOLYLINE16) (contents);
-   printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    printf("\n");
-   printf("   nPolys:         %d\n",pEmr->nPolys        );
-   printf("   cpts:           %d\n",pEmr->cpts          );
-   printf("   Counts:         ");
+   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   nPolys:         %d\n",pEmr->nPolys        );
+   verbose_printf("   cpts:           %d\n",pEmr->cpts          );
+   verbose_printf("   Counts:         ");
    for(i=0;i<pEmr->nPolys; i++){
-      printf(" [%d]:%d ",i,pEmr->aPolyCounts[i] );
+      verbose_printf(" [%d]:%d ",i,pEmr->aPolyCounts[i] );
    }
-   printf("\n");
-   printf("   Points:         ");
+   verbose_printf("\n");
+   verbose_printf("   Points:         ");
    PU_POINT16 papts = (PU_POINT16)((char *)pEmr->aPolyCounts + sizeof(uint32_t)* pEmr->nPolys);
    for(i=0; i<pEmr->cpts; i++){
-      printf(" [%d]:",i);  point16_print(papts[i], out);
+      verbose_printf(" [%d]:",i);  point16_print(papts[i], out);
    }
-   printf("\n");
+   verbose_printf("\n");
 
 } 
 
@@ -788,17 +788,17 @@ void core11_print(const char *name, const char *contents, FILE *out){
    UNUSED(name);
    unsigned int i,roff;
    PU_EMRINVERTRGN pEmr = (PU_EMRINVERTRGN) (contents);
-   printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    printf("\n");
-   printf("   cbRgnData:      %d\n",pEmr->cbRgnData);
+   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   cbRgnData:      %d\n",pEmr->cbRgnData);
    // This one is a pain since each RGNDATA may be a different size, so it isn't possible to index through them.
    roff=0;
    i=1; 
    char *prd = (char *) &(pEmr->RgnData);
    while(roff + sizeof(U_RGNDATAHEADER) < pEmr->cbRgnData){ // stop at end of the record 4*4 = header + 4*4=rect
-      printf("   RegionData:%d",i);
+      verbose_printf("   RegionData:%d",i);
       rgndata_print((PU_RGNDATA) (prd + roff));
       roff += (((PU_RGNDATA)prd)->rdh.dwSize + ((PU_RGNDATA)prd)->rdh.nRgnSize - 16);
-      printf("\n");
+      verbose_printf("\n");
    }
 } 
 
@@ -807,40 +807,40 @@ void core11_print(const char *name, const char *contents, FILE *out){
 void core12_print(const char *name, const char *contents, FILE *out){
    UNUSED(name);
    PU_EMRCREATEMONOBRUSH pEmr = (PU_EMRCREATEMONOBRUSH) (contents);
-   printf("   ihBrush:      %u\n",pEmr->ihBrush );
-   printf("   iUsage :      %u\n",pEmr->iUsage  );
-   printf("   offBmi :      %u\n",pEmr->offBmi  );
-   printf("   cbBmi  :      %u\n",pEmr->cbBmi   );
+   verbose_printf("   ihBrush:      %u\n",pEmr->ihBrush );
+   verbose_printf("   iUsage :      %u\n",pEmr->iUsage  );
+   verbose_printf("   offBmi :      %u\n",pEmr->offBmi  );
+   verbose_printf("   cbBmi  :      %u\n",pEmr->cbBmi   );
    if(pEmr->cbBmi){
-      printf("      bitmap:");
+      verbose_printf("      bitmap:");
       bitmapinfo_print(contents + pEmr->offBmi);
-      printf("\n");
+      verbose_printf("\n");
    }
-   printf("   offBits:      %u\n",pEmr->offBits );
-   printf("   cbBits :      %u\n",pEmr->cbBits  );
+   verbose_printf("   offBits:      %u\n",pEmr->offBits );
+   verbose_printf("   cbBits :      %u\n",pEmr->cbBits  );
 }
 
 // common code for U_EMRALPHABLEND_print and U_EMRTRANSPARENTBLT_print,
 void core13_print(const char *name, const char *contents, FILE *out){
    UNUSED(name);
    PU_EMRALPHABLEND pEmr = (PU_EMRALPHABLEND) (contents);
-   printf("   rclBounds:      ");    rectl_print( pEmr->rclBounds);       printf("\n");
-   printf("   Dest:           ");    pointl_print(pEmr->Dest);            printf("\n");
-   printf("   cDest:          ");    pointl_print(pEmr->cDest);           printf("\n");
-   printf("   Blend:          ");    blend_print(pEmr->Blend);            printf("\n");
-   printf("   Src:            ");    pointl_print(pEmr->Src);             printf("\n");
-   printf("   xformSrc:       ");    xform_print( pEmr->xformSrc);        printf("\n");
-   printf("   crBkColorSrc:   ");    colorref_print( pEmr->crBkColorSrc); printf("\n");
-   printf("   iUsageSrc:      %u\n",pEmr->iUsageSrc   );
-   printf("   offBmiSrc:      %u\n",pEmr->offBmiSrc   );
-   printf("   cbBmiSrc:       %u\n",pEmr->cbBmiSrc    );
+   verbose_printf("   rclBounds:      ");    rectl_print( pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");    pointl_print(pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   cDest:          ");    pointl_print(pEmr->cDest);           verbose_printf("\n");
+   verbose_printf("   Blend:          ");    blend_print(pEmr->Blend);            verbose_printf("\n");
+   verbose_printf("   Src:            ");    pointl_print(pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   xformSrc:       ");    xform_print( pEmr->xformSrc);        verbose_printf("\n");
+   verbose_printf("   crBkColorSrc:   ");    colorref_print( pEmr->crBkColorSrc); verbose_printf("\n");
+   verbose_printf("   iUsageSrc:      %u\n",pEmr->iUsageSrc   );
+   verbose_printf("   offBmiSrc:      %u\n",pEmr->offBmiSrc   );
+   verbose_printf("   cbBmiSrc:       %u\n",pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
-      printf("      bitmap:");
+      verbose_printf("      bitmap:");
       bitmapinfo_print(contents + pEmr->offBmiSrc);
-      printf("\n");
+      verbose_printf("\n");
    }
-   printf("   offBitsSrc:     %u\n",pEmr->offBitsSrc  );
-   printf("   cbBitsSrc:      %u\n",pEmr->cbBitsSrc   );
+   verbose_printf("   offBitsSrc:     %u\n",pEmr->offBitsSrc  );
+   verbose_printf("   cbBitsSrc:      %u\n",pEmr->cbBitsSrc   );
 }
 //! @endcond
 
@@ -858,7 +858,7 @@ They are listed in order by the corresponding U_EMR_* index number.
 void U_EMRNOTIMPLEMENTED_print(const char *name, const char *contents, FILE *out){
    UNUSED(name);
    UNUSED(contents);
-   printf("   Not Implemented!\n");
+   verbose_printf("   Not Implemented!\n");
 }
 
 // U_EMRHEADER                1
@@ -872,44 +872,44 @@ void U_EMRHEADER_print(const char *contents, FILE *out){
    int  p1len;
 
    PU_EMRHEADER pEmr = (PU_EMRHEADER)(contents);
-   printf("   rclBounds:      ");          rectl_print( pEmr->rclBounds);   printf("\n");
-   printf("   rclFrame:       ");          rectl_print( pEmr->rclFrame);    printf("\n");
-   printf("   dSignature:     0x%8.8X\n",  pEmr->dSignature    );
-   printf("   nVersion:       0x%8.8X\n",  pEmr->nVersion      );
-   printf("   nBytes:         %d\n",       pEmr->nBytes        );
-   printf("   nRecords:       %d\n",       pEmr->nRecords      );
-   printf("   nHandles:       %d\n",       pEmr->nHandles      );
-   printf("   sReserved:      %d\n",       pEmr->sReserved     );
-   printf("   nDescription:   %d\n",       pEmr->nDescription  );
-   printf("   offDescription: %d\n",       pEmr->offDescription);
+   verbose_printf("   rclBounds:      ");          rectl_print( pEmr->rclBounds);   verbose_printf("\n");
+   verbose_printf("   rclFrame:       ");          rectl_print( pEmr->rclFrame);    verbose_printf("\n");
+   verbose_printf("   dSignature:     0x%8.8X\n",  pEmr->dSignature    );
+   verbose_printf("   nVersion:       0x%8.8X\n",  pEmr->nVersion      );
+   verbose_printf("   nBytes:         %d\n",       pEmr->nBytes        );
+   verbose_printf("   nRecords:       %d\n",       pEmr->nRecords      );
+   verbose_printf("   nHandles:       %d\n",       pEmr->nHandles      );
+   verbose_printf("   sReserved:      %d\n",       pEmr->sReserved     );
+   verbose_printf("   nDescription:   %d\n",       pEmr->nDescription  );
+   verbose_printf("   offDescription: %d\n",       pEmr->offDescription);
    if(pEmr->offDescription){
       string = U_Utf16leToUtf8((uint16_t *)((char *) pEmr + pEmr->offDescription), pEmr->nDescription, NULL);
-      printf("      Desc. A:  %s\n",string);
+      verbose_printf("      Desc. A:  %s\n",string);
       free(string);
       p1len = 2 + 2*wchar16len((uint16_t *)((char *) pEmr + pEmr->offDescription));
       string = U_Utf16leToUtf8((uint16_t *)((char *) pEmr + pEmr->offDescription + p1len), pEmr->nDescription, NULL);
-      printf("      Desc. B:  %s\n",string);
+      verbose_printf("      Desc. B:  %s\n",string);
       free(string);
    }
-   printf("   nPalEntries:    %d\n",       pEmr->nPalEntries   );
-   printf("   szlDevice:      {%d,%d} \n", pEmr->szlDevice.cx,pEmr->szlDevice.cy);
-   printf("   szlMillimeters: {%d,%d} \n", pEmr->szlMillimeters.cx,pEmr->szlMillimeters.cy);
+   verbose_printf("   nPalEntries:    %d\n",       pEmr->nPalEntries   );
+   verbose_printf("   szlDevice:      {%d,%d} \n", pEmr->szlDevice.cx,pEmr->szlDevice.cy);
+   verbose_printf("   szlMillimeters: {%d,%d} \n", pEmr->szlMillimeters.cx,pEmr->szlMillimeters.cy);
    if((pEmr->nDescription && (pEmr->offDescription >= 100)) || 
       (!pEmr->offDescription && pEmr->emr.nSize >= 100)
      ){
-      printf("   cbPixelFormat:  %d\n",       pEmr->cbPixelFormat );
-      printf("   offPixelFormat: %d\n",       pEmr->offPixelFormat);
+      verbose_printf("   cbPixelFormat:  %d\n",       pEmr->cbPixelFormat );
+      verbose_printf("   offPixelFormat: %d\n",       pEmr->offPixelFormat);
       if(pEmr->cbPixelFormat){
-         printf("      PFD:");
+         verbose_printf("      PFD:");
          pixelformatdescriptor_print( *(PU_PIXELFORMATDESCRIPTOR) (contents + pEmr->offPixelFormat));
-         printf("\n");
+         verbose_printf("\n");
       }
-      printf("   bOpenGL:        %d\n",pEmr->bOpenGL       );
+      verbose_printf("   bOpenGL:        %d\n",pEmr->bOpenGL       );
       if((pEmr->nDescription    && (pEmr->offDescription >= 108)) || 
               (pEmr->cbPixelFormat   && (pEmr->offPixelFormat >=108)) ||
               (!pEmr->offDescription && !pEmr->cbPixelFormat && pEmr->emr.nSize >= 108)
              ){
-         printf("   szlMicrometers: {%d,%d} \n", pEmr->szlMicrometers.cx,pEmr->szlMicrometers.cy);
+         verbose_printf("   szlMicrometers: {%d,%d} \n", pEmr->szlMicrometers.cx,pEmr->szlMicrometers.cy);
      }
    }
    fprintf(out, "<g width=\"%d\" height=\"%d\">\n", pEmr->szlDevice.cx, pEmr->szlDevice.cy);
@@ -1044,12 +1044,12 @@ void U_EMRSETBRUSHORGEX_print(const char *contents, FILE *out){
 void U_EMREOF_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMREOF pEmr = (PU_EMREOF)(contents);
-   printf("   cbPalEntries:   %u\n",      pEmr->cbPalEntries );
-   printf("   offPalEntries:  %u\n",      pEmr->offPalEntries);
+   verbose_printf("   cbPalEntries:   %u\n",      pEmr->cbPalEntries );
+   verbose_printf("   offPalEntries:  %u\n",      pEmr->offPalEntries);
    if(pEmr->cbPalEntries){
-     printf("      PE:");
+     verbose_printf("      PE:");
      logpalette_print( (PU_LOGPALETTE)(contents + pEmr->offPalEntries));
-     printf("\n");
+     verbose_printf("\n");
    }
    fprintf(out, "</g>\n");
 } 
@@ -1063,8 +1063,8 @@ void U_EMREOF_print(const char *contents, FILE *out){
 void U_EMRSETPIXELV_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRSETPIXELV pEmr = (PU_EMRSETPIXELV)(contents);
-   printf("   ptlPixel:       ");  pointl_print(  pEmr->ptlPixel);  printf("\n");
-   printf("   crColor:        ");  colorref_print(pEmr->crColor);   printf("\n");
+   verbose_printf("   ptlPixel:       ");  pointl_print(  pEmr->ptlPixel);  verbose_printf("\n");
+   verbose_printf("   crColor:        ");  colorref_print(pEmr->crColor);   verbose_printf("\n");
 } 
 
 
@@ -1076,7 +1076,7 @@ void U_EMRSETPIXELV_print(const char *contents, FILE *out){
 void U_EMRSETMAPPERFLAGS_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRSETMAPPERFLAGS pEmr = (PU_EMRSETMAPPERFLAGS)(contents);
-   printf("   dwFlags:        0x%8.8X\n",pEmr->dwFlags);
+   verbose_printf("   dwFlags:        0x%8.8X\n",pEmr->dwFlags);
 } 
 
 
@@ -1148,9 +1148,9 @@ void U_EMRSETTEXTALIGN_print(const char *contents, FILE *out){
 void U_EMRSETCOLORADJUSTMENT_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRSETCOLORADJUSTMENT pEmr = (PU_EMRSETCOLORADJUSTMENT)(contents);
-   printf("   ColorAdjustment:");
+   verbose_printf("   ColorAdjustment:");
    coloradjustment_print(pEmr->ColorAdjustment);
-   printf("\n");
+   verbose_printf("\n");
 }
 
 // U_EMRSETTEXTCOLOR         24
@@ -1273,9 +1273,9 @@ void U_EMRRESTOREDC_print(const char *contents, FILE *out){
 void U_EMRSETWORLDTRANSFORM_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRSETWORLDTRANSFORM pEmr = (PU_EMRSETWORLDTRANSFORM)(contents);
-   printf("   xform:");
+   verbose_printf("   xform:");
    xform_print(pEmr->xform);
-   printf("\n");
+   verbose_printf("\n");
 } 
 
 // U_EMRMODIFYWORLDTRANSFORM 36
@@ -1286,10 +1286,10 @@ void U_EMRSETWORLDTRANSFORM_print(const char *contents, FILE *out){
 void U_EMRMODIFYWORLDTRANSFORM_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRMODIFYWORLDTRANSFORM pEmr = (PU_EMRMODIFYWORLDTRANSFORM)(contents);
-   printf("   xform:");
+   verbose_printf("   xform:");
    xform_print(pEmr->xform);
-   printf("\n");
-   printf("   iMode:          %u\n",      pEmr->iMode );
+   verbose_printf("\n");
+   verbose_printf("   iMode:          %u\n",      pEmr->iMode );
 } 
 
 // U_EMRSELECTOBJECT         37
@@ -1301,10 +1301,10 @@ void U_EMRSELECTOBJECT_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRSELECTOBJECT pEmr = (PU_EMRSELECTOBJECT)(contents);
    if(pEmr->ihObject & U_STOCK_OBJECT){
-     printf("   StockObject:    0x%8.8X\n",  pEmr->ihObject );
+     verbose_printf("   StockObject:    0x%8.8X\n",  pEmr->ihObject );
    }
    else {
-     printf("   ihObject:       %u\n",     pEmr->ihObject );
+     verbose_printf("   ihObject:       %u\n",     pEmr->ihObject );
    }
 } 
 
@@ -1316,8 +1316,8 @@ void U_EMRSELECTOBJECT_print(const char *contents, FILE *out){
 void U_EMRCREATEPEN_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRCREATEPEN pEmr = (PU_EMRCREATEPEN)(contents);
-   printf("   ihPen:          %u\n",      pEmr->ihPen );
-   printf("   lopn:           ");    logpen_print(pEmr->lopn);  printf("\n");
+   verbose_printf("   ihPen:          %u\n",      pEmr->ihPen );
+   verbose_printf("   lopn:           ");    logpen_print(pEmr->lopn);  verbose_printf("\n");
 } 
 
 // U_EMRCREATEBRUSHINDIRECT  39
@@ -1328,8 +1328,8 @@ void U_EMRCREATEPEN_print(const char *contents, FILE *out){
 void U_EMRCREATEBRUSHINDIRECT_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRCREATEBRUSHINDIRECT pEmr = (PU_EMRCREATEBRUSHINDIRECT)(contents);
-   printf("   ihBrush:        %u\n",      pEmr->ihBrush );
-   printf("   lb:             ");         logbrush_print(pEmr->lb);  printf("\n");
+   verbose_printf("   ihBrush:        %u\n",      pEmr->ihBrush );
+   verbose_printf("   lb:             ");         logbrush_print(pEmr->lb);  verbose_printf("\n");
 } 
 
 // U_EMRDELETEOBJECT         40
@@ -1340,7 +1340,7 @@ void U_EMRCREATEBRUSHINDIRECT_print(const char *contents, FILE *out){
 void U_EMRDELETEOBJECT_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRDELETEOBJECT pEmr = (PU_EMRDELETEOBJECT)(contents);
-   printf("   ihObject:       %u\n",      pEmr->ihObject );
+   verbose_printf("   ihObject:       %u\n",      pEmr->ihObject );
 } 
 
 // U_EMRANGLEARC             41
@@ -1351,10 +1351,10 @@ void U_EMRDELETEOBJECT_print(const char *contents, FILE *out){
 void U_EMRANGLEARC_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRANGLEARC pEmr = (PU_EMRANGLEARC)(contents);
-   printf("   ptlCenter:      "), pointl_print(pEmr->ptlCenter ); printf("\n");
-   printf("   nRadius:        %u\n",      pEmr->nRadius );
-   printf("   eStartAngle:    %f\n",       pEmr->eStartAngle );
-   printf("   eSweepAngle:    %f\n",       pEmr->eSweepAngle );
+   verbose_printf("   ptlCenter:      "); pointl_print(pEmr->ptlCenter ); verbose_printf("\n");
+   verbose_printf("   nRadius:        %u\n",      pEmr->nRadius );
+   verbose_printf("   eStartAngle:    %f\n",       pEmr->eStartAngle );
+   verbose_printf("   eSweepAngle:    %f\n",       pEmr->eSweepAngle );
 } 
 
 // U_EMRELLIPSE              42
@@ -1385,8 +1385,8 @@ void U_EMRRECTANGLE_print(const char *contents, FILE *out){
 void U_EMRROUNDRECT_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRROUNDRECT pEmr = (PU_EMRROUNDRECT)(contents);
-   printf("   rclBox:         "), rectl_print(pEmr->rclBox );     printf("\n");
-   printf("   szlCorner:      "), sizel_print(pEmr->szlCorner );  printf("\n");
+   verbose_printf("   rclBox:         "); rectl_print(pEmr->rclBox );     verbose_printf("\n");
+   verbose_printf("   szlCorner:      "); sizel_print(pEmr->szlCorner );  verbose_printf("\n");
 }
 
 // U_EMRARC                  45
@@ -1437,8 +1437,8 @@ void U_EMRSELECTPALETTE_print(const char *contents, FILE *out){
 void U_EMRCREATEPALETTE_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRCREATEPALETTE pEmr = (PU_EMRCREATEPALETTE)(contents);
-   printf("   ihPal:          %u\n",pEmr->ihPal);
-   printf("   lgpl:           "), logpalette_print( (PU_LOGPALETTE)&(pEmr->lgpl) );  printf("\n");
+   verbose_printf("   ihPal:          %u\n",pEmr->ihPal);
+   verbose_printf("   lgpl:           "); logpalette_print( (PU_LOGPALETTE)&(pEmr->lgpl) );  verbose_printf("\n");
 }
 
 // U_EMRSETPALETTEENTRIES    50
@@ -1450,16 +1450,16 @@ void U_EMRSETPALETTEENTRIES_print(const char *contents, FILE *out){
    FLAG_IGNORED
    unsigned int i;
    PU_EMRSETPALETTEENTRIES pEmr = (PU_EMRSETPALETTEENTRIES)(contents);
-   printf("   ihPal:          %u\n",pEmr->ihPal);
-   printf("   iStart:         %u\n",pEmr->iStart);
-   printf("   cEntries:       %u\n",pEmr->cEntries);
+   verbose_printf("   ihPal:          %u\n",pEmr->ihPal);
+   verbose_printf("   iStart:         %u\n",pEmr->iStart);
+   verbose_printf("   cEntries:       %u\n",pEmr->cEntries);
    if(pEmr->cEntries){
-      printf("      PLTEntries:");
+      verbose_printf("      PLTEntries:");
       PU_LOGPLTNTRY aPalEntries = (PU_LOGPLTNTRY) &(pEmr->aPalEntries);
       for(i=0; i<pEmr->cEntries; i++){
-         printf("%d:",i); logpltntry_print(aPalEntries[i]);
+         verbose_printf("%d:",i); logpltntry_print(aPalEntries[i]);
       }
-      printf("\n");
+      verbose_printf("\n");
    }
 }
 
@@ -1491,9 +1491,9 @@ void U_EMRREALIZEPALETTE_print(const char *contents, FILE *out){
 void U_EMREXTFLOODFILL_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMREXTFLOODFILL pEmr = (PU_EMREXTFLOODFILL)(contents);
-   printf("   ptlStart:       ");   pointl_print(pEmr->ptlStart);    printf("\n");
-   printf("   crColor:        ");   colorref_print(pEmr->crColor);   printf("\n");
-   printf("   iMode:          %u\n",pEmr->iMode);
+   verbose_printf("   ptlStart:       ");   pointl_print(pEmr->ptlStart);    verbose_printf("\n");
+   verbose_printf("   crColor:        ");   colorref_print(pEmr->crColor);   verbose_printf("\n");
+   verbose_printf("   iMode:          %u\n",pEmr->iMode);
 }
 
 // U_EMRLINETO               54
@@ -1525,19 +1525,19 @@ void U_EMRPOLYDRAW_print(const char *contents, FILE *out){
    FLAG_IGNORED
    unsigned int i;
    PU_EMRPOLYDRAW pEmr = (PU_EMRPOLYDRAW)(contents);
-   printf("   rclBounds:      ");          rectl_print( pEmr->rclBounds);   printf("\n");
-   printf("   cptl:           %d\n",pEmr->cptl        );
-   printf("   Points:         ");
+   verbose_printf("   rclBounds:      ");          rectl_print( pEmr->rclBounds);   verbose_printf("\n");
+   verbose_printf("   cptl:           %d\n",pEmr->cptl        );
+   verbose_printf("   Points:         ");
    for(i=0;i<pEmr->cptl; i++){
-      printf(" [%d]:",i);
+      verbose_printf(" [%d]:",i);
       pointl_print(pEmr->aptl[i]);
    }
-   printf("\n");
-   printf("   Types:          ");
+   verbose_printf("\n");
+   verbose_printf("   Types:          ");
    for(i=0;i<pEmr->cptl; i++){
-      printf(" [%d]:%u ",i,pEmr->abTypes[i]);
+      verbose_printf(" [%d]:%u ",i,pEmr->abTypes[i]);
    }
-   printf("\n");
+   verbose_printf("\n");
 }
 
 // U_EMRSETARCDIRECTION      57
@@ -1691,7 +1691,7 @@ void U_EMRCOMMENT_print(const char *contents, FILE *out, const char *blimit, siz
    /* There are several different types of comments */
 
    cbData = pEmr->cbData;
-   printf("   cbData:         %d\n",cbData        );
+   verbose_printf("   cbData:         %d\n",cbData        );
    src = (char *)&(pEmr->Data);  // default
    if(cbData >= 4){
       /* Since the comment is just a big bag of bytes the emf endian code cannot safely touch
@@ -1700,29 +1700,29 @@ void U_EMRCOMMENT_print(const char *contents, FILE *out, const char *blimit, siz
       cIdent = *(uint32_t *)(src);
       if(U_BYTE_SWAP){ U_swap4(&(cIdent),1); }
       if(     cIdent == U_EMR_COMMENT_PUBLIC       ){
-         printf("   cIdent:  Public\n");
+         verbose_printf("   cIdent:  Public\n");
          PU_EMRCOMMENT_PUBLIC pEmrp = (PU_EMRCOMMENT_PUBLIC) pEmr;
 	 cIdent2 = pEmrp->pcIdent;
          if(U_BYTE_SWAP){ U_swap4(&(cIdent2),1); }
-         printf("   pcIdent:        0x%8.8x\n",cIdent2);
+         verbose_printf("   pcIdent:        0x%8.8x\n",cIdent2);
          src = (char *)&(pEmrp->Data);
          cbData -= 8;
       }
       else if(cIdent == U_EMR_COMMENT_SPOOL        ){
-         printf("   cIdent:  Spool\n");
+         verbose_printf("   cIdent:  Spool\n");
          PU_EMRCOMMENT_SPOOL pEmrs = (PU_EMRCOMMENT_SPOOL) pEmr;
 	 cIdent2 = pEmrs->esrIdent;
          if(U_BYTE_SWAP){ U_swap4(&(cIdent2),1); }
-         printf("   esrIdent:       0x%8.8x\n",cIdent2);
+         verbose_printf("   esrIdent:       0x%8.8x\n",cIdent2);
          src = (char *)&(pEmrs->Data);
          cbData -= 8;
       }
       else if(cIdent == U_EMR_COMMENT_EMFPLUSRECORD){
-         printf("   cIdent:  EMF+\n");
+         verbose_printf("   cIdent:  EMF+\n");
          PU_EMRCOMMENT_EMFPLUS pEmrpl = (PU_EMRCOMMENT_EMFPLUS) pEmr;
          src = (char *)&(pEmrpl->Data);
          loff = 16;  /* Header size of the header part of an EMF+ comment record */
-         printf("=========================== START EMF+ RECORD ANALYSING ==================:\n");
+         verbose_printf("=========================== START EMF+ RECORD ANALYSING ==================:\n");
          while(loff < cbData + 12){  // EMF+ records may not fill the entire comment, cbData value includes cIdent, but not U_EMR or cbData
             recsize =  U_pmf_onerec_print(src, blimit, recnum, loff + off, out);
             if(recsize<=0)break;
@@ -1730,18 +1730,18 @@ void U_EMRCOMMENT_print(const char *contents, FILE *out, const char *blimit, siz
             src  += recsize;
             recnum++;
          }
-         printf("=========================== END EMF+ RECORD ANALYSING ==================:\n");
+         verbose_printf("=========================== END EMF+ RECORD ANALYSING ==================:\n");
          //return;
       }
       else {
-         printf("   cIdent:         not (Public or Spool or EMF+)\n");
+         verbose_printf("   cIdent:         not (Public or Spool or EMF+)\n");
       }
    }
    if(cbData){ // The data may not be printable, but try it just in case
       string = (char *)malloc(cbData + 1);
       (void)strncpy(string, src, cbData);
       string[cbData] = '\0'; // it might not be terminated - it might not even be text!
-      //printf("   Data:           <%s>\n",string);
+      //verbose_printf("   Data:           <%s>\n",string);
       free(string);
    }
 } 
@@ -1755,15 +1755,15 @@ void U_EMRFILLRGN_print(const char *contents, FILE *out){
    FLAG_IGNORED
    int i,roff;
    PU_EMRFILLRGN pEmr = (PU_EMRFILLRGN)(contents);
-   printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    printf("\n");
-   printf("   cbRgnData:      %u\n",pEmr->cbRgnData);
-   printf("   ihBrush:        %u\n",pEmr->ihBrush);
+   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   cbRgnData:      %u\n",pEmr->cbRgnData);
+   verbose_printf("   ihBrush:        %u\n",pEmr->ihBrush);
    // This one is a pain since each RGNDATA may be a different size, so it isn't possible to index through them.
    roff=0;
    i=1; 
    char *prd = (char *) &(pEmr->RgnData);
    while(roff  + sizeof(U_RGNDATAHEADER) < pEmr->emr.nSize){ // up to the end of the record
-      printf("   RegionData[%d]: ",i);   rgndata_print((PU_RGNDATA) (prd + roff));  printf("\n");
+      verbose_printf("   RegionData[%d]: ",i);   rgndata_print((PU_RGNDATA) (prd + roff));  verbose_printf("\n");
       roff += (((PU_RGNDATA)prd)->rdh.dwSize + ((PU_RGNDATA)prd)->rdh.nRgnSize - 16);
    }
 } 
@@ -1777,16 +1777,16 @@ void U_EMRFRAMERGN_print(const char *contents, FILE *out){
    FLAG_IGNORED
    int i,roff;
    PU_EMRFRAMERGN pEmr = (PU_EMRFRAMERGN)(contents);
-   printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    printf("\n");
-   printf("   cbRgnData:      %u\n",pEmr->cbRgnData);
-   printf("   ihBrush:        %u\n",pEmr->ihBrush);
-   printf("   szlStroke:      "), sizel_print(pEmr->szlStroke );      printf("\n");
+   verbose_printf("   rclBounds:      ");    rectl_print(pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   cbRgnData:      %u\n",pEmr->cbRgnData);
+   verbose_printf("   ihBrush:        %u\n",pEmr->ihBrush);
+   verbose_printf("   szlStroke:      "); sizel_print(pEmr->szlStroke );      verbose_printf("\n");
    // This one is a pain since each RGNDATA may be a different size, so it isn't possible to index through them.
    roff=0;
    i=1; 
    char *prd = (char *) &(pEmr->RgnData);
    while(roff  + sizeof(U_RGNDATAHEADER) < pEmr->emr.nSize){ // up to the end of the record
-      printf("   RegionData[%d]: ",i);   rgndata_print((PU_RGNDATA) (prd + roff));  printf("\n");
+      verbose_printf("   RegionData[%d]: ",i);   rgndata_print((PU_RGNDATA) (prd + roff));  verbose_printf("\n");
       roff += (((PU_RGNDATA)prd)->rdh.dwSize + ((PU_RGNDATA)prd)->rdh.nRgnSize - 16);
    }
 } 
@@ -1820,13 +1820,13 @@ void U_EMREXTSELECTCLIPRGN_print(const char *contents, FILE *out){
    FLAG_IGNORED
    int i,roff;
    PU_EMREXTSELECTCLIPRGN pEmr = (PU_EMREXTSELECTCLIPRGN) (contents);
-   printf("   cbRgnData:      %u\n",pEmr->cbRgnData);
-   printf("   iMode:          %u\n",pEmr->iMode);
+   verbose_printf("   cbRgnData:      %u\n",pEmr->cbRgnData);
+   verbose_printf("   iMode:          %u\n",pEmr->iMode);
    // This one is a pain since each RGNDATA may be a different size, so it isn't possible to index through them.
    char *prd = (char *) &(pEmr->RgnData);
    i=roff=0;
    while(roff + sizeof(U_RGNDATAHEADER) < pEmr->cbRgnData){ // stop at end of the record 4*4 = header + 4*4=rect
-      printf("   RegionData[%d]: ",i++); rgndata_print((PU_RGNDATA) (prd + roff)); printf("\n");
+      verbose_printf("   RegionData[%d]: ",i++); rgndata_print((PU_RGNDATA) (prd + roff)); verbose_printf("\n");
       roff += (((PU_RGNDATA)prd)->rdh.dwSize + ((PU_RGNDATA)prd)->rdh.nRgnSize - 16);
    }
 } 
@@ -1839,23 +1839,23 @@ void U_EMREXTSELECTCLIPRGN_print(const char *contents, FILE *out){
 void U_EMRBITBLT_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRBITBLT pEmr = (PU_EMRBITBLT) (contents);
-   printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       printf("\n");
-   printf("   Dest:           ");     pointl_print(pEmr->Dest);            printf("\n");
-   printf("   cDest:          ");     pointl_print(pEmr->cDest);           printf("\n");
-   printf("   dwRop :         0x%8.8X\n", pEmr->dwRop   );
-   printf("   Src:            ");     pointl_print(pEmr->Src);             printf("\n");
-   printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        printf("\n");
-   printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); printf("\n");
-   printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
-   printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
-   printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
+   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");     pointl_print(pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   cDest:          ");     pointl_print(pEmr->cDest);           verbose_printf("\n");
+   verbose_printf("   dwRop :         0x%8.8X\n", pEmr->dwRop   );
+   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        verbose_printf("\n");
+   verbose_printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); verbose_printf("\n");
+   verbose_printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
+   verbose_printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
+   verbose_printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
-      printf("      bitmap:      ");
+      verbose_printf("      bitmap:      ");
       bitmapinfo_print(contents + pEmr->offBmiSrc);
-      printf("\n");
+      verbose_printf("\n");
    }
-   printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
-   printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
+   verbose_printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
+   verbose_printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
 }
 
 // U_EMRSTRETCHBLT           77
@@ -1866,24 +1866,24 @@ void U_EMRBITBLT_print(const char *contents, FILE *out){
 void U_EMRSTRETCHBLT_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRSTRETCHBLT pEmr = (PU_EMRSTRETCHBLT) (contents);
-   printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       printf("\n");
-   printf("   Dest:           ");     pointl_print(pEmr->Dest);            printf("\n");
-   printf("   cDest:          ");     pointl_print(pEmr->cDest);           printf("\n");
-   printf("   dwRop :         0x%8.8X\n", pEmr->dwRop   );
-   printf("   Src:            ");     pointl_print(pEmr->Src);             printf("\n");
-   printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        printf("\n");
-   printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); printf("\n");
-   printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
-   printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
-   printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
+   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");     pointl_print(pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   cDest:          ");     pointl_print(pEmr->cDest);           verbose_printf("\n");
+   verbose_printf("   dwRop :         0x%8.8X\n", pEmr->dwRop   );
+   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        verbose_printf("\n");
+   verbose_printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); verbose_printf("\n");
+   verbose_printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
+   verbose_printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
+   verbose_printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
-      printf("      bitmap:      ");
+      verbose_printf("      bitmap:      ");
       bitmapinfo_print(contents + pEmr->offBmiSrc);
-      printf("\n");
+      verbose_printf("\n");
    }
-   printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
-   printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
-   printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            printf("\n");
+   verbose_printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
+   verbose_printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
+   verbose_printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            verbose_printf("\n");
 }
 
 // U_EMRMASKBLT              78
@@ -1894,34 +1894,34 @@ void U_EMRSTRETCHBLT_print(const char *contents, FILE *out){
 void U_EMRMASKBLT_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRMASKBLT pEmr = (PU_EMRMASKBLT) (contents);
-   printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       printf("\n");
-   printf("   Dest:           ");     pointl_print(pEmr->Dest);            printf("\n");
-   printf("   cDest:          ");     pointl_print(pEmr->cDest);           printf("\n");
-   printf("   dwRop :         0x%8.8X\n",  pEmr->dwRop   );
-   printf("   Src:            ");     pointl_print(pEmr->Src);             printf("\n");
-   printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        printf("\n");
-   printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); printf("\n");
-   printf("   iUsageSrc:      %u\n",  pEmr->iUsageSrc   );
-   printf("   offBmiSrc:      %u\n",  pEmr->offBmiSrc   );
-   printf("   cbBmiSrc:       %u\n",  pEmr->cbBmiSrc    );
+   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");     pointl_print(pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   cDest:          ");     pointl_print(pEmr->cDest);           verbose_printf("\n");
+   verbose_printf("   dwRop :         0x%8.8X\n",  pEmr->dwRop   );
+   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        verbose_printf("\n");
+   verbose_printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); verbose_printf("\n");
+   verbose_printf("   iUsageSrc:      %u\n",  pEmr->iUsageSrc   );
+   verbose_printf("   offBmiSrc:      %u\n",  pEmr->offBmiSrc   );
+   verbose_printf("   cbBmiSrc:       %u\n",  pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
-      printf("      Src bitmap:  ");
+      verbose_printf("      Src bitmap:  ");
       bitmapinfo_print(contents + pEmr->offBmiSrc);
-      printf("\n");
+      verbose_printf("\n");
    }
-   printf("   offBitsSrc:     %u\n",  pEmr->offBitsSrc   );
-   printf("   cbBitsSrc:      %u\n",  pEmr->cbBitsSrc    );
-   printf("   Mask:           ");     pointl_print(pEmr->Mask);            printf("\n");
-   printf("   iUsageMask:     %u\n",  pEmr->iUsageMask   );
-   printf("   offBmiMask:     %u\n",  pEmr->offBmiMask   );
-   printf("   cbBmiMask:      %u\n",  pEmr->cbBmiMask    );
+   verbose_printf("   offBitsSrc:     %u\n",  pEmr->offBitsSrc   );
+   verbose_printf("   cbBitsSrc:      %u\n",  pEmr->cbBitsSrc    );
+   verbose_printf("   Mask:           ");     pointl_print(pEmr->Mask);            verbose_printf("\n");
+   verbose_printf("   iUsageMask:     %u\n",  pEmr->iUsageMask   );
+   verbose_printf("   offBmiMask:     %u\n",  pEmr->offBmiMask   );
+   verbose_printf("   cbBmiMask:      %u\n",  pEmr->cbBmiMask    );
    if(pEmr->cbBmiMask){
-      printf("      Mask bitmap: ");
+      verbose_printf("      Mask bitmap: ");
       bitmapinfo_print(contents + pEmr->offBmiMask);
-      printf("\n");
+      verbose_printf("\n");
    }
-   printf("   offBitsMask:    %u\n",  pEmr->offBitsMask   );
-   printf("   cbBitsMask:     %u\n",  pEmr->cbBitsMask    );
+   verbose_printf("   offBitsMask:    %u\n",  pEmr->offBitsMask   );
+   verbose_printf("   cbBitsMask:     %u\n",  pEmr->cbBitsMask    );
 }
 
 // U_EMRPLGBLT               79
@@ -1932,35 +1932,35 @@ void U_EMRMASKBLT_print(const char *contents, FILE *out){
 void U_EMRPLGBLT_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRPLGBLT pEmr = (PU_EMRPLGBLT) (contents);
-   printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       printf("\n");
-   printf("   aptlDst(UL):    ");     pointl_print(pEmr->aptlDst[0]);      printf("\n");
-   printf("   aptlDst(UR):    ");     pointl_print(pEmr->aptlDst[1]);      printf("\n");
-   printf("   aptlDst(LL):    ");     pointl_print(pEmr->aptlDst[2]);      printf("\n");
-   printf("   Src:            ");     pointl_print(pEmr->Src);             printf("\n");
-   printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            printf("\n");
-   printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        printf("\n");
-   printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); printf("\n");
-   printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
-   printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
-   printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
+   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   aptlDst(UL):    ");     pointl_print(pEmr->aptlDst[0]);      verbose_printf("\n");
+   verbose_printf("   aptlDst(UR):    ");     pointl_print(pEmr->aptlDst[1]);      verbose_printf("\n");
+   verbose_printf("   aptlDst(LL):    ");     pointl_print(pEmr->aptlDst[2]);      verbose_printf("\n");
+   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            verbose_printf("\n");
+   verbose_printf("   xformSrc:       ");     xform_print( pEmr->xformSrc);        verbose_printf("\n");
+   verbose_printf("   crBkColorSrc:   ");     colorref_print( pEmr->crBkColorSrc); verbose_printf("\n");
+   verbose_printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
+   verbose_printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
+   verbose_printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
-      printf("      Src bitmap:  ");
+      verbose_printf("      Src bitmap:  ");
       bitmapinfo_print(contents + pEmr->offBmiSrc);
-      printf("\n");
+      verbose_printf("\n");
    }
-   printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
-   printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
-   printf("   Mask:           ");    pointl_print(pEmr->Mask);            printf("\n");
-   printf("   iUsageMsk:      %u\n", pEmr->iUsageMask   );
-   printf("   offBmiMask:     %u\n", pEmr->offBmiMask   );
-   printf("   cbBmiMask:      %u\n", pEmr->cbBmiMask    );
+   verbose_printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
+   verbose_printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
+   verbose_printf("   Mask:           ");    pointl_print(pEmr->Mask);            verbose_printf("\n");
+   verbose_printf("   iUsageMsk:      %u\n", pEmr->iUsageMask   );
+   verbose_printf("   offBmiMask:     %u\n", pEmr->offBmiMask   );
+   verbose_printf("   cbBmiMask:      %u\n", pEmr->cbBmiMask    );
    if(pEmr->cbBmiMask){
-      printf("      Mask bitmap: ");
+      verbose_printf("      Mask bitmap: ");
       bitmapinfo_print(contents + pEmr->offBmiMask);
-      printf("\n");
+      verbose_printf("\n");
    }
-   printf("   offBitsMask:    %u\n", pEmr->offBitsMask   );
-   printf("   cbBitsMask:     %u\n", pEmr->cbBitsMask    );
+   verbose_printf("   offBitsMask:    %u\n", pEmr->offBitsMask   );
+   verbose_printf("   cbBitsMask:     %u\n", pEmr->cbBitsMask    );
 }
 
 // U_EMRSETDIBITSTODEVICE    80
@@ -1971,22 +1971,22 @@ void U_EMRPLGBLT_print(const char *contents, FILE *out){
 void U_EMRSETDIBITSTODEVICE_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRSETDIBITSTODEVICE pEmr = (PU_EMRSETDIBITSTODEVICE) (contents);
-   printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       printf("\n");
-   printf("   Dest:           ");     pointl_print(pEmr->Dest);            printf("\n");
-   printf("   Src:            ");     pointl_print(pEmr->Src);             printf("\n");
-   printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            printf("\n");
-   printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
-   printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
+   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");     pointl_print(pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            verbose_printf("\n");
+   verbose_printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
+   verbose_printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
-      printf("      Src bitmap:  ");
+      verbose_printf("      Src bitmap:  ");
       bitmapinfo_print(contents + pEmr->offBmiSrc);
-      printf("\n");
+      verbose_printf("\n");
    }
-   printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
-   printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
-   printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
-   printf("   iStartScan:     %u\n", pEmr->iStartScan    );
-   printf("   cScans :        %u\n", pEmr->cScans        );
+   verbose_printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
+   verbose_printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
+   verbose_printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
+   verbose_printf("   iStartScan:     %u\n", pEmr->iStartScan    );
+   verbose_printf("   cScans :        %u\n", pEmr->cScans        );
 }
 
 // U_EMRSTRETCHDIBITS        81
@@ -1997,22 +1997,22 @@ void U_EMRSETDIBITSTODEVICE_print(const char *contents, FILE *out){
 void U_EMRSTRETCHDIBITS_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRSTRETCHDIBITS pEmr = (PU_EMRSTRETCHDIBITS) (contents);
-   printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       printf("\n");
-   printf("   Dest:           ");     pointl_print(pEmr->Dest);            printf("\n");
-   printf("   Src:            ");     pointl_print(pEmr->Src);             printf("\n");
-   printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            printf("\n");
-   printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
-   printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
+   verbose_printf("   rclBounds:      ");     rectl_print( pEmr->rclBounds);       verbose_printf("\n");
+   verbose_printf("   Dest:           ");     pointl_print(pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   Src:            ");     pointl_print(pEmr->Src);             verbose_printf("\n");
+   verbose_printf("   cSrc:           ");     pointl_print(pEmr->cSrc);            verbose_printf("\n");
+   verbose_printf("   offBmiSrc:      %u\n", pEmr->offBmiSrc   );
+   verbose_printf("   cbBmiSrc:       %u\n", pEmr->cbBmiSrc    );
    if(pEmr->cbBmiSrc){
-      printf("      Src bitmap:  ");
+      verbose_printf("      Src bitmap:  ");
       bitmapinfo_print(contents + pEmr->offBmiSrc);
-      printf("\n");
+      verbose_printf("\n");
    }
-   printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
-   printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
-   printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
-   printf("   dwRop :         0x%8.8X\n", pEmr->dwRop   );
-   printf("   cDest:          ");     pointl_print(pEmr->cDest);           printf("\n");
+   verbose_printf("   offBitsSrc:     %u\n", pEmr->offBitsSrc   );
+   verbose_printf("   cbBitsSrc:      %u\n", pEmr->cbBitsSrc    );
+   verbose_printf("   iUsageSrc:      %u\n", pEmr->iUsageSrc   );
+   verbose_printf("   dwRop :         0x%8.8X\n", pEmr->dwRop   );
+   verbose_printf("   cDest:          ");     pointl_print(pEmr->cDest);           verbose_printf("\n");
 }
 
 // U_EMREXTCREATEFONTINDIRECTW_print    82
@@ -2023,15 +2023,15 @@ void U_EMRSTRETCHDIBITS_print(const char *contents, FILE *out){
 void U_EMREXTCREATEFONTINDIRECTW_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMREXTCREATEFONTINDIRECTW pEmr = (PU_EMREXTCREATEFONTINDIRECTW) (contents);
-   printf("   ihFont:         %u\n",pEmr->ihFont );
-   printf("   Font:           ");
+   verbose_printf("   ihFont:         %u\n",pEmr->ihFont );
+   verbose_printf("   Font:           ");
    if(pEmr->emr.nSize == sizeof(U_EMREXTCREATEFONTINDIRECTW)){ // holds logfont_panose
       logfont_panose_print(pEmr->elfw);
    }
    else { // holds logfont
       logfont_print( *(PU_LOGFONT) &(pEmr->elfw));
    }
-   printf("\n");
+   verbose_printf("\n");
 }
 
 // U_EMREXTTEXTOUTA          83
@@ -2134,19 +2134,19 @@ void U_EMRPOLYDRAW16_print(const char *contents, FILE *out){
    FLAG_IGNORED
    unsigned int i;
    PU_EMRPOLYDRAW16 pEmr = (PU_EMRPOLYDRAW16)(contents);
-   printf("   rclBounds:      ");          rectl_print( pEmr->rclBounds);   printf("\n");
-   printf("   cpts:           %d\n",pEmr->cpts        );
-   printf("   Points:         ");
+   verbose_printf("   rclBounds:      ");          rectl_print( pEmr->rclBounds);   verbose_printf("\n");
+   verbose_printf("   cpts:           %d\n",pEmr->cpts        );
+   verbose_printf("   Points:         ");
    for(i=0;i<pEmr->cpts; i++){
-      printf(" [%d]:",i);
+      verbose_printf(" [%d]:",i);
       point16_print(pEmr->apts[i], out);
    }
-   printf("\n");
-   printf("   Types:          ");
+   verbose_printf("\n");
+   verbose_printf("   Types:          ");
    for(i=0;i<pEmr->cpts; i++){
-      printf(" [%d]:%u ",i,pEmr->abTypes[i]);
+      verbose_printf(" [%d]:%u ",i,pEmr->abTypes[i]);
    }
-   printf("\n");
+   verbose_printf("\n");
 }
 
 // U_EMRCREATEMONOBRUSH      93
@@ -2179,17 +2179,17 @@ void U_EMRCREATEDIBPATTERNBRUSHPT_print(const char *contents, FILE *out){
 void U_EMREXTCREATEPEN_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMREXTCREATEPEN pEmr = (PU_EMREXTCREATEPEN)(contents);
-   printf("   ihPen:          %u\n", pEmr->ihPen );
-   printf("   offBmi:         %u\n", pEmr->offBmi   );
-   printf("   cbBmi:          %u\n", pEmr->cbBmi    );
+   verbose_printf("   ihPen:          %u\n", pEmr->ihPen );
+   verbose_printf("   offBmi:         %u\n", pEmr->offBmi   );
+   verbose_printf("   cbBmi:          %u\n", pEmr->cbBmi    );
    if(pEmr->cbBmi){
-      printf("      bitmap:      ");
+      verbose_printf("      bitmap:      ");
       bitmapinfo_print(contents + pEmr->offBmi);
-      printf("\n");
+      verbose_printf("\n");
    }
-   printf("   offBits:        %u\n", pEmr->offBits   );
-   printf("   cbBits:         %u\n", pEmr->cbBits    );
-   printf("   elp:            ");     extlogpen_print((PU_EXTLOGPEN) &(pEmr->elp));  printf("\n");
+   verbose_printf("   offBits:        %u\n", pEmr->offBits   );
+   verbose_printf("   cbBits:         %u\n", pEmr->cbBits    );
+   verbose_printf("   elp:            ");     extlogpen_print((PU_EXTLOGPEN) &(pEmr->elp));  verbose_printf("\n");
 } 
 
 // U_EMRPOLYTEXTOUTA         96 NOT IMPLEMENTED, denigrated after Windows NT
@@ -2215,8 +2215,8 @@ void U_EMRSETICMMODE_print(const char *contents, FILE *out){
 void U_EMRCREATECOLORSPACE_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRCREATECOLORSPACE pEmr = (PU_EMRCREATECOLORSPACE)(contents);
-   printf("   ihCS:           %u\n", pEmr->ihCS    );
-   printf("   ColorSpace:     "); logcolorspacea_print(pEmr->lcs);  printf("\n");
+   verbose_printf("   ihCS:           %u\n", pEmr->ihCS    );
+   verbose_printf("   ColorSpace:     "); logcolorspacea_print(pEmr->lcs);  verbose_printf("\n");
 }
 
 // U_EMRSETCOLORSPACE       100
@@ -2252,7 +2252,7 @@ void U_EMRDELETECOLORSPACE_print(const char *contents, FILE *out){
 void U_EMRPIXELFORMAT_print(const char *contents, FILE *out){
    FLAG_IGNORED
    PU_EMRPIXELFORMAT pEmr = (PU_EMRPIXELFORMAT)(contents);
-   printf("   Pfd:            ");  pixelformatdescriptor_print(pEmr->pfd);  printf("\n");
+   verbose_printf("   Pfd:            ");  pixelformatdescriptor_print(pEmr->pfd);  verbose_printf("\n");
 }
 
 // U_EMRDRAWESCAPE          105  Not implemented
@@ -2272,23 +2272,23 @@ void U_EMRSMALLTEXTOUT_print(const char *contents, FILE *out){
    int roff;
    char *string;
    PU_EMRSMALLTEXTOUT pEmr = (PU_EMRSMALLTEXTOUT)(contents);
-   printf("   Dest:           ");         pointl_print(pEmr->Dest);            printf("\n");
-   printf("   cChars:         %u\n",      pEmr->cChars          );
-   printf("   fuOptions:      0x%8.8X\n", pEmr->fuOptions       );
-   printf("   iGraphicsMode:  0x%8.8X\n", pEmr->iGraphicsMode   );
-   printf("   exScale:        %f\n",      pEmr->exScale         );
-   printf("   eyScale:        %f\n",      pEmr->eyScale         );
+   verbose_printf("   Dest:           ");         pointl_print(pEmr->Dest);            verbose_printf("\n");
+   verbose_printf("   cChars:         %u\n",      pEmr->cChars          );
+   verbose_printf("   fuOptions:      0x%8.8X\n", pEmr->fuOptions       );
+   verbose_printf("   iGraphicsMode:  0x%8.8X\n", pEmr->iGraphicsMode   );
+   verbose_printf("   exScale:        %f\n",      pEmr->exScale         );
+   verbose_printf("   eyScale:        %f\n",      pEmr->eyScale         );
    roff = sizeof(U_EMRSMALLTEXTOUT);  //offset to the start of the variable fields
    if(!(pEmr->fuOptions & U_ETO_NO_RECT)){
-      printf("   rclBounds:      ");      rectl_print( *(PU_RECTL) (contents + roff));       printf("\n");
+      verbose_printf("   rclBounds:      ");      rectl_print( *(PU_RECTL) (contents + roff));       verbose_printf("\n");
       roff += sizeof(U_RECTL);
    }
    if(pEmr->fuOptions & U_ETO_SMALL_CHARS){
-      printf("   Text8:          <%.*s>\n",pEmr->cChars,contents+roff);  /* May not be null terminated */
+      verbose_printf("   Text8:          <%.*s>\n",pEmr->cChars,contents+roff);  /* May not be null terminated */
    }
    else {
       string = U_Utf16leToUtf8((uint16_t *)(contents+roff), pEmr->cChars, NULL);
-      printf("   Text16:         <%s>\n",contents+roff);
+      verbose_printf("   Text16:         <%s>\n",contents+roff);
       free(string);
   }
 }
@@ -2345,20 +2345,20 @@ void U_EMRGRADIENTFILL_print(const char *contents, FILE *out){
    FLAG_IGNORED
    unsigned int i;
    PU_EMRGRADIENTFILL pEmr = (PU_EMRGRADIENTFILL)(contents);
-   printf("   rclBounds:      ");      rectl_print( pEmr->rclBounds);   printf("\n");
-   printf("   nTriVert:       %u\n",   pEmr->nTriVert   );
-   printf("   nGradObj:       %u\n",   pEmr->nGradObj   );
-   printf("   ulMode:         %u\n",   pEmr->ulMode     );
+   verbose_printf("   rclBounds:      ");      rectl_print( pEmr->rclBounds);   verbose_printf("\n");
+   verbose_printf("   nTriVert:       %u\n",   pEmr->nTriVert   );
+   verbose_printf("   nGradObj:       %u\n",   pEmr->nGradObj   );
+   verbose_printf("   ulMode:         %u\n",   pEmr->ulMode     );
    contents += sizeof(U_EMRGRADIENTFILL);
    if(pEmr->nTriVert){
-      printf("   TriVert:        ");
+      verbose_printf("   TriVert:        ");
       for(i=0; i<pEmr->nTriVert; i++, contents+=sizeof(U_TRIVERTEX)){
          trivertex_print(*(PU_TRIVERTEX)(contents));
       }
-      printf("\n");
+      verbose_printf("\n");
    }
    if(pEmr->nGradObj){
-      printf("   GradObj:        ");
+      verbose_printf("   GradObj:        ");
       if(     pEmr->ulMode == U_GRADIENT_FILL_TRIANGLE){
          for(i=0; i<pEmr->nGradObj; i++, contents+=sizeof(U_GRADIENT3)){
             gradient3_print(*(PU_GRADIENT3)(contents));
@@ -2370,8 +2370,8 @@ void U_EMRGRADIENTFILL_print(const char *contents, FILE *out){
             gradient4_print(*(PU_GRADIENT4)(contents));
          }
       }
-      else { printf("invalid ulMode value!"); }
-      printf("\n");
+      else { verbose_printf("invalid ulMode value!"); }
+      verbose_printf("\n");
    }
 }
 
@@ -2391,17 +2391,17 @@ void U_EMRCREATECOLORSPACEW_print(const char *contents, FILE *out){
    FLAG_IGNORED
    unsigned int i;
    PU_EMRCREATECOLORSPACEW pEmr = (PU_EMRCREATECOLORSPACEW)(contents);
-   printf("   ihCS:           %u\n", pEmr->ihCS     );
-   printf("   ColorSpace:     "); logcolorspacew_print(pEmr->lcs);  printf("\n");
-   printf("   dwFlags:        0x%8.8X\n", pEmr->dwFlags  );
-   printf("   cbData:         %u\n", pEmr->cbData   );
-   printf("   Data(hexvalues):");
+   verbose_printf("   ihCS:           %u\n", pEmr->ihCS     );
+   verbose_printf("   ColorSpace:     "); logcolorspacew_print(pEmr->lcs);  verbose_printf("\n");
+   verbose_printf("   dwFlags:        0x%8.8X\n", pEmr->dwFlags  );
+   verbose_printf("   cbData:         %u\n", pEmr->cbData   );
+   verbose_printf("   Data(hexvalues):");
    if(pEmr->dwFlags & 1){
      for(i=0; i<pEmr->cbData; i++){
-        printf("[%d]:%2.2X ",i,pEmr->Data[i]);
+        verbose_printf("[%d]:%2.2X ",i,pEmr->Data[i]);
      }
    }
-   printf("\n");
+   verbose_printf("\n");
 }
 
 /**
@@ -2416,7 +2416,8 @@ int U_emf_onerec_print(const char *contents, const char *blimit, int recnum, siz
     PU_ENHMETARECORD  lpEMFR  = (PU_ENHMETARECORD)(contents + off);
     unsigned int size;
     FLAG_RESET
-    printf("\n%-30srecord:%5d type:%-4d offset:%8d rsize:%8d\n",U_emr_names(lpEMFR->iType),recnum,lpEMFR->iType,(int) off,lpEMFR->nSize);
+    verbose_printf("\n%-30srecord:%5d type:%-4d offset:%8d rsize:%8d\n",U_emr_names(lpEMFR->iType),recnum,lpEMFR->iType,(int) off,lpEMFR->nSize);
+    //verbose_printf("\n%-30srecord:%5d type:%-4d offset:%8d rsize:%8d\n",U_emr_names(lpEMFR->iType),recnum,lpEMFR->iType,(int) off,lpEMFR->nSize);
     size      = lpEMFR->nSize;
     contents += off;
     
@@ -2568,7 +2569,7 @@ int emf2svg(char *contents, size_t length, char **out)
     stream = open_memstream(out, &len);
 
     if (stream == NULL){
-        printf("Failed to allocate output stream\n");
+        verbose_printf("Failed to allocate output stream\n");
         return(0);
     }
     
@@ -2576,19 +2577,19 @@ int emf2svg(char *contents, size_t length, char **out)
     
     while(OK){
        if(off>=length){ //normally should exit from while after EMREOF sets OK to false, this is most likely a corrupt EMF
-          printf("WARNING: record claims to extend beyond the end of the EMF file\n");
+          verbose_printf("WARNING: record claims to extend beyond the end of the EMF file\n");
           return(0);
        }
        
        pEmr = (PU_ENHMETARECORD)(contents + off);
        
        if(!recnum && (pEmr->iType != U_EMR_HEADER)){
-          printf("WARNING: EMF file does not begin with an EMR_HEADER record\n");
+          verbose_printf("WARNING: EMF file does not begin with an EMR_HEADER record\n");
        }
        
        result = U_emf_onerec_print(contents, blimit, recnum, off, stream);
        if(result == (size_t) -1){
-          printf("ABORTING on invalid record - corrupt file?\n");
+          verbose_printf("ABORTING on invalid record - corrupt file?\n");
           OK=0;
        }
        else if(!result){
