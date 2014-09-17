@@ -740,6 +740,34 @@ void core6_print(const char *name, const char *contents, FILE *out, drawingState
 } 
 
 // Functions with the same form starting with U_EMRPOLYBEZIER16_print
+void cubic_bezier_draw(const char *name, const char *contents, FILE *out, drawingStates *states){
+   UNUSED(name);
+   unsigned int i;
+   PU_EMRPOLYBEZIER16 pEmr = (PU_EMRPOLYBEZIER16) (contents);
+   verbose_printf("   rclBounds:      ");    rectl_print(states, pEmr->rclBounds);    verbose_printf("\n");
+   verbose_printf("   cpts:           %d\n",pEmr->cpts        );
+   verbose_printf("   Points:         ");
+   PU_POINT16 papts = (PU_POINT16)(&(pEmr->apts));
+   for(i=0; i<pEmr->cpts; i++){
+      switch ( i % 3 ) {
+          case 0:
+            fprintf(out, "C ");
+            verbose_printf(" [%d]:",i);  point16_draw(states, papts[i], out);
+            break;
+          case 1:
+            verbose_printf(" [%d]:",i);  point16_draw(states, papts[i], out);
+            break;
+          case 2:
+            verbose_printf(" [%d]:",i);  point16_draw(states, papts[i], out);
+            break;
+      }
+   }
+   verbose_printf("\n");
+} 
+
+
+
+// Functions drawing a polyline
 void polyline_draw(const char *name, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    unsigned int i;
@@ -755,11 +783,7 @@ void polyline_draw(const char *name, const char *contents, FILE *out, drawingSta
    verbose_printf("\n");
 } 
 
-// Records with the same form starting with U_EMRSETWINDOWEXTEX_print
-// CAREFUL, in the _set equivalents all functions with two uint32_t values are mapped here, and member names differ, consequently
-//   print routines must supply the names of the two arguments.  These cannot be null.  If the second one is 
-//   empty the values are printed as a pair {x,y}, otherwise each is printed with its own label on a separate line.
-void core7_print(const char *name, const char *field1, const char *field2, const char *contents, FILE *out, drawingStates *states){
+void moveto_draw(const char *name, const char *field1, const char *field2, const char *contents, FILE *out, drawingStates *states){
    UNUSED(name);
    PU_EMRGENERICPAIR pEmr = (PU_EMRGENERICPAIR) (contents);
    fprintf(out, "%d %d ", pEmr->pair.x, pEmr->pair.y);
@@ -771,6 +795,39 @@ void core7_print(const char *name, const char *field1, const char *field2, const
       verbose_printf("   %-15s {%d,%d}\n",field1,pEmr->pair.x,pEmr->pair.y);
    } 
 }
+
+
+
+void lineto_draw(const char *name, const char *field1, const char *field2, const char *contents, FILE *out, drawingStates *states){
+   UNUSED(name);
+   PU_EMRGENERICPAIR pEmr = (PU_EMRGENERICPAIR) (contents);
+   fprintf(out, "L %d %d ", pEmr->pair.x, pEmr->pair.y);
+   if(*field2){
+      verbose_printf("   %-15s %d\n",field1,pEmr->pair.x);
+      verbose_printf("   %-15s %d\n",field2,pEmr->pair.y);
+   }
+   else {
+      verbose_printf("   %-15s {%d,%d}\n",field1,pEmr->pair.x,pEmr->pair.y);
+   } 
+}
+
+// Records with the same form starting with U_EMRSETWINDOWEXTEX_print
+// CAREFUL, in the _set equivalents all functions with two uint32_t values are mapped here, and member names differ, consequently
+//   print routines must supply the names of the two arguments.  These cannot be null.  If the second one is 
+//   empty the values are printed as a pair {x,y}, otherwise each is printed with its own label on a separate line.
+void core7_print(const char *name, const char *field1, const char *field2, const char *contents, FILE *out, drawingStates *states){
+   UNUSED(name);
+   PU_EMRGENERICPAIR pEmr = (PU_EMRGENERICPAIR) (contents);
+   if(*field2){
+      verbose_printf("   %-15s %d\n",field1,pEmr->pair.x);
+      verbose_printf("   %-15s %d\n",field2,pEmr->pair.y);
+   }
+   else {
+      verbose_printf("   %-15s {%d,%d}\n",field1,pEmr->pair.x,pEmr->pair.y);
+   } 
+}
+
+
 
 // For U_EMREXTTEXTOUTA and U_EMREXTTEXTOUTW, type=0 for the first one
 void core8_print(const char *name, const char *contents, FILE *out, drawingStates *states, int type){
@@ -1224,7 +1281,7 @@ void U_EMROFFSETCLIPRGN_print(const char *contents, FILE *out, drawingStates *st
 void U_EMRMOVETOEX_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_SUPPORTED
    fprintf(out, "M ");
-   core7_print("U_EMRMOVETOEX", "ptl:","",contents, out, states);
+   moveto_draw("U_EMRMOVETOEX", "ptl:","",contents, out, states);
 } 
 
 // U_EMRSETMETARGN           28
@@ -1535,8 +1592,8 @@ void U_EMREXTFLOODFILL_print(const char *contents, FILE *out, drawingStates *sta
     \param contents   pointer to a buffer holding all EMR records
 */
 void U_EMRLINETO_print(const char *contents, FILE *out, drawingStates *states){
-   FLAG_IGNORED
-   core7_print("U_EMRLINETO", "ptl:","",contents, out, states);
+   FLAG_SUPPORTED
+   lineto_draw("U_EMRLINETO", "ptl:","",contents, out, states);
 } 
 
 // U_EMRARCTO                55
@@ -1600,7 +1657,7 @@ void U_EMRSETMITERLIMIT_print(const char *contents, FILE *out, drawingStates *st
     \param contents   pointer to a buffer holding all EMR records
 */
 void U_EMRBEGINPATH_print(const char *contents, FILE *out, drawingStates *states){
-   FLAG_IGNORED
+   FLAG_SUPPORTED
    fprintf(out, "<%spath d=\"", states->nameSpace);
    UNUSED(contents);
 }
@@ -1623,7 +1680,7 @@ void U_EMRENDPATH_print(const char *contents, FILE *out, drawingStates *states){
 */
 void U_EMRCLOSEFIGURE_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_SUPPORTED
-   fprintf(out, "Z");
+   fprintf(out, "Z ");
    UNUSED(contents);
 }
 
@@ -2123,8 +2180,8 @@ void U_EMRPOLYLINE16_print(const char *contents, FILE *out, drawingStates *state
     \param contents   pointer to a buffer holding all EMR records
 */
 void U_EMRPOLYBEZIERTO16_print(const char *contents, FILE *out, drawingStates *states){
-   FLAG_IGNORED
-   core6_print("U_EMRPOLYBEZIERTO16", contents, out, states);
+   FLAG_SUPPORTED
+   cubic_bezier_draw("U_EMRPOLYBEZIERTO16", contents, out, states);
 }
 
 // U_EMRPOLYLINETO16         89
