@@ -30,7 +30,7 @@ extern "C" {
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 
-#define verbose_printf(...) if(1) printf(__VA_ARGS__);
+#define verbose_printf(...) if(0) printf(__VA_ARGS__);
 #define FLAG_SUPPORTED verbose_printf("   Status: %sSUPPORTED%s\n", KGRN, KNRM);
 #define FLAG_IGNORED   verbose_printf("   Status: %sIGNORED%s\n", KRED, KNRM);
 #define FLAG_PARTIAL   verbose_printf("   Status: %sPARTIAL SUPPORT%s\n", KYEL, KNRM);
