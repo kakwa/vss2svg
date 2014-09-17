@@ -117,12 +117,13 @@ int main(int argc, char *argv[])
               std::istreambuf_iterator<char>());
   std::ofstream out(arguments.output);
   char *svg_out = NULL;
-  emf2svg((char *)contents.c_str(), contents.size(), svg_out);
+  emf2svg((char *)contents.c_str(), contents.size(), &svg_out);
   out << "<svg:svg version=\"1.1\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"201.6000\" height=\"264.0000\" >\n";
   out << "<svg:g id=\"Layer1000\" >\n" ;
-  //out << std::string(svg_out);
+  out << std::string(svg_out);
   out << "</svg:g>\n";
   out << "</svg:svg>\n";
+  free(svg_out);
   
   in.close();
   out.close();
