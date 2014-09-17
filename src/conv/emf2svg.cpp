@@ -120,11 +120,13 @@ int main(int argc, char *argv[])
   char *svg_out = NULL;
   drawingStates * states = (drawingStates *)malloc(sizeof(drawingStates));
   states->verbose = arguments.verbose; 
+  states->nameSpace = (char *)"svg:"; 
   emf2svg((char *)contents.c_str(), contents.size(), &svg_out, states);
-  out << "<svg version=\"1.1\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" >\n";
+  out << "<svg:svg version=\"1.1\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" >\n";
   out << std::string(svg_out);
-  out << "</svg>\n";
+  out << "</svg:svg>\n";
   free(svg_out);
+  free(states);
   
   in.close();
   out.close();

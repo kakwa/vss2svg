@@ -945,7 +945,7 @@ void U_EMRHEADER_print(const char *contents, FILE *out, drawingStates *states){
          verbose_printf("   szlMicrometers: {%d,%d} \n", pEmr->szlMicrometers.cx,pEmr->szlMicrometers.cy);
      }
    }
-   fprintf(out, "<g width=\"%d\" height=\"%d\">\n", pEmr->szlDevice.cx, pEmr->szlDevice.cy);
+   fprintf(out, "<%sg width=\"%d\" height=\"%d\">\n", states->nameSpace, pEmr->szlDevice.cx, pEmr->szlDevice.cy);
 }
 
 // U_EMRPOLYBEZIER                       2
@@ -1084,7 +1084,7 @@ void U_EMREOF_print(const char *contents, FILE *out, drawingStates *states){
      logpalette_print(states, (PU_LOGPALETTE)(contents + pEmr->offPalEntries));
      verbose_printf("\n");
    }
-   fprintf(out, "</g>\n");
+   fprintf(out, "</%sg>\n", states->nameSpace);
 } 
 
 
@@ -1601,7 +1601,7 @@ void U_EMRSETMITERLIMIT_print(const char *contents, FILE *out, drawingStates *st
 */
 void U_EMRBEGINPATH_print(const char *contents, FILE *out, drawingStates *states){
    FLAG_IGNORED
-   fprintf(out, "<path d=\"");
+   fprintf(out, "<%spath d=\"", states->nameSpace);
    UNUSED(contents);
 }
 
