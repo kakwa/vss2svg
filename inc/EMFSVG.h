@@ -21,6 +21,21 @@ extern "C" {
 #include <string.h>
 #include "uemf.h"
 
+#define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+
+#define FLAG_SUPPORTED printf("   Status: %sSUPPORTED%s\n", KGRN, KNRM);
+#define FLAG_IGNORED   printf("   Status: %sIGNORED%s\n", KRED, KNRM);
+#define FLAG_PARTIAL   printf("   Status: %sPARTIAL SUPPORT%s\n", KYEL, KNRM);
+#define FLAG_USELESS   printf("   Status  %sUSELESS%s\n", KCYN, KNRM);
+#define FLAG_RESET printf("%s", KNRM);
+
 typedef struct {
     char *nameSpace;
     char *lastFormId;
