@@ -37,11 +37,58 @@ extern "C" {
 #define FLAG_USELESS   verbose_printf("   Status  %sUSELESS%s\n", KCYN, KNRM);
 #define FLAG_RESET     verbose_printf("%s", KNRM);
 
+// EMF Device Context structure
+typedef struct emf_device_context {
+    char           *font_name;
+    bool            stroke_set;
+    int             stroke_mode;  // enumeration from drawmode, not used if fill_set is not True
+    int             stroke_idx;   // used with DRAW_PATTERN and DRAW_IMAGE to return the appropriate fill
+    int             stroke_recidx;// record used to regenerate hatch when it needs to be redone due to bkmode, textmode, etc. change
+    bool            fill_set;
+    int             fill_mode;    // enumeration from drawmode, not used if fill_set is not True
+    int             fill_idx;     // used with DRAW_PATTERN and DRAW_IMAGE to return the appropriate fill
+    int             fill_recidx;  // record used to regenerate hatch when it needs to be redone due to bkmode, textmode, etc. change
+    int             dirty;        // holds the dirty bits for text, stroke, fill
+    U_SIZEL         sizeWnd;
+    U_SIZEL         sizeView;
+    U_POINTL        winorg;
+    U_POINTL        vieworg;
+    double          ScaleInX, ScaleInY;
+    double          ScaleOutX, ScaleOutY;
+    uint16_t        bkMode;
+    U_COLORREF      bkColor;
+    U_COLORREF      textColor;
+    uint32_t        textAlign;
+    U_XFORM         worldTransform;
+    U_POINTL        cur;
+} EMF_DEVICE_CONTEXT, *PEMF_DEVICE_CONTEXT;
+
+// Stack of EMF Device Contexts
+typedef struct dc_stack {
+    EMF_DEVICE_CONTEXT DeviceContext;
+    struct dc_stack * previous;
+} EMF_DEVICE_CONTEXT_STACK;
 
 typedef struct {
-    char *nameSpace;
-    char *lastFormId;
-    bool verbose;
+
+    // SVG namespace (the '<something>:' before each fields)
+    char *nameSpace; 
+
+    // Verbose mode, output fields and fields values if True
+    bool verbose; 
+
+    /* The current EMF Device Context
+     * (Device Context == pen, brush, palette... see [MS-EMF].pdf) */
+    EMF_DEVICE_CONTEXT currentDeviceContext; 
+
+    /* Device Contexts can be saved (EMR_SAVEDC),
+     * Previous Device Contexts can be restored (EMR_RESTOREDC)
+     * So we store then in this stack 
+     */
+    EMF_DEVICE_CONTEXT_STACK * DeviceContextStack; 
+
+    // flag to know if we are in an SVG path or not
+    bool inPath;
 } drawingStates;
 
 #define BUFFERSIZE 1024
