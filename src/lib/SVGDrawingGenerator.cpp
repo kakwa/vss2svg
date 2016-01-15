@@ -43,9 +43,7 @@
 
 #include "librevenge_internal.h"
 #include "SVGDrawingGenerator.h"
-#include "EMFSVG.h"
-#include "uemf_utf.h"
-
+#include <emf2svg.h>
 
 namespace vss2svg
 {
@@ -757,9 +755,40 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
     if (propList["librevenge:mime-type"]->getStr() == "image/emf")
     {
         librevenge::RVNGBinaryData raw_data(propList["office:binary-data"]->getStr());
-        char * out;
-        //emf2svg((char *)raw_data.getDataBuffer(), raw_data.getBase64Data().size(), out);
-        printf("===================================================================================\n");
+        //options->imgWidth = (int)propList["svg:width"]->getDouble();
+        //options->imgHeight = (int)propList["svg:height"]->getDouble();
+        char * svg_out = NULL;
+        char * emf_content = (char *)raw_data.getDataBuffer();
+        size_t emf_size = (size_t)raw_data.getBase64Data().size();
+        generatorOptions *options = (generatorOptions *)calloc(1, sizeof(generatorOptions));
+        options->verbose = false;
+        options->emfplus = true;
+        options->nameSpace = (char *)"svg";
+        options->svgDelimiter = false;
+        options->imgWidth = propList["svg:width"]->getDouble() * 72;
+        options->imgHeight = propList["svg:height"]->getDouble() * 72;
+        int ret = emf2svg(emf_content, emf_size, &svg_out, options);
+
+	m_pImpl->m_outputSink << "<!-- start emf conversion -->\n";
+	m_pImpl->m_outputSink << "<" << m_pImpl->getNamespaceAndDelim() << "g ";
+	double x(propList["svg:x"]->getDouble());
+	double y(propList["svg:y"]->getDouble());
+	double width(propList["svg:width"]->getDouble());
+	double height(propList["svg:height"]->getDouble());
+	bool flipX(propList["draw:mirror-horizontal"] && propList["draw:mirror-horizontal"]->getInt());
+	bool flipY(propList["draw:mirror-vertical"] && propList["draw:mirror-vertical"]->getInt());
+
+	m_pImpl->m_outputSink << "x=\"" << doubleToString(72*x) << "\" y=\"" << doubleToString(72*y) << "\" ";
+	m_pImpl->m_outputSink << "width=\"" << doubleToString(72*width) << "\" height=\"" << doubleToString(72*height) << "\" ";
+	m_pImpl->m_outputSink << "transform=\"";
+	m_pImpl->m_outputSink << " translate(" << doubleToString(72*x) << ", " << doubleToString(72*y) << ") ";
+	m_pImpl->m_outputSink << "\" ";
+	m_pImpl->m_outputSink << " >\n";
+        m_pImpl->m_outputSink << svg_out;
+	m_pImpl->m_outputSink << "</"<< m_pImpl->getNamespaceAndDelim()<<"g>\n";
+	m_pImpl->m_outputSink << "<!-- end emf conversion -->\n";
+        free(svg_out);
+        free(options);
         return;
     }
     else{
