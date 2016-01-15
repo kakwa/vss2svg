@@ -40,8 +40,6 @@
 #include <librevenge-generators/librevenge-generators.h>
 #include <librevenge/RVNGBinaryData.h>
 
-
-#include "librevenge_internal.h"
 #include "SVGDrawingGenerator.h"
 #include <emf2svg.h>
 
