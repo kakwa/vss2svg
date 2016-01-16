@@ -120,6 +120,7 @@ int main(int argc, char *argv[])
   struct arguments arguments;
   arguments.svg = 1;
   arguments.yed = 0;
+  arguments.version = 0;
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
 
   librevenge::RVNGFileStream input(arguments.input);
@@ -173,7 +174,7 @@ int main(int argc, char *argv[])
   {
     ofstream myfile;
 
-    std::basic_string<char> newfilename = outputdir + "image-"+ std::to_string(k) + ".svg" ;
+    std::basic_string<char> newfilename = outputdir + "/image-"+ std::to_string(k) + ".svg" ;
     myfile.open (newfilename);
     myfile << output[k].cstr() << std::endl;
     myfile.close();
