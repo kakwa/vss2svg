@@ -765,6 +765,12 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
         options->svgDelimiter = false;
         options->imgWidth = propList["svg:width"]->getDouble() * 631;
         options->imgHeight = propList["svg:height"]->getDouble() * 631;
+
+        // extract emf blob in separate file (DEBUGGING)
+        //std::ofstream ofs (std::to_string(rand()), std::ios::out | std::ios::binary);
+        //ofs.write(emf_content, emf_size);
+        //ofs.close();
+
         int ret = emf2svg(emf_content, emf_size, &svg_out, options);
 
 	m_pImpl->m_outputSink << "<!-- start emf conversion -->\n";
