@@ -1,6 +1,6 @@
 /* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
 
-/* vss2svg 
+/* vss2svg
  * work based on vss2xhtml from libvisio
  */
 
@@ -28,7 +28,7 @@
 #include <librevenge/librevenge.h>
 #include <libvisio/libvisio.h>
 #include <fstream>
-#include <string> 
+#include <string>
 #include <stdlib.h>
 #include <argp.h>
 #include <sys/types.h>
@@ -37,7 +37,7 @@
 
 using namespace std;
 
-const char *argp_program_version = "vss2svg 1.0";
+const char *argp_program_version = V2S_VERSION;
 
 const char *argp_program_bug_address = "<carpentier.pf@gmail.com>";
 
@@ -49,6 +49,7 @@ static char doc[] = "vss2svg -- Visio stencil to SVG converter";
        {"yed",      'y', 0,      0,  "Produce yED graphml file (currently unsupported)" },
        {"input",    'i', "FILE", 0,  "Input Visio .vss file"   },
        {"output",   'o', "FILE/DIR", 0, "Output file (yED) or directory (svg)"},
+       {"version",  'V', 0, 0, "Print vss2svg version"},
        { 0 }
      };
 
@@ -58,7 +59,7 @@ static char args_doc[] = "ARG1 ARG2";
 struct arguments
 {
   char *args[2];                /* arg1 & arg2 */
-  int  svg, verbose, yed;
+  bool version, svg, verbose, yed;
   char *output;
   char *input;
 };
@@ -71,10 +72,10 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 
   switch (key)
     {
-    case 's': 
+    case 's':
       arguments->svg = 1;
       break;
-    case 'y': 
+    case 'y':
       arguments->yed = 1;
       break;
     case 'v':
@@ -86,8 +87,9 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
     case 'i':
       arguments->input = arg;
       break;
-
-
+    case 'V':
+        arguments->version = 1;
+        break;
     case ARGP_KEY_ARG:
       if (state->arg_num >= 6)
         /* Too many arguments. */
@@ -121,6 +123,31 @@ int main(int argc, char *argv[])
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
 
   librevenge::RVNGFileStream input(arguments.input);
+
+  if (arguments.version) {
+      std::cout << "vss2svg version: " << V2S_VERSION << "\n";
+      return 0;
+  }
+
+  if (arguments.input == NULL) {
+      std::cerr << "[ERROR] "
+                << "Missing --input=FILE argument\n";
+      return 1;
+  }
+
+  if (arguments.output == NULL) {
+      std::cerr << "[ERROR] "
+                << "Missing --output=DIR argument\n";
+      return 1;
+  }
+
+  std::ifstream in(arguments.input);
+  if (!in.is_open()) {
+      std::cerr << "[ERROR] "
+                << "Impossible to open input file '" << arguments.input
+                << "'\n";
+      return 1;
+  }
 
   if (!libvisio::VisioDocument::isSupported(&input))
   {

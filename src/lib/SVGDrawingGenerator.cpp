@@ -1,6 +1,6 @@
 /* -*- Mode: C++; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 
-/* vss2svg 
+/* vss2svg
  * fork of RVNGSVGDrawingGenerator from librevenge
  */
 
@@ -749,7 +749,7 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
 		return;
 	if (!propList["office:binary-data"])
 		return;
-    // emf binary blob handling 
+    // emf binary blob handling
     if (propList["librevenge:mime-type"]->getStr() == "image/emf")
     {
         librevenge::RVNGBinaryData raw_data(propList["office:binary-data"]->getStr());
@@ -926,7 +926,7 @@ void SVGDrawingGenerator::defineParagraphStyle(const librevenge::RVNGPropertyLis
 {
     m_pImpl->m_outputSink << "<!-- [defineParagraphStyle] not implemented -->\n";
 }
-void SVGDrawingGenerator::openParagraph(const librevenge::RVNGPropertyList & /*propList*/) 
+void SVGDrawingGenerator::openParagraph(const librevenge::RVNGPropertyList & /*propList*/)
 {
     textIsParagraph = 1;
     firtLineWritten = 0;
@@ -995,7 +995,7 @@ void SVGDrawingGenerator::insertText(const librevenge::RVNGString &str)
     if (textIsParagraph){
         std::string line;
         const char * text = librevenge::RVNGString::escapeXML(str).cstr();
-        std::stringstream in(text);    
+        std::stringstream in(text);
         std::string SPACE = " ";
         int oldSpaceCounter = textSpaceCounter;
         for (std::string line; getline(in,line); )
@@ -1044,14 +1044,14 @@ void SVGDrawingGenerator::insertSpace()
 
 void SVGDrawingGenerator::insertLineBreak()
 {
- 
+
     m_pImpl->m_outputSink << "\n<!-- [insertLineBreak] marker -->\n";
     if (textIsParagraph)
         textNewLine = 1 ;
         textSpaceCounter = 0 ;
 }
 
-void SVGDrawingGenerator::insertField(const librevenge::RVNGPropertyList & /*propList*/) 
+void SVGDrawingGenerator::insertField(const librevenge::RVNGPropertyList & /*propList*/)
 {
     m_pImpl->m_outputSink << "<!-- [insertField] not implemented -->\n";
 }

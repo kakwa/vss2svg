@@ -1,6 +1,6 @@
 /* -*- Mode: C++; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 
-/* vss2svg 
+/* vss2svg
  * fork of RVNGSVGDrawingGenerator from librevenge
  */
 
