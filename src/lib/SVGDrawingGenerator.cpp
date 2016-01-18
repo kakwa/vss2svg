@@ -576,11 +576,11 @@ void SVGDrawingGenerator::defineEmbeddedFont(const librevenge::RVNGPropertyList 
 
 void SVGDrawingGenerator::startPage(const librevenge::RVNGPropertyList &propList)
 {
-#if 0
+//#if 0
 	m_pImpl->m_outputSink << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
-	m_pImpl->m_outputSink << "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"";
-	m_pImpl->m_outputSink << " \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n";
-#endif
+//	m_pImpl->m_outputSink << "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"";
+//	m_pImpl->m_outputSink << " \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n";
+//#endif
 	m_pImpl->m_outputSink << "<" << m_pImpl->getNamespaceAndDelim() << "svg version=\"1.1\" xmlns";
 	m_pImpl->m_outputSink << (m_pImpl->m_nmSpace.empty() ? "" : ":") << m_pImpl->m_nmSpace << "=\"http://www.w3.org/2000/svg\" ";
 	m_pImpl->m_outputSink << "xmlns:xlink=\"http://www.w3.org/1999/xlink\" ";
@@ -761,19 +761,20 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
         generatorOptions *options = (generatorOptions *)calloc(1, sizeof(generatorOptions));
         options->verbose = false;
         options->emfplus = true;
-        options->nameSpace = (char *)"svg";
+        //options->nameSpace = (char *)"svg";
+        options->nameSpace = (char *)m_pImpl->m_nmSpace.c_str();
         options->svgDelimiter = false;
         options->imgWidth = propList["svg:width"]->getDouble() * 631;
         options->imgHeight = propList["svg:height"]->getDouble() * 631;
 
         // extract emf blob in separate file (DEBUGGING)
-        //std::ofstream ofs (std::to_string(rand()), std::ios::out | std::ios::binary);
-        //ofs.write(emf_content, emf_size);
-        //ofs.close();
+        // std::ofstream ofs (std::to_string(rand()), std::ios::out | std::ios::binary);
+        // ofs.write(emf_content, emf_size);
+        // ofs.close();
 
         int ret = emf2svg(emf_content, emf_size, &svg_out, options);
 
-	m_pImpl->m_outputSink << "<!-- start emf conversion -->\n";
+	// m_pImpl->m_outputSink << "<!-- start emf conversion -->\n";
 	m_pImpl->m_outputSink << "<" << m_pImpl->getNamespaceAndDelim() << "g ";
 	double x(propList["svg:x"]->getDouble());
 	double y(propList["svg:y"]->getDouble());
@@ -782,15 +783,15 @@ void SVGDrawingGenerator::drawGraphicObject(const librevenge::RVNGPropertyList &
 	bool flipX(propList["draw:mirror-horizontal"] && propList["draw:mirror-horizontal"]->getInt());
 	bool flipY(propList["draw:mirror-vertical"] && propList["draw:mirror-vertical"]->getInt());
 
-	m_pImpl->m_outputSink << "x=\"" << doubleToString(631*x) << "\" y=\"" << doubleToString(631*y) << "\" ";
-	m_pImpl->m_outputSink << "width=\"" << doubleToString(631*width) << "\" height=\"" << doubleToString(631*height) << "\" ";
+	//m_pImpl->m_outputSink << "x=\"" << doubleToString(631*x) << "\" y=\"" << doubleToString(631*y) << "\" ";
+	//m_pImpl->m_outputSink << "width=\"" << doubleToString(631*width) << "\" height=\"" << doubleToString(631*height) << "\" ";
 	m_pImpl->m_outputSink << "transform=\"";
 	m_pImpl->m_outputSink << " translate(" << doubleToString(631*x) << ", " << doubleToString(631*y) << ") ";
 	m_pImpl->m_outputSink << "\" ";
 	m_pImpl->m_outputSink << " >\n";
         m_pImpl->m_outputSink << svg_out;
 	m_pImpl->m_outputSink << "</"<< m_pImpl->getNamespaceAndDelim()<<"g>\n";
-	m_pImpl->m_outputSink << "<!-- end emf conversion -->\n";
+	// m_pImpl->m_outputSink << "<!-- end emf conversion -->\n";
         free(svg_out);
         free(options);
         return;

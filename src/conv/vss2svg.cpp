@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
   }
 
   librevenge::RVNGStringVector output;
-  vss2svg::SVGDrawingGenerator generator(output, "svg");
+  vss2svg::SVGDrawingGenerator generator(output, NULL);
   if (!libvisio::VisioDocument::parseStencils(&input, &generator))
   {
     std::cerr << "ERROR: SVG Generation failed!" << std::endl;
