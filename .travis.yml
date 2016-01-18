@@ -1,6 +1,7 @@
 install:
   - git clone https://github.com/kakwa/libemf2svg
   - cd libemf2svg && cmake . -DFORCELE=ON && make && sudo make install && cd -
+  - sudo  DEBIAN_FRONTEND=noninteractive apt-get install librevenge-dev libvisio-dev -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"  -f -q -y'
 
 addons:
   apt:
@@ -20,4 +21,4 @@ language: cpp
 
 compiler: clang
 
-script: cmake . -DFORCELE=ON && make && ./tests/resources/check_correctness.sh
+script: cmake . && make && ./tests/resources/check_correctness.sh
