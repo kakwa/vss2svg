@@ -9,6 +9,7 @@ install:
 addons:
   apt:
     packages:
+    - clang
     - cmake
     - libboost-all-dev
     - zlib1g-dev
