@@ -1,6 +1,6 @@
 install:
   - git clone https://github.com/kakwa/libemf2svg
-  - cd libemf2svg && cmake . && make && sudo make install && cd -
+  - cd libemf2svg && cmake . -DFORCELE=ON && make && sudo make install && cd -
 
 addons:
   apt:
