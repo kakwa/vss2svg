@@ -1,7 +1,10 @@
 install:
   - git clone https://github.com/kakwa/libemf2svg
   - cd libemf2svg && cmake . -DFORCELE=ON && make && sudo make install && cd -
-  - 'sudo DEBIAN_FRONTEND=noninteractive apt-get install librevenge-dev libvisio-dev -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"  -f -q -y'
+  - git clone http://git.code.sf.net/p/libwpd/librevenge
+  - cd librevenge && ./configure && make && sudo make install && cd -
+  - git clone http://anongit.freedesktop.org/git/libreoffice/libvisio.git
+  - cd libvisio && ./configure && make && sudo make install && cd -
 
 addons:
   apt:
