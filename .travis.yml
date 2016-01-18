@@ -19,6 +19,7 @@ addons:
     - librevenge-dev 
     - libvisio-dev
     - libc6-dev
+    - libcppunit-dev
     - gcc
     - g++
 
