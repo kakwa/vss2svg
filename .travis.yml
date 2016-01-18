@@ -10,6 +10,8 @@ addons:
   apt:
     packages:
     - cmake
+    - libboost-all-dev
+    - zlib1g-dev
     - time
     - valgrind
     - libxml2-utils
