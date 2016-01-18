@@ -1,0 +1,21 @@
+install:
+  - git clone https://github.com/kakwa/libemf2svg
+  - cd libemf2svg && cmake . && make && sudo make install && cd -
+
+addons:
+  apt:
+    packages:
+    - cmake
+    - time
+    - valgrind
+    - libxml2-utils
+    - libpolyclipping-dev
+    - libc6-dev
+    - gcc
+    - g++
+
+language: cpp
+
+compiler: clang
+
+script: cmake . -DFORCELE=ON && make && ./tests/resources/check_correctness.sh
