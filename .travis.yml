@@ -33,6 +33,6 @@ addons:
 
 language: cpp
 
-compiler: clang
+compiler: gcc
 
 script: cmake . && make && ./tests/resources/check_correctness.sh
