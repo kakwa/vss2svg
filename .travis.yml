@@ -5,8 +5,12 @@ install:
   - cd libemf2svg && cmake . -DFORCELE=ON && make && sudo make install && cd -
   - git clone http://git.code.sf.net/p/libwpd/librevenge
   - cd librevenge && ./autogen.sh && ./configure && make && sudo make install && cd -
+  - ln -s /usr/local/include/librevenge-0.0/ /usr/local/include/librevenge
+  - ln -s /usr/local/lib/librevenge-generators-0.0.so /usr/local/lib/librevenge-generators.so
   - wget https://github.com/LibreOffice/libvisio/archive/libvisio-0.1.0.tar.gz && tar -xf libvisio* && rm -rf libvisio*.tar.gz
   - cd libvisio* && ./autogen.sh && ./configure && make && sudo make install && cd -
+  - ln -s /usr/local/include/libvisio-0.1/ /usr/local/include/libvisio/
+  - ln -s /usr/local/lib/libvisio-0.1.so /usr/local/lib/libvisio.so 
 
 addons:
   apt:
