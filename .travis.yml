@@ -1,7 +1,6 @@
 install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update -q
-  - sudo apt-get install gcc-4.8 -y
+  - export CXX="g++-4.8"
+  - export CC="gcc-4.8"
   - git clone https://github.com/kakwa/libemf2svg
   - cd libemf2svg && cmake . -DFORCELE=ON && make && sudo make install && cd -
   - git clone http://git.code.sf.net/p/libwpd/librevenge
@@ -11,7 +10,11 @@ install:
 
 addons:
   apt:
+    sources:
+    - ubuntu-toolchain-r-test
     packages:
+    - gcc-4.8
+    - g++-4.8
     - libtool
     - automake
     - autotools-dev
