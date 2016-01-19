@@ -55,7 +55,9 @@ include_directories(
     /usr/local/include/
     /usr/include/
     /usr/include/librevenge-0.0/
+    /usr/local/include/librevenge-0.0/
     /usr/include/libvisio-0.1/
+    /usr/local/include/libvisio-0.1/
 )
 
 
