@@ -45,8 +45,6 @@ static char doc[] = "vss2svg -- Visio stencil to SVG converter";
 
      static struct argp_option options[] = {
        {"verbose",  'v', 0,      0,  "Produce verbose output" },
-       {"svg",      's', 0,      0,  "Produce svg files (default)" },
-       {"yed",      'y', 0,      0,  "Produce yED graphml file (currently unsupported)" },
        {"input",    'i', "FILE", 0,  "Input Visio .vss file"   },
        {"output",   'o', "FILE/DIR", 0, "Output file (yED) or directory (svg)"},
        {"version",  'V', 0, 0, "Print vss2svg version"},
@@ -54,7 +52,7 @@ static char doc[] = "vss2svg -- Visio stencil to SVG converter";
      };
 
 /* A description of the arguments we accept. */
-static char args_doc[] = "ARG1 ARG2";
+static char args_doc[] = "[options] -i <in vss> -o <out dir>";
 
 struct arguments
 {
@@ -72,12 +70,6 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 
   switch (key)
     {
-    case 's':
-      arguments->svg = 1;
-      break;
-    case 'y':
-      arguments->yed = 1;
-      break;
     case 'v':
       arguments->verbose = 1;
       break;
@@ -118,8 +110,6 @@ int main(int argc, char *argv[])
 {
 
   struct arguments arguments;
-  arguments.svg = 1;
-  arguments.yed = 0;
   arguments.version = 0;
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
 
