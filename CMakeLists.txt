@@ -74,7 +74,7 @@ set_target_properties(SVGDrawingGenerator
 
 add_executable(vss2svg-conv src/conv/vss2svg.cpp)
 
-target_link_libraries(vss2svg-conv revenge-0.0 visio-0.1 revenge-stream-0.0 emf2svg SVGDrawingGenerator)
+target_link_libraries(vss2svg-conv revenge-0.0 visio-0.1 revenge-stream-0.0 emf2svg SVGDrawingGenerator png)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 INSTALL(FILES inc/SVGDrawingGenerator.h DESTINATION "include")
